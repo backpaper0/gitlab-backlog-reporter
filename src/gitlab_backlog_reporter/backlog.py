@@ -1,5 +1,6 @@
 """期のスプリントと Icebox を選び、対象バックログを集計する。"""
 
+from collections import Counter
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from datetime import date
@@ -61,7 +62,7 @@ class PeriodBacklog:
     @property
     def consumed(self) -> int:
         """消化されたバックログの件数。"""
-        return sum(1 for issue in self.targets if issue["state"] == "closed")
+        return sum(1 for issue in self.targets if is_consumed(issue))
 
     @property
     def remaining(self) -> int:
@@ -76,22 +77,25 @@ class PeriodBacklog:
         return _breakdown(self.targets, lambda i: (a["username"] for a in i["assignees"]))
 
 
-def _breakdown(issues: Iterable[Json], keys: Callable[[Json], Iterable[str]]) -> tuple[BreakdownRow, ...]:
+def is_consumed(issue: Json) -> bool:
+    return bool(issue["state"] == "closed")
+
+
+def _breakdown(issues: Iterable[Json], names_of: Callable[[Json], Iterable[str]]) -> tuple[BreakdownRow, ...]:
     """名前ごとに数える。名前が複数あるバックログはそれぞれに数え、ないものは最後の None の行にまとめる。
 
     None の行は、件数が 0 なら省く。ただし、ほかの行もなければ 0 件の行として残す。
     """
-    counts: dict[str | None, list[int]] = {}
+    totals: Counter[str | None] = Counter()
+    consumed: Counter[str | None] = Counter()
     for issue in issues:
-        consumed = 1 if issue["state"] == "closed" else 0
-        names: set[str | None] = set(keys(issue)) or {None}
-        for name in names:
-            count = counts.setdefault(name, [0, 0])
-            count[0] += 1
-            count[1] += consumed
-    rows = [BreakdownRow(n, *counts[n]) for n in sorted(n for n in counts if n is not None)]
-    if None in counts or not rows:
-        rows.append(BreakdownRow(None, *counts.get(None, [0, 0])))
+        names: set[str | None] = set(names_of(issue)) or {None}
+        totals.update(names)
+        if is_consumed(issue):
+            consumed.update(names)
+    rows = [BreakdownRow(n, totals[n], consumed[n]) for n in sorted(n for n in totals if n is not None)]
+    if None in totals or not rows:
+        rows.append(BreakdownRow(None, totals[None], consumed[None]))
     return tuple(rows)
 
 

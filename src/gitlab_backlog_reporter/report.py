@@ -88,8 +88,8 @@ def _breakdown(backlog: PeriodBacklog) -> str:
     )
 
 
-def _row_name(row: BreakdownRow, format: Callable[[str], str]) -> str:
-    return "（なし）" if row.name is None else format(row.name)
+def _row_name(row: BreakdownRow, decorate: Callable[[str], str]) -> str:
+    return "（なし）" if row.name is None else decorate(row.name)
 
 
 def _percent(consumed: int, total: int) -> str:
