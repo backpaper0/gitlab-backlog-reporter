@@ -9,7 +9,7 @@ GitLab の issue 1件で表される作業単位。必ずいずれかのスプ�
 _Avoid_: チケット, タスク, ストーリー
 
 **スプリント**:
-名前が期の prefix（例: `Iteration-Q3-`）で始まり、開始日と終了日を持つ group milestone。期間は2週間。名前の大文字と小文字は区別する。milestone 自体の open / closed は問わない。
+名前が期の prefix（例: `Iteration-Q3-`）で始まり、開始日と終了日を持つ group milestone。期間の長さは運用で決まり、同じ期の中でそろっている必要もない。名前の大文字と小文字は区別する。milestone 自体の open / closed は問わない。
 _Avoid_: イテレーション（GitLab の Iterations 機能と紛らわしいため）
 
 **期**:
