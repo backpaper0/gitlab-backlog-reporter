@@ -92,6 +92,8 @@ def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, ice
     targets = tuple(i for i in issues if _milestone_id(i) in sprint_ids)
 
     warnings = []
+    if not targets:
+        warnings.append("対象バックログが 0件です")
     icebox_milestone = next((m for m in milestones if m["title"] == icebox), None)
     icebox_open = None
     if icebox_milestone is None:
