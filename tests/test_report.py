@@ -2,6 +2,8 @@ from datetime import date
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import pytest
+
 from gitlab_backlog_reporter.cli import RunResult, run
 from tests.gitlab_fake import FakeGitLab, Json, make_group, make_issue, make_milestone
 
@@ -47,7 +49,7 @@ def test_header_and_summary_count_issues_in_the_periods_sprints() -> None:
 
     assert result.stderr == ""
     assert result.exit_code == 0
-    assert result.stdout == (
+    assert result.stdout.startswith(
         "# バックログレポート: colors / Iteration-Q3-\n"
         "\n"
         "| 接続先 | group | 期 | 基準日 |\n"
@@ -227,3 +229,98 @@ def test_subgroup_full_path_is_url_encoded() -> None:
 
     assert result.exit_code == 0
     assert fake.requests[0].url.raw_path.split(b"?")[0] == b"/api/v4/groups/colors%2Fteam"
+
+
+def test_backlog_state_counts_open_and_close_by_state_and_others_by_status_label() -> None:
+    q1, q2 = sprints()
+    icebox = make_milestone("Icebox")
+    fake = FakeGitLab(
+        make_group(),
+        [q1, q2, icebox],
+        [
+            make_issue(q1),
+            make_issue(q1, labels=["type::bug"]),
+            make_issue(q1, labels=["status::ready"]),
+            make_issue(q2, labels=["frontend", "status::doing"]),
+            make_issue(q2, labels=["status::doing"]),
+            make_issue(q2, labels=["status::review"]),
+            make_issue(q1, closed_at="2026-10-01T09:00:00.000Z"),
+            make_issue(q1, closed_at="2026-10-01T09:00:00.000Z", labels=["status::review"]),
+            make_issue(icebox, labels=["status::ready"]),
+        ],
+    )
+
+    result = gbr(fake)
+
+    assert (
+        "## バックログ状態\n"
+        "\n"
+        "| open | ready | doing | review | close | 計 |\n"
+        "|---:|---:|---:|---:|---:|---:|\n"
+        "| 2 | 1 | 2 | 1 | 2 | 8 |\n"
+    ) in result.stdout
+
+
+def test_sprint_summary_shows_status_count_consumed_and_progress_per_sprint() -> None:
+    done = make_milestone("Iteration-Q3-1", "2026-09-17", "2026-09-30", state="closed")
+    current = make_milestone("Iteration-Q3-2", "2026-10-01", "2026-10-14")
+    future = make_milestone("Iteration-Q3-3", "2026-10-15", "2026-10-28")
+    closed = "2026-09-20T09:00:00.000Z"
+    fake = FakeGitLab(
+        make_group(),
+        [future, done, current, make_milestone("Icebox")],
+        [
+            make_issue(done, closed_at=closed),
+            make_issue(done, closed_at=closed),
+            make_issue(current, closed_at=closed),
+            make_issue(current),
+            make_issue(current),
+        ],
+    )
+
+    result = gbr(fake)
+
+    assert (
+        "## スプリント別サマリー\n"
+        "\n"
+        "| スプリント | 期間 | 状況 | 件数 | 消化 | 進捗率 |\n"
+        "|---|---|---|---:|---:|---|\n"
+        "| Iteration-Q3-1 | 9/17〜9/30 | 終了 | 2 | 2 | `██████████` 100% |\n"
+        "| Iteration-Q3-2 | 10/1〜10/14 | 進行中 | 3 | 1 | `███░░░░░░░` 33% |\n"
+        "| Iteration-Q3-3 | 10/15〜10/28 | 未来 | 0 | 0 | — |\n"
+    ) in result.stdout
+    assert result.stderr == ""
+
+
+def test_summary_names_the_current_sprint_below_the_table() -> None:
+    fake = FakeGitLab(make_group(), [*sprints(), make_milestone("Icebox")], [])
+
+    result = gbr(fake)
+
+    assert (
+        "| Icebox（open、参考） | 0 |\n"
+        "\n"
+        "現在のスプリント: **Iteration-Q3-1**（10/1〜10/14）\n"
+    ) in result.stdout
+
+
+@pytest.mark.parametrize(
+    ("today", "expected"),
+    [
+        (date(2026, 9, 30), "なし（期の開始前）"),
+        (date(2026, 10, 15), "なし"),
+        (date(2026, 10, 19), "なし"),
+        (date(2026, 11, 3), "なし（期の終了後）"),
+    ],
+)
+def test_no_current_sprint_tells_before_or_after_the_period_or_a_gap(today: date, expected: str) -> None:
+    milestones = [
+        make_milestone("Iteration-Q3-1", "2026-10-01", "2026-10-14"),
+        make_milestone("Iteration-Q3-2", "2026-10-20", "2026-11-02"),
+        make_milestone("Icebox"),
+    ]
+    fake = FakeGitLab(make_group(), milestones, [])
+
+    result = run(["colors"], ENV, today, TZ, fake.transport())
+
+    assert f"現在のスプリント: {expected}\n" in result.stdout

@@ -1,9 +1,23 @@
 """期のスプリントと Icebox を選び、対象バックログを集計する。"""
 
+from collections import Counter
 from dataclasses import dataclass
 from datetime import date
 from gitlab_backlog_reporter.errors import ReportError
 from gitlab_backlog_reporter.gitlab import Json
+
+
+BACKLOG_STATES = ("open", "ready", "doing", "review", "close")
+"""バックログ状態。遷移する順に並べる。"""
+
+_STATUS_LABELS = {f"status::{state}": state for state in ("ready", "doing", "review")}
+
+
+def backlog_state(issue: Json) -> str:
+    """close 済みなら、`status::*` label が残っていても close とする。"""
+    if is_consumed(issue):
+        return "close"
+    return next((_STATUS_LABELS[label] for label in issue["labels"] if label in _STATUS_LABELS), "open")
 
 
 @dataclass(frozen=True)
@@ -12,6 +26,14 @@ class Sprint:
     title: str
     start: date
     end: date
+
+    def status(self, today: date) -> str:
+        """今日から見たスプリントの状況。開始日と終了日は期間に含む。"""
+        if today > self.end:
+            return "終了"
+        if today < self.start:
+            return "未来"
+        return "進行中"
 
 
 @dataclass(frozen=True)
@@ -26,6 +48,10 @@ class Period:
     @property
     def end(self) -> date:
         return max(s.end for s in self.sprints)
+
+    def current_sprint(self, today: date) -> Sprint | None:
+        """今日が期間に入るスプリント。重なっていれば、先に始まるほうを選ぶ。"""
+        return next((s for s in self.sprints if s.start <= today <= s.end), None)
 
 
 @dataclass(frozen=True)
@@ -46,11 +72,29 @@ class PeriodBacklog:
     @property
     def consumed(self) -> int:
         """消化されたバックログの件数。"""
-        return sum(1 for issue in self.targets if issue["state"] == "closed")
+        return consumed_count(self.targets)
 
     @property
     def remaining(self) -> int:
         return self.total - self.consumed
+
+    def sprint_targets(self, sprint: Sprint) -> tuple[Json, ...]:
+        """スプリントに割り当てられたバックログ。"""
+        return tuple(issue for issue in self.targets if _milestone_id(issue) == sprint.id)
+
+    def state_counts(self) -> dict[str, int]:
+        """バックログ状態ごとの件数。BACKLOG_STATES の順に、0件の状態も含めて並べる。"""
+        counts = Counter(backlog_state(issue) for issue in self.targets)
+        return {state: counts[state] for state in BACKLOG_STATES}
+
+
+def is_consumed(issue: Json) -> bool:
+    return bool(issue["state"] == "closed")
+
+
+def consumed_count(issues: tuple[Json, ...]) -> int:
+    """消化されたバックログの件数。"""
+    return sum(1 for issue in issues if is_consumed(issue))
 
 
 def select_period(milestones: list[Json], prefix: str, group: str) -> Period:
