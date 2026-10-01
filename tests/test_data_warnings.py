@@ -77,6 +77,22 @@ def test_sprint_inside_a_long_sprint_overlaps_and_leaves_no_gap() -> None:
     ]
 
 
+def test_every_overlapping_pair_is_named() -> None:
+    result = gbr(
+        [
+            make_milestone("Iteration-1", "2026-10-01", "2026-10-31"),
+            make_milestone("Iteration-2", "2026-10-05", "2026-10-10"),
+            make_milestone("Iteration-3", "2026-10-08", "2026-10-12"),
+        ]
+    )
+
+    assert warnings(result) == [
+        "スプリントの期間が重なっています: Iteration-1（10/1〜10/31）と Iteration-2（10/5〜10/10）",
+        "スプリントの期間が重なっています: Iteration-1（10/1〜10/31）と Iteration-3（10/8〜10/12）",
+        "スプリントの期間が重なっています: Iteration-2（10/5〜10/10）と Iteration-3（10/8〜10/12）",
+    ]
+
+
 def test_sprint_lengths_are_not_checked() -> None:
     result = gbr(
         [
