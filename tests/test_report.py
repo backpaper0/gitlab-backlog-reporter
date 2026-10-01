@@ -26,6 +26,8 @@ def test_header_and_summary_count_issues_in_the_periods_sprints() -> None:
     icebox = make_milestone("Icebox")
     other_period = make_milestone("Iteration-Q2-6", "2026-09-17", "2026-09-30")
     project_sprint = make_milestone("Iteration-Q3-1", "2026-10-01", "2026-10-14", project_id=1)
+    in_project_sprint = make_issue(project_sprint)
+    without_milestone = make_issue(None)
     fake = FakeGitLab(
         make_group(),
         [q1, q2, icebox, other_period],
@@ -38,14 +40,19 @@ def test_header_and_summary_count_issues_in_the_periods_sprints() -> None:
             make_issue(icebox),
             make_issue(icebox, closed_at="2026-09-01T09:00:00.000Z"),
             make_issue(other_period),
-            make_issue(project_sprint),
-            make_issue(None),
+            in_project_sprint,
+            without_milestone,
         ],
     )
 
     result = gbr(fake, "--sprint-prefix", "Iteration-Q3-")
 
-    assert result.stderr == ""
+    unassigned = (
+        "期のスプリントにも Icebox にも割り当てられていない open の issue が 2 件あります: "
+        f"[colors/rainbow#{in_project_sprint['iid']}]({in_project_sprint['web_url']}), "
+        f"[colors/rainbow#{without_milestone['iid']}]({without_milestone['web_url']})"
+    )
+    assert result.stderr == f"warning: {unassigned}\n"
     assert result.exit_code == 0
     assert result.stdout == (
         "# バックログレポート: colors / Iteration-Q3-\n"
@@ -53,6 +60,9 @@ def test_header_and_summary_count_issues_in_the_periods_sprints() -> None:
         "| 接続先 | group | 期 | 基準日 |\n"
         "|---|---|---|---|\n"
         "| http://gitlab.test | `colors` | `Iteration-Q3-`（10/1〜10/28、2 スプリント） | 2026-10-02 |\n"
+        "\n"
+        "> [!WARNING]\n"
+        f"> - {unassigned}\n"
         "\n"
         "## サマリー\n"
         "\n"
