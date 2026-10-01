@@ -1,9 +1,10 @@
 """バックログを Markdown のレポートにする。"""
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import date
 
-from gitlab_backlog_reporter.backlog import PeriodBacklog
+from gitlab_backlog_reporter.backlog import BreakdownRow, PeriodBacklog
 
 
 @dataclass(frozen=True)
@@ -14,7 +15,7 @@ class ReportContext:
 
 
 def render(backlog: PeriodBacklog, context: ReportContext) -> str:
-    sections = [_header(backlog, context), *_warnings(backlog.warnings), _summary(backlog)]
+    sections = [_header(backlog, context), *_warnings(backlog.warnings), _summary(backlog), _breakdown(backlog)]
     return "\n\n".join(sections) + "\n"
 
 
@@ -59,10 +60,48 @@ def _summary(backlog: PeriodBacklog) -> str:
     )
 
 
+def _breakdown(backlog: PeriodBacklog) -> str:
+    return "\n".join(
+        [
+            "## 内訳",
+            "",
+            "### ラベル別",
+            "",
+            "| ラベル | 件数 | 消化 | 進捗率 |",
+            "|---|---:|---:|---:|",
+            *(
+                f"| {_row_name(r, lambda n: f'`{n}`')} | {r.total} | {r.consumed} | {_percent(r.consumed, r.total)} |"
+                for r in backlog.by_label()
+            ),
+            "",
+            "### 担当者別",
+            "",
+            "| 担当者 | 件数 | 消化 | 残り |",
+            "|---|---:|---:|---:|",
+            *(
+                f"| {_row_name(r, lambda n: f'@{n}')} | {r.total} | {r.consumed} | {r.remaining} |"
+                for r in backlog.by_assignee()
+            ),
+            "",
+            "※ 担当者が複数いるバックログは、それぞれの担当者に数えています。",
+        ]
+    )
+
+
+def _row_name(row: BreakdownRow, format: Callable[[str], str]) -> str:
+    return "（なし）" if row.name is None else format(row.name)
+
+
+def _percent(consumed: int, total: int) -> str:
+    if total == 0:
+        return "—"
+    return f"{_round_half_up(100 * consumed, total)}%"
+
+
 def _progress(consumed: int, total: int) -> str:
     if total == 0:
         return "**進捗率 —**"
-    return f"**進捗率 {_round_half_up(100 * consumed, total)}%** `{_bar(consumed, total, 20)}`"
+    return f"**進捗率 {_percent(consumed, total)}** `{_bar(consumed, total, 20)}`"
 
 
 def _bar(consumed: int, total: int, width: int) -> str:

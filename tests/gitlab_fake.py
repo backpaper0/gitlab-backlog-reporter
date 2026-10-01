@@ -40,11 +40,16 @@ def make_milestone(
     return milestone
 
 
+def make_user(username: str) -> Json:
+    return {"id": next(_ids), "username": username, "name": username.capitalize(), "state": "active"}
+
+
 def make_issue(
     milestone: Json | None,
     *,
     closed_at: str | None = None,
     labels: list[str] | None = None,
+    assignees: list[str] | None = None,
     project: str = "colors/rainbow",
     title: str = "issue",
 ) -> Json:
@@ -58,7 +63,7 @@ def make_issue(
         "closed_at": closed_at,
         "labels": labels or [],
         "milestone": milestone,
-        "assignees": [],
+        "assignees": [make_user(username) for username in assignees or []],
         "references": {"full": f"{project}#{iid}"},
         "web_url": f"http://gitlab.test/{project}/-/issues/{iid}",
     }

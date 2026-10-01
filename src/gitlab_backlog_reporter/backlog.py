@@ -1,7 +1,9 @@
 """期のスプリントと Icebox を選び、対象バックログを集計する。"""
 
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from datetime import date
+
 from gitlab_backlog_reporter.errors import ReportError
 from gitlab_backlog_reporter.gitlab import Json
 
@@ -29,6 +31,19 @@ class Period:
 
 
 @dataclass(frozen=True)
+class BreakdownRow:
+    """内訳の1行。name が None の行は、ラベルや担当者がないバックログをまとめたもの。"""
+
+    name: str | None
+    total: int
+    consumed: int
+
+    @property
+    def remaining(self) -> int:
+        return self.total - self.consumed
+
+
+@dataclass(frozen=True)
 class PeriodBacklog:
     """1つの期について集計したバックログ。"""
 
@@ -51,6 +66,33 @@ class PeriodBacklog:
     @property
     def remaining(self) -> int:
         return self.total - self.consumed
+
+    def by_label(self) -> tuple[BreakdownRow, ...]:
+        """`status::*` 以外のラベル別の内訳。"""
+        return _breakdown(self.targets, lambda i: (label for label in i["labels"] if not label.startswith("status::")))
+
+    def by_assignee(self) -> tuple[BreakdownRow, ...]:
+        """担当者（username）別の内訳。"""
+        return _breakdown(self.targets, lambda i: (a["username"] for a in i["assignees"]))
+
+
+def _breakdown(issues: Iterable[Json], keys: Callable[[Json], Iterable[str]]) -> tuple[BreakdownRow, ...]:
+    """名前ごとに数える。名前が複数あるバックログはそれぞれに数え、ないものは最後の None の行にまとめる。
+
+    None の行は、件数が 0 なら省く。ただし、ほかの行もなければ 0 件の行として残す。
+    """
+    counts: dict[str | None, list[int]] = {}
+    for issue in issues:
+        consumed = 1 if issue["state"] == "closed" else 0
+        names: set[str | None] = set(keys(issue)) or {None}
+        for name in names:
+            count = counts.setdefault(name, [0, 0])
+            count[0] += 1
+            count[1] += consumed
+    rows = [BreakdownRow(n, *counts[n]) for n in sorted(n for n in counts if n is not None)]
+    if None in counts or not rows:
+        rows.append(BreakdownRow(None, *counts.get(None, [0, 0])))
+    return tuple(rows)
 
 
 def select_period(milestones: list[Json], prefix: str, group: str) -> Period:

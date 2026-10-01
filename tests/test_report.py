@@ -47,7 +47,7 @@ def test_header_and_summary_count_issues_in_the_periods_sprints() -> None:
 
     assert result.stderr == ""
     assert result.exit_code == 0
-    assert result.stdout == (
+    assert result.stdout.startswith(
         "# バックログレポート: colors / Iteration-Q3-\n"
         "\n"
         "| 接続先 | group | 期 | 基準日 |\n"
@@ -64,6 +64,8 @@ def test_header_and_summary_count_issues_in_the_periods_sprints() -> None:
         "| 消化 | 1 |\n"
         "| 残り（今日） | **3** |\n"
         "| Icebox（open、参考） | 2 |\n"
+        "\n"
+        "## "
     )
 
 
