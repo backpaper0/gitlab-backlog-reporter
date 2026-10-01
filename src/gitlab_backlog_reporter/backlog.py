@@ -1,7 +1,10 @@
 """期のスプリントと Icebox を選び、対象バックログを集計する。"""
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import date
+from typing import Literal
+
 from gitlab_backlog_reporter.errors import ReportError
 from gitlab_backlog_reporter.gitlab import Json
 
@@ -35,9 +38,20 @@ class PeriodBacklog:
     period: Period
     targets: tuple[Json, ...]
     """対象バックログ。"""
-    icebox_open: int | None
-    """Icebox にある open のバックログの件数。Icebox が見つからなければ None。"""
+    icebox_open_issues: tuple[Json, ...] | None
+    """Icebox にある open のバックログ。project、iid の順に並べる。Icebox が見つからなければ None。"""
+    icebox: str
+    """Icebox とする group milestone の名前。"""
     warnings: tuple[str, ...]
+
+    @property
+    def icebox_open(self) -> int | None:
+        """Icebox にある open のバックログの件数。Icebox が見つからなければ None。"""
+        return None if self.icebox_open_issues is None else len(self.icebox_open_issues)
+
+    def sprint_backlog(self, sprint: Sprint) -> tuple[Json, ...]:
+        """スプリントに割り当てられた対象バックログ。project、iid の順に並べる。"""
+        return _by_project_and_iid(i for i in self.targets if _milestone_id(i) == sprint.id)
 
     @property
     def total(self) -> int:
@@ -93,14 +107,38 @@ def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, ice
 
     warnings = []
     icebox_milestone = next((m for m in milestones if m["title"] == icebox), None)
-    icebox_open = None
+    icebox_open_issues = None
     if icebox_milestone is None:
         warnings.append(f'Icebox の group milestone "{icebox}" が見つかりません')
     else:
-        icebox_open = sum(
-            1 for i in issues if _milestone_id(i) == icebox_milestone["id"] and i["state"] == "opened"
+        icebox_open_issues = _by_project_and_iid(
+            i for i in issues if _milestone_id(i) == icebox_milestone["id"] and i["state"] == "opened"
         )
-    return PeriodBacklog(period, targets, icebox_open, tuple(warnings))
+    return PeriodBacklog(period, targets, icebox_open_issues, icebox, tuple(warnings))
+
+
+type BacklogState = Literal["open", "ready", "doing", "review", "close"]
+
+_LABELED_STATES: tuple[BacklogState, ...] = ("ready", "doing", "review")
+
+
+def is_status_label(label: str) -> bool:
+    """バックログ状態を表す `status::` scoped label か。"""
+    return label.startswith("status::")
+
+
+def backlog_state(issue: Json) -> BacklogState:
+    """close は issue の state で、ready / doing / review は `status::` scoped label で決まる。どれでもなければ open。"""
+    if issue["state"] == "closed":
+        return "close"
+    for state in _LABELED_STATES:
+        if f"status::{state}" in issue["labels"]:
+            return state
+    return "open"
+
+
+def _by_project_and_iid(issues: Iterable[Json]) -> tuple[Json, ...]:
+    return tuple(sorted(issues, key=lambda i: (i["references"]["full"].rsplit("#", 1)[0], i["iid"])))
 
 
 def _milestone_id(issue: Json) -> int | None:

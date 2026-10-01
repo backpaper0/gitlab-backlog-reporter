@@ -3,7 +3,8 @@
 from dataclasses import dataclass
 from datetime import date
 
-from gitlab_backlog_reporter.backlog import PeriodBacklog
+from gitlab_backlog_reporter.backlog import PeriodBacklog, Sprint, backlog_state, is_status_label
+from gitlab_backlog_reporter.gitlab import Json
 
 
 @dataclass(frozen=True)
@@ -14,14 +15,14 @@ class ReportContext:
 
 
 def render(backlog: PeriodBacklog, context: ReportContext) -> str:
-    sections = [_header(backlog, context), *_warnings(backlog.warnings), _summary(backlog)]
+    sections = [_header(backlog, context), *_warnings(backlog.warnings), _summary(backlog), _backlog_list(backlog)]
     return "\n\n".join(sections) + "\n"
 
 
 def _header(backlog: PeriodBacklog, context: ReportContext) -> str:
     period = backlog.period
     period_cell = (
-        f"`{period.prefix}`（{_month_day(period.start)}〜{_month_day(period.end)}、{len(period.sprints)} スプリント）"
+        f"`{period.prefix}`（{_date_range(period.start, period.end)}、{len(period.sprints)} スプリント）"
     )
     return "\n".join(
         [
@@ -59,6 +60,53 @@ def _summary(backlog: PeriodBacklog) -> str:
     )
 
 
+def _backlog_list(backlog: PeriodBacklog) -> str:
+    sections = ["## バックログ一覧"]
+    sections += [_sprint_backlog(sprint, backlog.sprint_backlog(sprint)) for sprint in backlog.period.sprints]
+    sections.append(_icebox_backlog(backlog))
+    return "\n\n".join(sections)
+
+
+def _sprint_backlog(sprint: Sprint, issues: tuple[Json, ...]) -> str:
+    heading = f"### {sprint.title}（{_date_range(sprint.start, sprint.end)}）"
+    rows = [
+        f"| {_issue_link(i)} | {_cell(i['title'])} | {backlog_state(i)} | {_assignees(i)} | {_cell(_labels(i))} |"
+        for i in issues
+    ]
+    return "\n\n".join([heading, _table(["issue", "タイトル", "状態", "担当者", "ラベル"], rows)])
+
+
+def _icebox_backlog(backlog: PeriodBacklog) -> str:
+    heading = "### Icebox（open、参考）"
+    if backlog.icebox_open_issues is None:
+        return "\n\n".join([heading, f'milestone "{backlog.icebox}" が見つかりません'])
+    rows = [f"| {_issue_link(i)} | {_cell(i['title'])} |" for i in backlog.icebox_open_issues]
+    return "\n\n".join([heading, _table(["issue", "タイトル"], rows)])
+
+
+def _table(columns: list[str], rows: list[str]) -> str:
+    if not rows:
+        return "（なし）"
+    return "\n".join(["| " + " | ".join(columns) + " |", "|" + "---|" * len(columns), *rows])
+
+
+def _cell(text: str) -> str:
+    """表のセルを区切らないよう `|` をエスケープする。"""
+    return text.replace("|", "\\|")
+
+
+def _issue_link(issue: Json) -> str:
+    return f"[{issue['references']['relative']}]({issue['web_url']})"
+
+
+def _assignees(issue: Json) -> str:
+    return ", ".join(f"@{a['username']}" for a in issue["assignees"]) or "—"
+
+
+def _labels(issue: Json) -> str:
+    return " ".join(f"`{label}`" for label in issue["labels"] if not is_status_label(label)) or "—"
+
+
 def _progress(consumed: int, total: int) -> str:
     if total == 0:
         return "**進捗率 —**"
@@ -72,6 +120,10 @@ def _bar(consumed: int, total: int, width: int) -> str:
 
 def _round_half_up(numerator: int, denominator: int) -> int:
     return (2 * numerator + denominator) // (2 * denominator)
+
+
+def _date_range(start: date, end: date) -> str:
+    return f"{_month_day(start)}〜{_month_day(end)}"
 
 
 def _month_day(d: date) -> str:
