@@ -82,10 +82,7 @@ def build_burndown(backlog: PeriodBacklog, today: date, tz: tzinfo) -> Burndown:
 
 
 def _sprint_loads(backlog: PeriodBacklog) -> Sequence[SprintLoad]:
-    counts: dict[int, int] = {}
-    for issue in backlog.targets:
-        counts[issue["milestone"]["id"]] = counts.get(issue["milestone"]["id"], 0) + 1
-    return [SprintLoad(counts.get(s.id, 0), s.start, s.end) for s in backlog.period.sprints]
+    return [SprintLoad(backlog.assigned_to(s), s.start, s.end) for s in backlog.period.sprints]
 
 
 def _local_date(timestamp: str, tz: tzinfo) -> date:

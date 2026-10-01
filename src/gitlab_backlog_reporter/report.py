@@ -100,12 +100,12 @@ def _burndown(backlog: PeriodBacklog, burndown: Burndown) -> str:
         f'  line "理想" {_series(burndown.ideal)}',
         f'  line "予定" {_series(burndown.planned)}',
     ]
+    legend = ["凡例: 灰 = 理想 / 青 = 予定 / 赤 = 実績"]
     if burndown.actual:
         lines.append(f'  line "実績" {_series(burndown.actual)}')
-    lines += ["```", "", "凡例: 灰 = 理想 / 青 = 予定 / 赤 = 実績"]
-    if not burndown.actual:
-        lines += ["", "期が始まる前のため、実績線はありません"]
-    lines += ["", BURNDOWN_NOTE]
+    else:
+        legend += ["", "期が始まる前のため、実績線はありません"]
+    lines += ["```", "", *legend, "", BURNDOWN_NOTE]
     return "\n".join(lines)
 
 

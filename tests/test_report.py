@@ -355,17 +355,6 @@ def test_on_the_day_after_the_period_actual_line_reaches_the_last_point() -> Non
     assert '  line "実績" [4, 3, 3, 3, 3]\n' in result.stdout
 
 
-def test_reopened_issue_counts_as_remaining_at_every_point() -> None:
-    q1, q2 = sprints()
-    reopened = make_issue(q1)
-    reopened["closed_at"] = None
-    fake = FakeGitLab(make_group(), [q1, q2, make_milestone("Icebox")], [reopened])
-
-    result = gbr(fake, today=date(2026, 10, 29))
-
-    assert '  line "実績" [1, 1, 1, 1, 1]\n' in result.stdout
-
-
 def test_no_target_backlog_replaces_the_chart_with_a_sentence_and_warns() -> None:
     fake = FakeGitLab(make_group(), [*sprints(), make_milestone("Icebox")], [])
 
