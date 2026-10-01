@@ -1,0 +1,122 @@
+"""テスト用の GitLab REST API。API の JSON の形をした dict を作るビルダー関数と、それを返す MockTransport。"""
+
+import itertools
+from collections.abc import Callable
+from typing import Any
+from urllib.parse import unquote
+
+import httpx
+
+type Json = dict[str, Any]
+
+_ids = itertools.count(1)
+
+
+def make_group(full_path: str = "colors", id: int = 10) -> Json:
+    return {"id": id, "name": full_path.rsplit("/", 1)[-1], "full_path": full_path}
+
+
+def make_milestone(
+    title: str,
+    start_date: str | None = None,
+    due_date: str | None = None,
+    *,
+    group_id: int | None = 10,
+    project_id: int | None = None,
+    state: str = "active",
+) -> Json:
+    milestone: Json = {
+        "id": next(_ids),
+        "iid": 1,
+        "title": title,
+        "state": state,
+        "start_date": start_date,
+        "due_date": due_date,
+    }
+    if project_id is not None:
+        milestone["project_id"] = project_id
+    else:
+        milestone["group_id"] = group_id
+    return milestone
+
+
+def make_issue(
+    milestone: Json | None,
+    *,
+    closed_at: str | None = None,
+    labels: list[str] | None = None,
+    project: str = "colors/rainbow",
+    title: str = "issue",
+) -> Json:
+    iid = next(_ids)
+    return {
+        "id": iid + 1000,
+        "iid": iid,
+        "project_id": 1,
+        "title": title,
+        "state": "closed" if closed_at else "opened",
+        "closed_at": closed_at,
+        "labels": labels or [],
+        "milestone": milestone,
+        "assignees": [],
+        "references": {"full": f"{project}#{iid}"},
+        "web_url": f"http://gitlab.test/{project}/-/issues/{iid}",
+    }
+
+
+class FakeGitLab:
+    """group、group milestones、group issues の3つのエンドポイントだけを持つ GitLab。"""
+
+    def __init__(
+        self,
+        group: Json,
+        milestones: list[Json],
+        issues: list[Json],
+        *,
+        per_page: int = 100,
+    ) -> None:
+        self.group = group
+        self.milestones = milestones
+        self.issues = issues
+        self.per_page = per_page
+        self.requests: list[httpx.Request] = []
+        self.failures: dict[str, int] = {}
+
+    def fail(self, endpoint: str, status: int) -> "FakeGitLab":
+        """`group`、`milestones`、`issues` のいずれかを status で失敗させる。"""
+        self.failures[endpoint] = status
+        return self
+
+    def transport(self) -> httpx.MockTransport:
+        return httpx.MockTransport(self._handle)
+
+    def _handle(self, request: httpx.Request) -> httpx.Response:
+        self.requests.append(request)
+        path = unquote(request.url.raw_path.decode().split("?", 1)[0])
+        prefix = "/api/v4/groups/"
+        assert path.startswith(prefix), path
+        rest = path.removeprefix(prefix)
+        group_ids = {self.group["full_path"], str(self.group["id"])}
+        routes: dict[str, Callable[[], httpx.Response]] = {}
+        for gid in group_ids:
+            routes[gid] = lambda: self._respond("group", lambda: httpx.Response(200, json=self.group))
+            routes[f"{gid}/milestones"] = lambda: self._respond(
+                "milestones", lambda: self._paged(request, self.milestones)
+            )
+            routes[f"{gid}/issues"] = lambda: self._respond("issues", lambda: self._paged(request, self.issues))
+        if rest not in routes:
+            return httpx.Response(404, json={"message": "404 Group Not Found"})
+        return routes[rest]()
+
+    def _respond(self, endpoint: str, ok: Callable[[], httpx.Response]) -> httpx.Response:
+        if endpoint in self.failures:
+            return httpx.Response(self.failures[endpoint], json={"message": "failed"})
+        return ok()
+
+    def _paged(self, request: httpx.Request, items: list[Json]) -> httpx.Response:
+        per_page = min(int(request.url.params.get("per_page", "20")), self.per_page)
+        page = int(request.url.params.get("page", "1"))
+        start = (page - 1) * per_page
+        has_next = start + per_page < len(items)
+        headers = {"x-next-page": str(page + 1) if has_next else ""}
+        return httpx.Response(200, json=items[start : start + per_page], headers=headers)
