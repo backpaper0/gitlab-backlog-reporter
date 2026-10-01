@@ -13,9 +13,8 @@ from typing import Any
 
 import httpx
 
-from gitlab_backlog_reporter.cli import read_connection
 from gitlab_backlog_reporter.errors import ReportError
-from gitlab_backlog_reporter.gitlab import GitLabClient
+from gitlab_backlog_reporter.gitlab import GitLabClient, read_connection
 
 
 def scrub(data: Any) -> Any:
@@ -32,7 +31,7 @@ def main() -> None:
     out_dir = Path(sys.argv[2] if len(sys.argv) > 2 else "tests/fixtures/colors")
     try:
         connection = read_connection(os.environ)
-        with GitLabClient(connection.host, connection.token, httpx.HTTPTransport()) as client:
+        with GitLabClient(connection, httpx.HTTPTransport()) as client:
             group = client.group(group_path)
             snapshot = {
                 "group": group,

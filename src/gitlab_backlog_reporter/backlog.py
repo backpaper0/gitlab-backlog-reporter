@@ -2,11 +2,8 @@
 
 from dataclasses import dataclass
 from datetime import date
-from typing import Any
-
 from gitlab_backlog_reporter.errors import ReportError
-
-type Json = dict[str, Any]
+from gitlab_backlog_reporter.gitlab import Json
 
 
 @dataclass(frozen=True)
@@ -32,7 +29,9 @@ class Period:
 
 
 @dataclass(frozen=True)
-class Backlog:
+class PeriodBacklog:
+    """1つの期について集計したバックログ。"""
+
     period: Period
     targets: tuple[Json, ...]
     """対象バックログ。"""
@@ -41,12 +40,17 @@ class Backlog:
     warnings: tuple[str, ...]
 
     @property
-    def done(self) -> int:
+    def total(self) -> int:
+        return len(self.targets)
+
+    @property
+    def consumed(self) -> int:
+        """消化されたバックログの件数。"""
         return sum(1 for issue in self.targets if issue["state"] == "closed")
 
     @property
     def remaining(self) -> int:
-        return len(self.targets) - self.done
+        return self.total - self.consumed
 
 
 def select_period(milestones: list[Json], prefix: str, group: str) -> Period:
@@ -82,7 +86,7 @@ def _check_dates(milestones: list[Json]) -> None:
         raise ReportError(*messages)
 
 
-def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, icebox: str, group: str) -> Backlog:
+def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, icebox: str, group: str) -> PeriodBacklog:
     period = select_period(milestones, prefix, group)
     sprint_ids = {s.id for s in period.sprints}
     targets = tuple(i for i in issues if _milestone_id(i) in sprint_ids)
@@ -96,7 +100,7 @@ def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, ice
         icebox_open = sum(
             1 for i in issues if _milestone_id(i) == icebox_milestone["id"] and i["state"] == "opened"
         )
-    return Backlog(period, targets, icebox_open, tuple(warnings))
+    return PeriodBacklog(period, targets, icebox_open, tuple(warnings))
 
 
 def _milestone_id(issue: Json) -> int | None:

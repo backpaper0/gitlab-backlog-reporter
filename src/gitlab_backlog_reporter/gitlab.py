@@ -1,5 +1,7 @@
 """GitLab REST API (v4) の薄いクライアント。使うのは group、group milestones、group issues だけ。"""
 
+from collections.abc import Mapping
+from dataclasses import dataclass
 from typing import Any
 from urllib.parse import quote
 
@@ -16,18 +18,40 @@ class GitLabError(ReportError):
     pass
 
 
-def normalize_host(host: str) -> str:
-    """scheme がなければ `https://` を補い、末尾の `/` を落とす。"""
+@dataclass(frozen=True)
+class Connection:
+    host: str
+    """scheme を含み、末尾に `/` を持たない URL。"""
+    token: str
+
+
+def read_connection(env: Mapping[str, str]) -> Connection:
+    """GITLAB_HOST と GITLAB_PRIVATE_TOKEN を読む。空文字は未設定と同じに扱い、足りないものをまとめて報告する。"""
+    host = env.get("GITLAB_HOST", "")
+    token = env.get("GITLAB_PRIVATE_TOKEN", "")
+    missing = []
+    if not host:
+        missing.append(
+            "環境変数 GITLAB_HOST が設定されていません。"
+            "接続先の GitLab の URL を設定してください（例: GITLAB_HOST=https://gitlab.example.com）"
+        )
+    if not token:
+        missing.append(
+            "環境変数 GITLAB_PRIVATE_TOKEN が設定されていません。"
+            "read_api スコープを持つ personal access token を設定してください"
+        )
+    if missing:
+        raise ReportError(*missing)
     if "://" not in host:
         host = f"https://{host}"
-    return host.rstrip("/")
+    return Connection(host.rstrip("/"), token)
 
 
 class GitLabClient:
-    def __init__(self, host: str, token: str, transport: httpx.BaseTransport) -> None:
+    def __init__(self, connection: Connection, transport: httpx.BaseTransport) -> None:
         self._http = httpx.Client(
-            base_url=f"{normalize_host(host)}/api/v4",
-            headers={"PRIVATE-TOKEN": token},
+            base_url=f"{connection.host}/api/v4",
+            headers={"PRIVATE-TOKEN": connection.token},
             transport=transport,
         )
 
