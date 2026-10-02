@@ -17,6 +17,7 @@ import sys
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
+from typing import Any
 from zoneinfo import ZoneInfo
 
 import httpx
@@ -205,19 +206,36 @@ class Api:
     def __init__(self, token: str) -> None:
         self._http = httpx.Client(base_url=f"{HOST}/api/v4", headers={"PRIVATE-TOKEN": token}, timeout=60)
 
+    def get_list(self, path: str) -> list[Json]:
+        result: list[Json] = self._send("GET", path, None, None)
+        return result
+
     def post(self, path: str, data: Json, *, sudo: str | None = None) -> Json:
-        return self._send("POST", path, data, sudo)
+        result: Json = self._send("POST", path, data, sudo)
+        return result
 
     def put(self, path: str, data: Json, *, sudo: str | None = None) -> Json:
-        return self._send("PUT", path, data, sudo)
+        result: Json = self._send("PUT", path, data, sudo)
+        return result
 
-    def _send(self, method: str, path: str, data: Json, sudo: str | None) -> Json:
+    def _send(self, method: str, path: str, data: Json | None, sudo: str | None) -> Any:
         headers = {"Sudo": sudo} if sudo else {}
         response = self._http.request(method, path, json=data, headers=headers)
         if not response.is_success:
             sys.exit(f"error: {method} {path} が失敗しました（HTTP {response.status_code}）: {response.text}")
-        result: Json = response.json()
-        return result
+        return response.json()
+
+
+def arrange_board(api: Api, group_id: int, label_ids: dict[str, int]) -> None:
+    """group の issue board に、バックログ状態の順で status:: のリストを並べる（Open と Closed は最初からある）。
+
+    CE の group が持てるボードは1つなので、既定のボード（一覧を取ると作られる）があればそれを使う。
+    """
+    boards = api.get_list(f"/groups/{group_id}/boards")
+    board = boards[0] if boards else api.post(f"/groups/{group_id}/boards", {"name": "Development"})
+    for name, label_id in label_ids.items():
+        if name.startswith("status::"):
+            api.post(f"/groups/{group_id}/boards/{board['id']}/lists", {"label_id": label_id})
 
 
 def seed(api: Api) -> list[Json]:
@@ -244,8 +262,11 @@ def seed(api: Api) -> list[Json]:
         name: api.post("/projects", {"name": name, "path": name, "namespace_id": group["id"]})["id"]
         for name in PROJECTS
     }
-    for name, color in LABELS.items():
-        api.post(f"/groups/{group['id']}/labels", {"name": name, "color": color})
+    label_ids = {
+        name: api.post(f"/groups/{group['id']}/labels", {"name": name, "color": color})["id"]
+        for name, color in LABELS.items()
+    }
+    arrange_board(api, group["id"], label_ids)
     milestones = {}
     for number in range(1, SPRINT_COUNT + 1):
         start, due = sprint_period(number)
@@ -255,7 +276,7 @@ def seed(api: Api) -> list[Json]:
             {"title": title, "start_date": start.isoformat(), "due_date": due.isoformat()},
         )["id"]
     milestones[ICEBOX] = api.post(f"/groups/{group['id']}/milestones", {"title": ICEBOX})["id"]
-    print(f"created group {GROUP}, projects, labels, milestones", file=sys.stderr)
+    print(f"created group {GROUP}, projects, labels, board, milestones", file=sys.stderr)
 
     planned = [(sprint_title(n), b) for n, sprint in enumerate(SPRINTS, 1) for b in sprint]
     planned += [(ICEBOX, b) for b in ICEBOX_BACKLOGS]
