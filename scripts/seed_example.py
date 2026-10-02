@@ -48,7 +48,7 @@ DEVELOPER = 30
 
 
 def sprint_title(number: int) -> str:
-    return f"Iteration-Q3-{number}"
+    return f"Iteration-{number}"
 
 
 @dataclass(frozen=True)

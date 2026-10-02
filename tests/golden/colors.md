@@ -17,7 +17,7 @@
 | 理想線の今日の値 | 11.3 |
 | Icebox（open、参考） | 5 |
 
-現在のスプリント: **Iteration-Q3-5**（10/1〜10/14）
+現在のスプリント: **Iteration-5**（10/1〜10/14）
 
 ## バーンダウン
 
@@ -54,12 +54,12 @@ xychart-beta
 
 | スプリント | 期間 | 状況 | 件数 | 消化 | 進捗率 |
 |---|---|---|---:|---:|---|
-| Iteration-Q3-1 | 8/6〜8/19 | 終了 | 7 | 6 | `█████████░` 86% |
-| Iteration-Q3-2 | 8/20〜9/2 | 終了 | 7 | 6 | `█████████░` 86% |
-| Iteration-Q3-3 | 9/3〜9/16 | 終了 | 7 | 6 | `█████████░` 86% |
-| Iteration-Q3-4 | 9/17〜9/30 | 終了 | 7 | 6 | `█████████░` 86% |
-| Iteration-Q3-5 | 10/1〜10/14 | 進行中 | 8 | 2 | `███░░░░░░░` 25% |
-| Iteration-Q3-6 | 10/15〜10/28 | 未来 | 7 | 0 | `░░░░░░░░░░` 0% |
+| Iteration-1 | 8/6〜8/19 | 終了 | 7 | 6 | `█████████░` 86% |
+| Iteration-2 | 8/20〜9/2 | 終了 | 7 | 6 | `█████████░` 86% |
+| Iteration-3 | 9/3〜9/16 | 終了 | 7 | 6 | `█████████░` 86% |
+| Iteration-4 | 9/17〜9/30 | 終了 | 7 | 6 | `█████████░` 86% |
+| Iteration-5 | 10/1〜10/14 | 進行中 | 8 | 2 | `███░░░░░░░` 25% |
+| Iteration-6 | 10/15〜10/28 | 未来 | 7 | 0 | `░░░░░░░░░░` 0% |
 
 ## 内訳
 
@@ -88,7 +88,7 @@ xychart-beta
 
 ## バックログ一覧
 
-### Iteration-Q3-1（8/6〜8/19）
+### Iteration-1（8/6〜8/19）
 
 | issue | タイトル | 状態 | 担当者 | ラベル |
 |---|---|---|---|---|
@@ -100,7 +100,7 @@ xychart-beta
 | [world#1](http://localhost:9080/colors/world/-/work_items/1) | ステージング環境を構築する | close | @midori | — |
 | [world#2](http://localhost:9080/colors/world/-/work_items/2) | ログ収集基盤を整備する | open | — | `backend` |
 
-### Iteration-Q3-2（8/20〜9/2）
+### Iteration-2（8/20〜9/2）
 
 | issue | タイトル | 状態 | 担当者 | ラベル |
 |---|---|---|---|---|
@@ -112,7 +112,7 @@ xychart-beta
 | [world#3](http://localhost:9080/colors/world/-/work_items/3) | 監視ダッシュボードを構築する | close | @midori | — |
 | [world#4](http://localhost:9080/colors/world/-/work_items/4) | 管理者向けユーザー一覧画面を作成する | doing | @aka | `frontend` `type::feature` |
 
-### Iteration-Q3-3（9/3〜9/16）
+### Iteration-3（9/3〜9/16）
 
 | issue | タイトル | 状態 | 担当者 | ラベル |
 |---|---|---|---|---|
@@ -124,7 +124,7 @@ xychart-beta
 | [world#5](http://localhost:9080/colors/world/-/work_items/5) | 管理者向けユーザー停止機能を実装する | close | @kuro | `backend` `type::feature` |
 | [world#6](http://localhost:9080/colors/world/-/work_items/6) | API ドキュメントを公開する | close | — | — |
 
-### Iteration-Q3-4（9/17〜9/30）
+### Iteration-4（9/17〜9/30）
 
 | issue | タイトル | 状態 | 担当者 | ラベル |
 |---|---|---|---|---|
@@ -136,7 +136,7 @@ xychart-beta
 | [world#7](http://localhost:9080/colors/world/-/work_items/7) | エラー通知を Slack に送る | close | @midori | `backend` |
 | [world#8](http://localhost:9080/colors/world/-/work_items/8) | 管理画面でユーザー名が文字化けする不具合を直す | close | @aka | `frontend` `type::bug` |
 
-### Iteration-Q3-5（10/1〜10/14）
+### Iteration-5（10/1〜10/14）
 
 | issue | タイトル | 状態 | 担当者 | ラベル |
 |---|---|---|---|---|
@@ -149,7 +149,7 @@ xychart-beta
 | [world#10](http://localhost:9080/colors/world/-/work_items/10) | 権限管理（ロール）を実装する | doing | @shiro, @kuro | `backend` `type::feature` |
 | [world#11](http://localhost:9080/colors/world/-/work_items/11) | 負荷試験を実施する | ready | — | — |
 
-### Iteration-Q3-6（10/15〜10/28）
+### Iteration-6（10/15〜10/28）
 
 | issue | タイトル | 状態 | 担当者 | ラベル |
 |---|---|---|---|---|
