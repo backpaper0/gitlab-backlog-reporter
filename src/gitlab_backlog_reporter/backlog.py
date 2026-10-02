@@ -52,6 +52,10 @@ class PeriodBacklog:
     def remaining(self) -> int:
         return self.total - self.consumed
 
+    def assigned_to(self, sprint: Sprint) -> int:
+        """sprint に割り当てられた対象バックログの件数（消化済みも含む）。"""
+        return sum(1 for issue in self.targets if _milestone_id(issue) == sprint.id)
+
 
 def select_period(milestones: list[Json], prefix: str, group: str) -> Period:
     """名前が prefix で始まる group milestone をスプリントとして選ぶ。state は問わない。"""
@@ -92,6 +96,8 @@ def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, ice
     targets = tuple(i for i in issues if _milestone_id(i) in sprint_ids)
 
     warnings = []
+    if not targets:
+        warnings.append("対象バックログが 0件です")
     icebox_milestone = next((m for m in milestones if m["title"] == icebox), None)
     icebox_open = None
     if icebox_milestone is None:
