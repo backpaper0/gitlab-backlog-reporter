@@ -17,10 +17,11 @@ import sys
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
-from typing import Any
 from zoneinfo import ZoneInfo
 
 import httpx
+
+from gitlab_backlog_reporter.gitlab import Json
 
 HOST = "http://localhost:9080"
 EXAMPLE = Path(__file__).resolve().parent.parent / "example"
@@ -44,14 +45,16 @@ SPRINT_DAYS = 14
 ICEBOX = "Icebox"
 DEVELOPER = 30
 
-type Json = dict[str, Any]
+
+def sprint_title(number: int) -> str:
+    return f"Iteration-Q3-{number}"
 
 
 @dataclass(frozen=True)
 class Backlog:
     project: str
     title: str
-    status: str
+    state: str
     """バックログ状態（open / ready / doing / review / close）。"""
     labels: tuple[str, ...] = ()
     """status:: 以外のラベル。"""
@@ -59,16 +62,16 @@ class Backlog:
     closed_on: date | None = None
 
 
-def b(
+def backlog(
     project: str,
     title: str,
-    status: str,
+    state: str,
     labels: tuple[str, ...] = (),
     assignees: tuple[str, ...] = (),
     closed_on: str | None = None,
 ) -> Backlog:
     return Backlog(
-        project, title, status, labels, assignees, date.fromisoformat(f"2026-{closed_on}") if closed_on else None
+        project, title, state, labels, assignees, date.fromisoformat(f"2026-{closed_on}") if closed_on else None
     )
 
 
@@ -77,68 +80,68 @@ FEATURE, BUG, FRONT, BACK = "type::feature", "type::bug", "frontend", "backend"
 # スプリント（1 始まり）ごとのバックログ。1〜4 は終わったスプリント、5 は進行中（今日 10/7）、6 は未来。
 SPRINTS: list[list[Backlog]] = [
     [
-        b("hello", "ユーザー登録画面を作成する", "close", (FEATURE, FRONT), ("aka",), "08-10"),
-        b("hello", "ログイン画面を作成する", "close", (FEATURE, FRONT), ("aka", "ao"), "08-12"),
-        b("hello", "パスワードのハッシュ化を実装する", "close", (BACK,), ("kuro",), "08-11"),
-        b("hello", "DB スキーマ（users, tasks）を設計する", "close", (BACK,), ("kuro", "shiro"), "08-07"),
-        b("hello", "CI パイプラインを構築する", "close", (), ("midori",), "08-14"),
-        b("world", "ステージング環境を構築する", "close", (), ("midori",), "08-18"),
-        b("world", "ログ収集基盤を整備する", "open", (BACK,)),
+        backlog("hello", "ユーザー登録画面を作成する", "close", (FEATURE, FRONT), ("aka",), "08-10"),
+        backlog("hello", "ログイン画面を作成する", "close", (FEATURE, FRONT), ("aka", "ao"), "08-12"),
+        backlog("hello", "パスワードのハッシュ化を実装する", "close", (BACK,), ("kuro",), "08-11"),
+        backlog("hello", "DB スキーマ（users, tasks）を設計する", "close", (BACK,), ("kuro", "shiro"), "08-07"),
+        backlog("hello", "CI パイプラインを構築する", "close", (), ("midori",), "08-14"),
+        backlog("world", "ステージング環境を構築する", "close", (), ("midori",), "08-18"),
+        backlog("world", "ログ収集基盤を整備する", "open", (BACK,)),
     ],
     [
-        b("hello", "タスク一覧 API を実装する", "close", (FEATURE, BACK), ("shiro",), "08-21"),
-        b("hello", "タスク一覧画面を作成する", "close", (FEATURE, FRONT), ("ao",), "08-25"),
-        b("hello", "タスク作成 API を実装する", "close", (FEATURE, BACK), ("shiro",), "08-26"),
-        b("hello", "タスク作成フォームを作成する", "close", (FRONT,), ("ao", "aka"), "08-28"),
-        b("hello", "ログアウト機能を実装する", "close", (FEATURE,), (), "08-31"),
-        b("world", "監視ダッシュボードを構築する", "close", (), ("midori",), "09-01"),
-        b("world", "管理者向けユーザー一覧画面を作成する", "doing", (FEATURE, FRONT), ("aka",)),
+        backlog("hello", "タスク一覧 API を実装する", "close", (FEATURE, BACK), ("shiro",), "08-21"),
+        backlog("hello", "タスク一覧画面を作成する", "close", (FEATURE, FRONT), ("ao",), "08-25"),
+        backlog("hello", "タスク作成 API を実装する", "close", (FEATURE, BACK), ("shiro",), "08-26"),
+        backlog("hello", "タスク作成フォームを作成する", "close", (FRONT,), ("ao", "aka"), "08-28"),
+        backlog("hello", "ログアウト機能を実装する", "close", (FEATURE,), (), "08-31"),
+        backlog("world", "監視ダッシュボードを構築する", "close", (), ("midori",), "09-01"),
+        backlog("world", "管理者向けユーザー一覧画面を作成する", "doing", (FEATURE, FRONT), ("aka",)),
     ],
     [
-        b("hello", "タスク編集機能を実装する", "close", (FEATURE,), ("shiro", "ao"), "09-04"),
-        b("hello", "タスク削除機能を実装する", "close", (FEATURE, BACK), ("shiro",), "09-08"),
-        b("hello", "タスクの完了／未完了を切り替えられるようにする", "close", (FRONT,), ("ao",), "09-09"),
-        b("hello", "タスクに期限日を設定できるようにする", "close", (FEATURE,), ("kuro",), "09-11"),
-        b("hello", "パスワードリセット機能を実装する", "open", (FEATURE, BACK)),
-        b("world", "管理者向けユーザー停止機能を実装する", "close", (FEATURE, BACK), ("kuro",), "09-14"),
-        b("world", "API ドキュメントを公開する", "close", (), (), "09-15"),
+        backlog("hello", "タスク編集機能を実装する", "close", (FEATURE,), ("shiro", "ao"), "09-04"),
+        backlog("hello", "タスク削除機能を実装する", "close", (FEATURE, BACK), ("shiro",), "09-08"),
+        backlog("hello", "タスクの完了／未完了を切り替えられるようにする", "close", (FRONT,), ("ao",), "09-09"),
+        backlog("hello", "タスクに期限日を設定できるようにする", "close", (FEATURE,), ("kuro",), "09-11"),
+        backlog("hello", "パスワードリセット機能を実装する", "open", (FEATURE, BACK)),
+        backlog("world", "管理者向けユーザー停止機能を実装する", "close", (FEATURE, BACK), ("kuro",), "09-14"),
+        backlog("world", "API ドキュメントを公開する", "close", (), (), "09-15"),
     ],
     [
-        b("hello", "タスク一覧を期限日でソートできるようにする", "close", (FEATURE, BACK), ("shiro",), "09-18"),
-        b("hello", "タスクのキーワード検索を実装する", "close", (FEATURE, BACK), ("kuro",), "09-22"),
-        b("hello", "タスクにタグを付けられるようにする", "close", (FEATURE,), ("aka", "shiro"), "09-24"),
-        b("hello", "タグでタスクを絞り込めるようにする", "close", (FRONT,), ("aka",), "09-25"),
-        b("hello", "タスクの優先度を設定できるようにする", "review", (FEATURE,), ("ao",)),
-        b("world", "エラー通知を Slack に送る", "close", (BACK,), ("midori",), "09-29"),
-        b("world", "管理画面でユーザー名が文字化けする不具合を直す", "close", (BUG, FRONT), ("aka",), "09-30"),
+        backlog("hello", "タスク一覧を期限日でソートできるようにする", "close", (FEATURE, BACK), ("shiro",), "09-18"),
+        backlog("hello", "タスクのキーワード検索を実装する", "close", (FEATURE, BACK), ("kuro",), "09-22"),
+        backlog("hello", "タスクにタグを付けられるようにする", "close", (FEATURE,), ("aka", "shiro"), "09-24"),
+        backlog("hello", "タグでタスクを絞り込めるようにする", "close", (FRONT,), ("aka",), "09-25"),
+        backlog("hello", "タスクの優先度を設定できるようにする", "review", (FEATURE,), ("ao",)),
+        backlog("world", "エラー通知を Slack に送る", "close", (BACK,), ("midori",), "09-29"),
+        backlog("world", "管理画面でユーザー名が文字化けする不具合を直す", "close", (BUG, FRONT), ("aka",), "09-30"),
     ],
     [
-        b("hello", "ページネーションを実装する", "close", (BACK,), ("shiro",), "10-02"),
-        b("hello", "期限前日にメール通知を送る", "review", (FEATURE, BACK), ("kuro", "midori")),
-        b("hello", "プロフィール編集画面を作成する", "review", (FRONT,), ("aka",)),
-        b("hello", "レスポンシブデザインに対応する", "doing", (FRONT,), ("ao",)),
-        b("hello", "E2E テストを整備する", "ready", (), ("midori",)),
-        b("world", "監査ログを記録する", "close", (FEATURE, BACK), ("kuro",), "10-05"),
-        b("world", "権限管理（ロール）を実装する", "doing", (FEATURE, BACK), ("shiro", "kuro")),
-        b("world", "負荷試験を実施する", "ready"),
+        backlog("hello", "ページネーションを実装する", "close", (BACK,), ("shiro",), "10-02"),
+        backlog("hello", "期限前日にメール通知を送る", "review", (FEATURE, BACK), ("kuro", "midori")),
+        backlog("hello", "プロフィール編集画面を作成する", "review", (FRONT,), ("aka",)),
+        backlog("hello", "レスポンシブデザインに対応する", "doing", (FRONT,), ("ao",)),
+        backlog("hello", "E2E テストを整備する", "ready", (), ("midori",)),
+        backlog("world", "監査ログを記録する", "close", (FEATURE, BACK), ("kuro",), "10-05"),
+        backlog("world", "権限管理（ロール）を実装する", "doing", (FEATURE, BACK), ("shiro", "kuro")),
+        backlog("world", "負荷試験を実施する", "ready"),
     ],
     [
-        b("hello", "タスクをチームメンバーに共有できるようにする", "ready", (FEATURE,), ("aka",)),
-        b("hello", "タスクにコメントを付けられるようにする", "ready", (FEATURE, FRONT)),
-        b("hello", "操作履歴（アクティビティログ）を表示する", "ready", (FRONT,)),
-        b("hello", "本番環境へのデプロイ手順を整備する", "ready", (), ("midori",)),
-        b("world", "バックアップを自動化する", "ready", (BACK,)),
-        b("world", "利用状況の集計バッチを作成する", "open", (BACK,)),
-        b("world", "ログ収集でタイムゾーンがずれる不具合を直す", "open", (BUG, BACK)),
+        backlog("hello", "タスクをチームメンバーに共有できるようにする", "ready", (FEATURE,), ("aka",)),
+        backlog("hello", "タスクにコメントを付けられるようにする", "ready", (FEATURE, FRONT)),
+        backlog("hello", "操作履歴（アクティビティログ）を表示する", "ready", (FRONT,)),
+        backlog("hello", "本番環境へのデプロイ手順を整備する", "ready", (), ("midori",)),
+        backlog("world", "バックアップを自動化する", "ready", (BACK,)),
+        backlog("world", "利用状況の集計バッチを作成する", "open", (BACK,)),
+        backlog("world", "ログ収集でタイムゾーンがずれる不具合を直す", "open", (BUG, BACK)),
     ],
 ]
 
 ICEBOX_BACKLOGS: list[Backlog] = [
-    b("hello", "ダークモードに対応する", "open", (FRONT,)),
-    b("hello", "タスクを CSV でエクスポートする", "open"),
-    b("hello", "カレンダー表示を追加する", "open", (FEATURE, FRONT)),
-    b("hello", "Google カレンダーと連携する", "open", (FEATURE,)),
-    b("hello", "モバイルアプリ（PWA）化する", "open"),
+    backlog("hello", "ダークモードに対応する", "open", (FRONT,)),
+    backlog("hello", "タスクを CSV でエクスポートする", "open"),
+    backlog("hello", "カレンダー表示を追加する", "open", (FEATURE, FRONT)),
+    backlog("hello", "Google カレンダーと連携する", "open", (FEATURE,)),
+    backlog("hello", "モバイルアプリ（PWA）化する", "open"),
 ]
 
 PROJECTS = ["hello", "world"]
@@ -246,7 +249,7 @@ def seed(api: Api) -> list[Json]:
     milestones = {}
     for number in range(1, SPRINT_COUNT + 1):
         start, due = sprint_period(number)
-        title = f"Iteration-Q3-{number}"
+        title = sprint_title(number)
         milestones[title] = api.post(
             f"/groups/{group['id']}/milestones",
             {"title": title, "start_date": start.isoformat(), "due_date": due.isoformat()},
@@ -254,14 +257,14 @@ def seed(api: Api) -> list[Json]:
     milestones[ICEBOX] = api.post(f"/groups/{group['id']}/milestones", {"title": ICEBOX})["id"]
     print(f"created group {GROUP}, projects, labels, milestones", file=sys.stderr)
 
-    planned = [(f"Iteration-Q3-{n}", backlog) for n, sprint in enumerate(SPRINTS, 1) for backlog in sprint]
-    planned += [(ICEBOX, backlog) for backlog in ICEBOX_BACKLOGS]
+    planned = [(sprint_title(n), b) for n, sprint in enumerate(SPRINTS, 1) for b in sprint]
+    planned += [(ICEBOX, b) for b in ICEBOX_BACKLOGS]
     fixes = []
     for index, (milestone, backlog) in enumerate(planned):
         author = USERS[index % len(USERS)]
         labels = list(backlog.labels)
-        if backlog.status in ("ready", "doing", "review"):
-            labels.insert(0, f"status::{backlog.status}")
+        if backlog.state in ("ready", "doing", "review"):
+            labels.insert(0, f"status::{backlog.state}")
         project_id = projects[backlog.project]
         issue = api.post(
             f"/projects/{project_id}/issues",
