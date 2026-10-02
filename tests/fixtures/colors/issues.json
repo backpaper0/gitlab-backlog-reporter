@@ -1,25 +1,25 @@
 [
   {
-    "id": 68,
+    "id": 48,
     "iid": 34,
-    "project_id": 2,
+    "project_id": 1,
     "title": "モバイルアプリ（PWA）化する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:57.480Z",
-    "updated_at": "2026-10-01T12:07:57.480Z",
+    "created_at": "2026-08-01T07:00:00.000Z",
+    "updated_at": "2026-08-01T07:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [],
     "milestone": {
-      "id": 16,
+      "id": 7,
       "iid": 7,
-      "group_id": 2,
+      "group_id": 7,
       "title": "Icebox",
-      "description": "",
+      "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:04:00.992Z",
-      "updated_at": "2026-10-01T12:04:00.992Z",
+      "created_at": "2026-10-02T12:18:21.700Z",
+      "updated_at": "2026-10-02T12:18:21.700Z",
       "due_date": null,
       "start_date": null,
       "expired": false,
@@ -27,14 +27,14 @@
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 4,
+      "username": "aka",
       "public_email": null,
-      "name": "dev",
+      "name": "Aka",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
     },
     "type": "ISSUE",
     "assignee": null,
@@ -61,10 +61,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/34",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/34/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/34/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/34",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/34/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/34/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -79,26 +79,28 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 67,
+    "id": 47,
     "iid": 33,
-    "project_id": 2,
+    "project_id": 1,
     "title": "Google カレンダーと連携する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:57.391Z",
-    "updated_at": "2026-10-01T12:07:57.391Z",
+    "created_at": "2026-08-01T05:00:00.000Z",
+    "updated_at": "2026-08-01T05:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
-    "labels": [],
+    "labels": [
+      "type::feature"
+    ],
     "milestone": {
-      "id": 16,
+      "id": 7,
       "iid": 7,
-      "group_id": 2,
+      "group_id": 7,
       "title": "Icebox",
-      "description": "",
+      "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:04:00.992Z",
-      "updated_at": "2026-10-01T12:04:00.992Z",
+      "created_at": "2026-10-02T12:18:21.700Z",
+      "updated_at": "2026-10-02T12:18:21.700Z",
       "due_date": null,
       "start_date": null,
       "expired": false,
@@ -106,14 +108,14 @@
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
     },
     "type": "ISSUE",
     "assignee": null,
@@ -140,10 +142,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/33",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/33/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/33/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/33",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/33/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/33/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -158,26 +160,29 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 66,
+    "id": 46,
     "iid": 32,
-    "project_id": 2,
+    "project_id": 1,
     "title": "カレンダー表示を追加する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:57.314Z",
-    "updated_at": "2026-10-01T12:07:57.314Z",
+    "created_at": "2026-08-01T03:00:00.000Z",
+    "updated_at": "2026-08-01T03:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
-    "labels": [],
+    "labels": [
+      "frontend",
+      "type::feature"
+    ],
     "milestone": {
-      "id": 16,
+      "id": 7,
       "iid": 7,
-      "group_id": 2,
+      "group_id": 7,
       "title": "Icebox",
-      "description": "",
+      "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:04:00.992Z",
-      "updated_at": "2026-10-01T12:04:00.992Z",
+      "created_at": "2026-10-02T12:18:21.700Z",
+      "updated_at": "2026-10-02T12:18:21.700Z",
       "due_date": null,
       "start_date": null,
       "expired": false,
@@ -185,14 +190,14 @@
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 2,
+      "username": "kuro",
       "public_email": null,
-      "name": "dev",
+      "name": "Kuro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
     },
     "type": "ISSUE",
     "assignee": null,
@@ -219,10 +224,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/32",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/32/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/32/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/32",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/32/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/32/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -237,26 +242,26 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 65,
+    "id": 45,
     "iid": 31,
-    "project_id": 2,
+    "project_id": 1,
     "title": "タスクを CSV でエクスポートする",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:57.234Z",
-    "updated_at": "2026-10-01T12:07:57.234Z",
+    "created_at": "2026-08-01T01:00:00.000Z",
+    "updated_at": "2026-08-01T01:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [],
     "milestone": {
-      "id": 16,
+      "id": 7,
       "iid": 7,
-      "group_id": 2,
+      "group_id": 7,
       "title": "Icebox",
-      "description": "",
+      "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:04:00.992Z",
-      "updated_at": "2026-10-01T12:04:00.992Z",
+      "created_at": "2026-10-02T12:18:21.700Z",
+      "updated_at": "2026-10-02T12:18:21.700Z",
       "due_date": null,
       "start_date": null,
       "expired": false,
@@ -264,14 +269,14 @@
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 6,
+      "username": "midori",
       "public_email": null,
-      "name": "dev",
+      "name": "Midori",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
     },
     "type": "ISSUE",
     "assignee": null,
@@ -298,10 +303,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/31",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/31/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/31/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/31",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/31/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/31/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -316,26 +321,28 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 64,
+    "id": 44,
     "iid": 30,
-    "project_id": 2,
+    "project_id": 1,
     "title": "ダークモードに対応する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:57.149Z",
-    "updated_at": "2026-10-01T12:07:57.149Z",
+    "created_at": "2026-07-31T07:00:00.000Z",
+    "updated_at": "2026-07-31T07:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
-    "labels": [],
+    "labels": [
+      "frontend"
+    ],
     "milestone": {
-      "id": 16,
+      "id": 7,
       "iid": 7,
-      "group_id": 2,
+      "group_id": 7,
       "title": "Icebox",
-      "description": "",
+      "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:04:00.992Z",
-      "updated_at": "2026-10-01T12:04:00.992Z",
+      "created_at": "2026-10-02T12:18:21.700Z",
+      "updated_at": "2026-10-02T12:18:21.700Z",
       "due_date": null,
       "start_date": null,
       "expired": false,
@@ -343,14 +350,14 @@
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 5,
+      "username": "ao",
       "public_email": null,
-      "name": "dev",
+      "name": "Ao",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
     },
     "type": "ISSUE",
     "assignee": null,
@@ -377,10 +384,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/30",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/30/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/30/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/30",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/30/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/30/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -395,46 +402,311 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 63,
-    "iid": 29,
+    "id": 43,
+    "iid": 14,
     "project_id": 2,
+    "title": "ログ収集でタイムゾーンがずれる不具合を直す",
+    "description": null,
+    "state": "opened",
+    "created_at": "2026-07-31T05:00:00.000Z",
+    "updated_at": "2026-07-31T05:00:00.000Z",
+    "closed_at": null,
+    "closed_by": null,
+    "labels": [
+      "backend",
+      "type::bug"
+    ],
+    "milestone": {
+      "id": 6,
+      "iid": 6,
+      "group_id": 7,
+      "title": "Iteration-6",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.677Z",
+      "updated_at": "2026-10-02T12:18:21.677Z",
+      "due_date": "2026-10-28",
+      "start_date": "2026-10-15",
+      "expired": false,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/6"
+    },
+    "assignees": [],
+    "author": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
+    "type": "ISSUE",
+    "assignee": null,
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/14",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/14",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/14/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/14/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#14",
+      "relative": "world#14",
+      "full": "colors/world#14"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 42,
+    "iid": 13,
+    "project_id": 2,
+    "title": "利用状況の集計バッチを作成する",
+    "description": null,
+    "state": "opened",
+    "created_at": "2026-07-31T03:00:00.000Z",
+    "updated_at": "2026-07-31T03:00:00.000Z",
+    "closed_at": null,
+    "closed_by": null,
+    "labels": [
+      "backend"
+    ],
+    "milestone": {
+      "id": 6,
+      "iid": 6,
+      "group_id": 7,
+      "title": "Iteration-6",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.677Z",
+      "updated_at": "2026-10-02T12:18:21.677Z",
+      "due_date": "2026-10-28",
+      "start_date": "2026-10-15",
+      "expired": false,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/6"
+    },
+    "assignees": [],
+    "author": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
+    "type": "ISSUE",
+    "assignee": null,
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/13",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/13",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/13/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/13/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#13",
+      "relative": "world#13",
+      "full": "colors/world#13"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 41,
+    "iid": 12,
+    "project_id": 2,
+    "title": "バックアップを自動化する",
+    "description": null,
+    "state": "opened",
+    "created_at": "2026-07-31T01:00:00.000Z",
+    "updated_at": "2026-07-31T01:00:00.000Z",
+    "closed_at": null,
+    "closed_by": null,
+    "labels": [
+      "backend",
+      "status::ready"
+    ],
+    "milestone": {
+      "id": 6,
+      "iid": 6,
+      "group_id": 7,
+      "title": "Iteration-6",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.677Z",
+      "updated_at": "2026-10-02T12:18:21.677Z",
+      "due_date": "2026-10-28",
+      "start_date": "2026-10-15",
+      "expired": false,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/6"
+    },
+    "assignees": [],
+    "author": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "type": "ISSUE",
+    "assignee": null,
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/12",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/12",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/12/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/12/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#12",
+      "relative": "world#12",
+      "full": "colors/world#12"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 40,
+    "iid": 29,
+    "project_id": 1,
     "title": "本番環境へのデプロイ手順を整備する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:50.295Z",
-    "updated_at": "2026-10-01T12:07:50.295Z",
+    "created_at": "2026-07-30T07:00:00.000Z",
+    "updated_at": "2026-07-30T07:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
       "status::ready"
     ],
     "milestone": {
-      "id": 15,
+      "id": 6,
       "iid": 6,
-      "group_id": 2,
-      "title": "Iteration-Q3-6",
+      "group_id": 7,
+      "title": "Iteration-6",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:38.028Z",
-      "updated_at": "2026-10-01T12:02:38.028Z",
-      "due_date": "2026-12-23",
-      "start_date": "2026-12-10",
+      "created_at": "2026-10-02T12:18:21.677Z",
+      "updated_at": "2026-10-02T12:18:21.677Z",
+      "due_date": "2026-10-28",
+      "start_date": "2026-10-15",
       "expired": false,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/6"
     },
-    "assignees": [],
+    "assignees": [
+      {
+        "id": 6,
+        "username": "midori",
+        "public_email": null,
+        "name": "Midori",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/midori"
+      }
+    ],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 6,
+      "username": "midori",
       "public_email": null,
-      "name": "dev",
+      "name": "Midori",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -458,10 +730,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/29",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/29/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/29/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/29",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/29/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/29/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -476,43 +748,44 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 62,
+    "id": 39,
     "iid": 28,
-    "project_id": 2,
+    "project_id": 1,
     "title": "操作履歴（アクティビティログ）を表示する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:50.188Z",
-    "updated_at": "2026-10-01T12:07:50.188Z",
+    "created_at": "2026-07-30T05:00:00.000Z",
+    "updated_at": "2026-07-30T05:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
+      "frontend",
       "status::ready"
     ],
     "milestone": {
-      "id": 15,
+      "id": 6,
       "iid": 6,
-      "group_id": 2,
-      "title": "Iteration-Q3-6",
+      "group_id": 7,
+      "title": "Iteration-6",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:38.028Z",
-      "updated_at": "2026-10-01T12:02:38.028Z",
-      "due_date": "2026-12-23",
-      "start_date": "2026-12-10",
+      "created_at": "2026-10-02T12:18:21.677Z",
+      "updated_at": "2026-10-02T12:18:21.677Z",
+      "due_date": "2026-10-28",
+      "start_date": "2026-10-15",
       "expired": false,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/6"
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 5,
+      "username": "ao",
       "public_email": null,
-      "name": "dev",
+      "name": "Ao",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
     },
     "type": "ISSUE",
     "assignee": null,
@@ -539,10 +812,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/28",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/28/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/28/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/28",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/28/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/28/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -557,43 +830,45 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 61,
+    "id": 38,
     "iid": 27,
-    "project_id": 2,
+    "project_id": 1,
     "title": "タスクにコメントを付けられるようにする",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:50.093Z",
-    "updated_at": "2026-10-01T12:07:50.093Z",
+    "created_at": "2026-07-30T03:00:00.000Z",
+    "updated_at": "2026-07-30T03:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
-      "status::ready"
+      "frontend",
+      "status::ready",
+      "type::feature"
     ],
     "milestone": {
-      "id": 15,
+      "id": 6,
       "iid": 6,
-      "group_id": 2,
-      "title": "Iteration-Q3-6",
+      "group_id": 7,
+      "title": "Iteration-6",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:38.028Z",
-      "updated_at": "2026-10-01T12:02:38.028Z",
-      "due_date": "2026-12-23",
-      "start_date": "2026-12-10",
+      "created_at": "2026-10-02T12:18:21.677Z",
+      "updated_at": "2026-10-02T12:18:21.677Z",
+      "due_date": "2026-10-28",
+      "start_date": "2026-10-15",
       "expired": false,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/6"
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 4,
+      "username": "aka",
       "public_email": null,
-      "name": "dev",
+      "name": "Aka",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
     },
     "type": "ISSUE",
     "assignee": null,
@@ -620,10 +895,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/27",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/27/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/27/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/27",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/27/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/27/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -638,46 +913,67 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 60,
+    "id": 37,
     "iid": 26,
-    "project_id": 2,
+    "project_id": 1,
     "title": "タスクをチームメンバーに共有できるようにする",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:49.998Z",
-    "updated_at": "2026-10-01T12:07:49.998Z",
+    "created_at": "2026-07-30T01:00:00.000Z",
+    "updated_at": "2026-07-30T01:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
-      "status::ready"
+      "status::ready",
+      "type::feature"
     ],
     "milestone": {
-      "id": 15,
+      "id": 6,
       "iid": 6,
-      "group_id": 2,
-      "title": "Iteration-Q3-6",
+      "group_id": 7,
+      "title": "Iteration-6",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:38.028Z",
-      "updated_at": "2026-10-01T12:02:38.028Z",
-      "due_date": "2026-12-23",
-      "start_date": "2026-12-10",
+      "created_at": "2026-10-02T12:18:21.677Z",
+      "updated_at": "2026-10-02T12:18:21.677Z",
+      "due_date": "2026-10-28",
+      "start_date": "2026-10-15",
       "expired": false,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/6"
     },
-    "assignees": [],
+    "assignees": [
+      {
+        "id": 4,
+        "username": "aka",
+        "public_email": null,
+        "name": "Aka",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+        "web_url": "http://localhost:9080/aka"
+      }
+    ],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -701,10 +997,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/26",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/26/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/26/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/26",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/26/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/26/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -719,46 +1015,371 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 59,
-    "iid": 25,
+    "id": 36,
+    "iid": 11,
     "project_id": 2,
-    "title": "E2E テストを整備する",
+    "title": "負荷試験を実施する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:49.909Z",
-    "updated_at": "2026-10-01T12:07:49.909Z",
+    "created_at": "2026-07-29T07:00:00.000Z",
+    "updated_at": "2026-07-29T07:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
       "status::ready"
     ],
     "milestone": {
-      "id": 14,
+      "id": 5,
       "iid": 5,
-      "group_id": 2,
-      "title": "Iteration-Q3-5",
+      "group_id": 7,
+      "title": "Iteration-5",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.996Z",
-      "updated_at": "2026-10-01T12:02:37.996Z",
-      "due_date": "2026-12-09",
-      "start_date": "2026-11-26",
+      "created_at": "2026-10-02T12:18:21.657Z",
+      "updated_at": "2026-10-02T12:18:21.657Z",
+      "due_date": "2026-10-14",
+      "start_date": "2026-10-01",
       "expired": false,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/5"
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 2,
+      "username": "kuro",
       "public_email": null,
-      "name": "dev",
+      "name": "Kuro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
     },
     "type": "ISSUE",
     "assignee": null,
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/11",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/11",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/11/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/11/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#11",
+      "relative": "world#11",
+      "full": "colors/world#11"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 35,
+    "iid": 10,
+    "project_id": 2,
+    "title": "権限管理（ロール）を実装する",
+    "description": null,
+    "state": "opened",
+    "created_at": "2026-07-29T05:00:00.000Z",
+    "updated_at": "2026-07-29T05:00:00.000Z",
+    "closed_at": null,
+    "closed_by": null,
+    "labels": [
+      "backend",
+      "status::doing",
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 5,
+      "iid": 5,
+      "group_id": 7,
+      "title": "Iteration-5",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.657Z",
+      "updated_at": "2026-10-02T12:18:21.657Z",
+      "due_date": "2026-10-14",
+      "start_date": "2026-10-01",
+      "expired": false,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/5"
+    },
+    "assignees": [
+      {
+        "id": 3,
+        "username": "shiro",
+        "public_email": null,
+        "name": "Shiro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/shiro"
+      },
+      {
+        "id": 2,
+        "username": "kuro",
+        "public_email": null,
+        "name": "Kuro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+        "web_url": "http://localhost:9080/kuro"
+      }
+    ],
+    "author": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/10",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/10",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/10/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/10/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#10",
+      "relative": "world#10",
+      "full": "colors/world#10"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 34,
+    "iid": 9,
+    "project_id": 2,
+    "title": "監査ログを記録する",
+    "description": null,
+    "state": "closed",
+    "created_at": "2026-07-29T03:00:00.000Z",
+    "updated_at": "2026-10-05T07:30:00.000Z",
+    "closed_at": "2026-10-05T07:30:00.000Z",
+    "closed_by": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "labels": [
+      "backend",
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 5,
+      "iid": 5,
+      "group_id": 7,
+      "title": "Iteration-5",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.657Z",
+      "updated_at": "2026-10-02T12:18:21.657Z",
+      "due_date": "2026-10-14",
+      "start_date": "2026-10-01",
+      "expired": false,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/5"
+    },
+    "assignees": [
+      {
+        "id": 2,
+        "username": "kuro",
+        "public_email": null,
+        "name": "Kuro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+        "web_url": "http://localhost:9080/kuro"
+      }
+    ],
+    "author": {
+      "id": 5,
+      "username": "ao",
+      "public_email": null,
+      "name": "Ao",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/9",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/9",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/9/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/9/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#9",
+      "relative": "world#9",
+      "full": "colors/world#9"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 33,
+    "iid": 25,
+    "project_id": 1,
+    "title": "E2E テストを整備する",
+    "description": null,
+    "state": "opened",
+    "created_at": "2026-07-29T01:00:00.000Z",
+    "updated_at": "2026-07-29T01:00:00.000Z",
+    "closed_at": null,
+    "closed_by": null,
+    "labels": [
+      "status::ready"
+    ],
+    "milestone": {
+      "id": 5,
+      "iid": 5,
+      "group_id": 7,
+      "title": "Iteration-5",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.657Z",
+      "updated_at": "2026-10-02T12:18:21.657Z",
+      "due_date": "2026-10-14",
+      "start_date": "2026-10-01",
+      "expired": false,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/5"
+    },
+    "assignees": [
+      {
+        "id": 6,
+        "username": "midori",
+        "public_email": null,
+        "name": "Midori",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/midori"
+      }
+    ],
+    "author": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -782,10 +1403,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/25",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/25/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/25/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/25",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/25/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/25/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -800,46 +1421,67 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 58,
+    "id": 32,
     "iid": 24,
-    "project_id": 2,
+    "project_id": 1,
     "title": "レスポンシブデザインに対応する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:49.819Z",
-    "updated_at": "2026-10-01T12:07:49.819Z",
+    "created_at": "2026-07-28T07:00:00.000Z",
+    "updated_at": "2026-07-28T07:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
-      "status::ready"
+      "frontend",
+      "status::doing"
     ],
     "milestone": {
-      "id": 14,
+      "id": 5,
       "iid": 5,
-      "group_id": 2,
-      "title": "Iteration-Q3-5",
+      "group_id": 7,
+      "title": "Iteration-5",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.996Z",
-      "updated_at": "2026-10-01T12:02:37.996Z",
-      "due_date": "2026-12-09",
-      "start_date": "2026-11-26",
+      "created_at": "2026-10-02T12:18:21.657Z",
+      "updated_at": "2026-10-02T12:18:21.657Z",
+      "due_date": "2026-10-14",
+      "start_date": "2026-10-01",
       "expired": false,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/5"
     },
-    "assignees": [],
+    "assignees": [
+      {
+        "id": 5,
+        "username": "ao",
+        "public_email": null,
+        "name": "Ao",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+        "web_url": "http://localhost:9080/ao"
+      }
+    ],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 5,
+      "username": "ao",
+      "public_email": null,
+      "name": "Ao",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -863,10 +1505,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/24",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/24/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/24/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/24",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/24/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/24/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -881,46 +1523,67 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 57,
+    "id": 31,
     "iid": 23,
-    "project_id": 2,
+    "project_id": 1,
     "title": "プロフィール編集画面を作成する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:49.729Z",
-    "updated_at": "2026-10-01T12:07:49.729Z",
+    "created_at": "2026-07-28T05:00:00.000Z",
+    "updated_at": "2026-07-28T05:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
-      "status::ready"
+      "frontend",
+      "status::review"
     ],
     "milestone": {
-      "id": 14,
+      "id": 5,
       "iid": 5,
-      "group_id": 2,
-      "title": "Iteration-Q3-5",
+      "group_id": 7,
+      "title": "Iteration-5",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.996Z",
-      "updated_at": "2026-10-01T12:02:37.996Z",
-      "due_date": "2026-12-09",
-      "start_date": "2026-11-26",
+      "created_at": "2026-10-02T12:18:21.657Z",
+      "updated_at": "2026-10-02T12:18:21.657Z",
+      "due_date": "2026-10-14",
+      "start_date": "2026-10-01",
       "expired": false,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/5"
     },
-    "assignees": [],
+    "assignees": [
+      {
+        "id": 4,
+        "username": "aka",
+        "public_email": null,
+        "name": "Aka",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+        "web_url": "http://localhost:9080/aka"
+      }
+    ],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 2,
+      "username": "kuro",
       "public_email": null,
-      "name": "dev",
+      "name": "Kuro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -944,10 +1607,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/23",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/23/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/23/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/23",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/23/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/23/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -962,46 +1625,78 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 56,
+    "id": 30,
     "iid": 22,
-    "project_id": 2,
+    "project_id": 1,
     "title": "期限前日にメール通知を送る",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:49.641Z",
-    "updated_at": "2026-10-01T12:07:49.641Z",
+    "created_at": "2026-07-28T03:00:00.000Z",
+    "updated_at": "2026-07-28T03:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
-      "status::ready"
+      "backend",
+      "status::review",
+      "type::feature"
     ],
     "milestone": {
-      "id": 14,
+      "id": 5,
       "iid": 5,
-      "group_id": 2,
-      "title": "Iteration-Q3-5",
+      "group_id": 7,
+      "title": "Iteration-5",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.996Z",
-      "updated_at": "2026-10-01T12:02:37.996Z",
-      "due_date": "2026-12-09",
-      "start_date": "2026-11-26",
+      "created_at": "2026-10-02T12:18:21.657Z",
+      "updated_at": "2026-10-02T12:18:21.657Z",
+      "due_date": "2026-10-14",
+      "start_date": "2026-10-01",
       "expired": false,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/5"
     },
-    "assignees": [],
+    "assignees": [
+      {
+        "id": 2,
+        "username": "kuro",
+        "public_email": null,
+        "name": "Kuro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+        "web_url": "http://localhost:9080/kuro"
+      },
+      {
+        "id": 6,
+        "username": "midori",
+        "public_email": null,
+        "name": "Midori",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/midori"
+      }
+    ],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 6,
+      "username": "midori",
       "public_email": null,
-      "name": "dev",
+      "name": "Midori",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1025,10 +1720,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/22",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/22/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/22/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/22",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/22/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/22/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1043,46 +1738,75 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 55,
+    "id": 29,
     "iid": 21,
-    "project_id": 2,
+    "project_id": 1,
     "title": "ページネーションを実装する",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:49.552Z",
-    "updated_at": "2026-10-01T12:07:49.552Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 13,
-      "iid": 4,
-      "group_id": 2,
-      "title": "Iteration-Q3-4",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.963Z",
-      "updated_at": "2026-10-01T12:02:37.963Z",
-      "due_date": "2026-11-25",
-      "start_date": "2026-11-12",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/4"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-28T01:00:00.000Z",
+    "updated_at": "2026-10-02T02:30:00.000Z",
+    "closed_at": "2026-10-02T02:30:00.000Z",
+    "closed_by": {
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
+    "labels": [
+      "backend"
+    ],
+    "milestone": {
+      "id": 5,
+      "iid": 5,
+      "group_id": 7,
+      "title": "Iteration-5",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.657Z",
+      "updated_at": "2026-10-02T12:18:21.657Z",
+      "due_date": "2026-10-14",
+      "start_date": "2026-10-01",
+      "expired": false,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/5"
+    },
+    "assignees": [
+      {
+        "id": 3,
+        "username": "shiro",
+        "public_email": null,
+        "name": "Shiro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/shiro"
+      }
+    ],
+    "author": {
+      "id": 5,
+      "username": "ao",
+      "public_email": null,
+      "name": "Ao",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1106,10 +1830,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/21",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/21/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/21/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/21",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/21/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/21/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1124,46 +1848,288 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 54,
-    "iid": 20,
+    "id": 28,
+    "iid": 8,
     "project_id": 2,
+    "title": "管理画面でユーザー名が文字化けする不具合を直す",
+    "description": null,
+    "state": "closed",
+    "created_at": "2026-07-27T07:00:00.000Z",
+    "updated_at": "2026-09-30T08:30:00.000Z",
+    "closed_at": "2026-09-30T08:30:00.000Z",
+    "closed_by": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
+    "labels": [
+      "frontend",
+      "type::bug"
+    ],
+    "milestone": {
+      "id": 4,
+      "iid": 4,
+      "group_id": 7,
+      "title": "Iteration-4",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.638Z",
+      "updated_at": "2026-10-02T12:18:21.638Z",
+      "due_date": "2026-09-30",
+      "start_date": "2026-09-17",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/4"
+    },
+    "assignees": [
+      {
+        "id": 4,
+        "username": "aka",
+        "public_email": null,
+        "name": "Aka",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+        "web_url": "http://localhost:9080/aka"
+      }
+    ],
+    "author": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/8",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/8",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/8/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/8/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#8",
+      "relative": "world#8",
+      "full": "colors/world#8"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 27,
+    "iid": 7,
+    "project_id": 2,
+    "title": "エラー通知を Slack に送る",
+    "description": null,
+    "state": "closed",
+    "created_at": "2026-07-27T05:00:00.000Z",
+    "updated_at": "2026-09-29T07:30:00.000Z",
+    "closed_at": "2026-09-29T07:30:00.000Z",
+    "closed_by": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
+    "labels": [
+      "backend"
+    ],
+    "milestone": {
+      "id": 4,
+      "iid": 4,
+      "group_id": 7,
+      "title": "Iteration-4",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.638Z",
+      "updated_at": "2026-10-02T12:18:21.638Z",
+      "due_date": "2026-09-30",
+      "start_date": "2026-09-17",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/4"
+    },
+    "assignees": [
+      {
+        "id": 6,
+        "username": "midori",
+        "public_email": null,
+        "name": "Midori",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/midori"
+      }
+    ],
+    "author": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/7",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/7",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/7/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/7/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#7",
+      "relative": "world#7",
+      "full": "colors/world#7"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 26,
+    "iid": 20,
+    "project_id": 1,
     "title": "タスクの優先度を設定できるようにする",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:49.460Z",
-    "updated_at": "2026-10-01T12:07:49.460Z",
+    "created_at": "2026-07-27T03:00:00.000Z",
+    "updated_at": "2026-07-27T03:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
-      "status::ready"
+      "status::review",
+      "type::feature"
     ],
     "milestone": {
-      "id": 13,
+      "id": 4,
       "iid": 4,
-      "group_id": 2,
-      "title": "Iteration-Q3-4",
+      "group_id": 7,
+      "title": "Iteration-4",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.963Z",
-      "updated_at": "2026-10-01T12:02:37.963Z",
-      "due_date": "2026-11-25",
-      "start_date": "2026-11-12",
-      "expired": false,
+      "created_at": "2026-10-02T12:18:21.638Z",
+      "updated_at": "2026-10-02T12:18:21.638Z",
+      "due_date": "2026-09-30",
+      "start_date": "2026-09-17",
+      "expired": true,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/4"
     },
-    "assignees": [],
+    "assignees": [
+      {
+        "id": 5,
+        "username": "ao",
+        "public_email": null,
+        "name": "Ao",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+        "web_url": "http://localhost:9080/ao"
+      }
+    ],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 2,
+      "username": "kuro",
       "public_email": null,
-      "name": "dev",
+      "name": "Kuro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 5,
+      "username": "ao",
+      "public_email": null,
+      "name": "Ao",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1187,10 +2153,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/20",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/20/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/20/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/20",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/20/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/20/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1205,46 +2171,75 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 53,
+    "id": 25,
     "iid": 19,
-    "project_id": 2,
+    "project_id": 1,
     "title": "タグでタスクを絞り込めるようにする",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:49.363Z",
-    "updated_at": "2026-10-01T12:07:49.363Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 13,
-      "iid": 4,
-      "group_id": 2,
-      "title": "Iteration-Q3-4",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.963Z",
-      "updated_at": "2026-10-01T12:02:37.963Z",
-      "due_date": "2026-11-25",
-      "start_date": "2026-11-12",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/4"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-27T01:00:00.000Z",
+    "updated_at": "2026-09-25T05:30:00.000Z",
+    "closed_at": "2026-09-25T05:30:00.000Z",
+    "closed_by": {
+      "id": 4,
+      "username": "aka",
       "public_email": null,
-      "name": "dev",
+      "name": "Aka",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
+    "labels": [
+      "frontend"
+    ],
+    "milestone": {
+      "id": 4,
+      "iid": 4,
+      "group_id": 7,
+      "title": "Iteration-4",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.638Z",
+      "updated_at": "2026-10-02T12:18:21.638Z",
+      "due_date": "2026-09-30",
+      "start_date": "2026-09-17",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/4"
+    },
+    "assignees": [
+      {
+        "id": 4,
+        "username": "aka",
+        "public_email": null,
+        "name": "Aka",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+        "web_url": "http://localhost:9080/aka"
+      }
+    ],
+    "author": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1268,10 +2263,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/19",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/19/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/19/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/19",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/19/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/19/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1286,46 +2281,85 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 52,
+    "id": 24,
     "iid": 18,
-    "project_id": 2,
+    "project_id": 1,
     "title": "タスクにタグを付けられるようにする",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:49.272Z",
-    "updated_at": "2026-10-01T12:07:49.272Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 13,
-      "iid": 4,
-      "group_id": 2,
-      "title": "Iteration-Q3-4",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.963Z",
-      "updated_at": "2026-10-01T12:02:37.963Z",
-      "due_date": "2026-11-25",
-      "start_date": "2026-11-12",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/4"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-26T07:00:00.000Z",
+    "updated_at": "2026-09-24T04:30:00.000Z",
+    "closed_at": "2026-09-24T04:30:00.000Z",
+    "closed_by": {
+      "id": 4,
+      "username": "aka",
       "public_email": null,
-      "name": "dev",
+      "name": "Aka",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
+    "labels": [
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 4,
+      "iid": 4,
+      "group_id": 7,
+      "title": "Iteration-4",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.638Z",
+      "updated_at": "2026-10-02T12:18:21.638Z",
+      "due_date": "2026-09-30",
+      "start_date": "2026-09-17",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/4"
+    },
+    "assignees": [
+      {
+        "id": 4,
+        "username": "aka",
+        "public_email": null,
+        "name": "Aka",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+        "web_url": "http://localhost:9080/aka"
+      },
+      {
+        "id": 3,
+        "username": "shiro",
+        "public_email": null,
+        "name": "Shiro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/shiro"
+      }
+    ],
+    "author": {
+      "id": 5,
+      "username": "ao",
+      "public_email": null,
+      "name": "Ao",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1349,10 +2383,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/18",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/18/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/18/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/18",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/18/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/18/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1367,46 +2401,76 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 51,
+    "id": 23,
     "iid": 17,
-    "project_id": 2,
-    "title": "パスワードリセット機能を実装する",
+    "project_id": 1,
+    "title": "タスクのキーワード検索を実装する",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:49.184Z",
-    "updated_at": "2026-10-01T12:07:49.184Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 12,
-      "iid": 3,
-      "group_id": 2,
-      "title": "Iteration-Q3-3",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.933Z",
-      "updated_at": "2026-10-01T12:02:37.933Z",
-      "due_date": "2026-11-11",
-      "start_date": "2026-10-29",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/3"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-26T05:00:00.000Z",
+    "updated_at": "2026-09-22T03:30:00.000Z",
+    "closed_at": "2026-09-22T03:30:00.000Z",
+    "closed_by": {
+      "id": 2,
+      "username": "kuro",
       "public_email": null,
-      "name": "dev",
+      "name": "Kuro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "labels": [
+      "backend",
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 4,
+      "iid": 4,
+      "group_id": 7,
+      "title": "Iteration-4",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.638Z",
+      "updated_at": "2026-10-02T12:18:21.638Z",
+      "due_date": "2026-09-30",
+      "start_date": "2026-09-17",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/4"
+    },
+    "assignees": [
+      {
+        "id": 2,
+        "username": "kuro",
+        "public_email": null,
+        "name": "Kuro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+        "web_url": "http://localhost:9080/kuro"
+      }
+    ],
+    "author": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1430,10 +2494,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/17",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/17/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/17/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/17",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/17/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/17/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1448,46 +2512,76 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 50,
+    "id": 22,
     "iid": 16,
-    "project_id": 2,
-    "title": "タスクのキーワード検索を実装する",
+    "project_id": 1,
+    "title": "タスク一覧を期限日でソートできるようにする",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:49.096Z",
-    "updated_at": "2026-10-01T12:07:49.096Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 12,
-      "iid": 3,
-      "group_id": 2,
-      "title": "Iteration-Q3-3",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.933Z",
-      "updated_at": "2026-10-01T12:02:37.933Z",
-      "due_date": "2026-11-11",
-      "start_date": "2026-10-29",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/3"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-26T03:00:00.000Z",
+    "updated_at": "2026-09-18T02:30:00.000Z",
+    "closed_at": "2026-09-18T02:30:00.000Z",
+    "closed_by": {
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
+    "labels": [
+      "backend",
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 4,
+      "iid": 4,
+      "group_id": 7,
+      "title": "Iteration-4",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.638Z",
+      "updated_at": "2026-10-02T12:18:21.638Z",
+      "due_date": "2026-09-30",
+      "start_date": "2026-09-17",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/4"
+    },
+    "assignees": [
+      {
+        "id": 3,
+        "username": "shiro",
+        "public_email": null,
+        "name": "Shiro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/shiro"
+      }
+    ],
+    "author": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1511,10 +2605,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/16",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/16/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/16/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/16",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/16/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/16/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1529,43 +2623,243 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 49,
-    "iid": 15,
+    "id": 21,
+    "iid": 6,
     "project_id": 2,
-    "title": "タスク一覧を期限日でソートできるようにする",
+    "title": "API ドキュメントを公開する",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:49.009Z",
-    "updated_at": "2026-10-01T12:07:49.009Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
+    "state": "closed",
+    "created_at": "2026-07-26T01:00:00.000Z",
+    "updated_at": "2026-09-15T08:30:00.000Z",
+    "closed_at": "2026-09-15T08:30:00.000Z",
+    "closed_by": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "labels": [],
     "milestone": {
-      "id": 12,
+      "id": 3,
       "iid": 3,
-      "group_id": 2,
-      "title": "Iteration-Q3-3",
+      "group_id": 7,
+      "title": "Iteration-3",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.933Z",
-      "updated_at": "2026-10-01T12:02:37.933Z",
-      "due_date": "2026-11-11",
-      "start_date": "2026-10-29",
-      "expired": false,
+      "created_at": "2026-10-02T12:18:21.617Z",
+      "updated_at": "2026-10-02T12:18:21.617Z",
+      "due_date": "2026-09-16",
+      "start_date": "2026-09-03",
+      "expired": true,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/3"
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 2,
+      "username": "kuro",
       "public_email": null,
-      "name": "dev",
+      "name": "Kuro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "type": "ISSUE",
+    "assignee": null,
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/6",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/6",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/6/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/6/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#6",
+      "relative": "world#6",
+      "full": "colors/world#6"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 20,
+    "iid": 5,
+    "project_id": 2,
+    "title": "管理者向けユーザー停止機能を実装する",
+    "description": null,
+    "state": "closed",
+    "created_at": "2026-07-25T07:00:00.000Z",
+    "updated_at": "2026-09-14T07:30:00.000Z",
+    "closed_at": "2026-09-14T07:30:00.000Z",
+    "closed_by": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "labels": [
+      "backend",
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 3,
+      "iid": 3,
+      "group_id": 7,
+      "title": "Iteration-3",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.617Z",
+      "updated_at": "2026-10-02T12:18:21.617Z",
+      "due_date": "2026-09-16",
+      "start_date": "2026-09-03",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/3"
+    },
+    "assignees": [
+      {
+        "id": 2,
+        "username": "kuro",
+        "public_email": null,
+        "name": "Kuro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+        "web_url": "http://localhost:9080/kuro"
+      }
+    ],
+    "author": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/5",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/5",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/5/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/5/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#5",
+      "relative": "world#5",
+      "full": "colors/world#5"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 19,
+    "iid": 15,
+    "project_id": 1,
+    "title": "パスワードリセット機能を実装する",
+    "description": null,
+    "state": "opened",
+    "created_at": "2026-07-25T05:00:00.000Z",
+    "updated_at": "2026-07-25T05:00:00.000Z",
+    "closed_at": null,
+    "closed_by": null,
+    "labels": [
+      "backend",
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 3,
+      "iid": 3,
+      "group_id": 7,
+      "title": "Iteration-3",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.617Z",
+      "updated_at": "2026-10-02T12:18:21.617Z",
+      "due_date": "2026-09-16",
+      "start_date": "2026-09-03",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/3"
+    },
+    "assignees": [],
+    "author": {
+      "id": 5,
+      "username": "ao",
+      "public_email": null,
+      "name": "Ao",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
     },
     "type": "ISSUE",
     "assignee": null,
@@ -1592,10 +2886,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/15",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/15/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/15/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/15",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/15/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/15/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1610,46 +2904,75 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 48,
+    "id": 18,
     "iid": 14,
-    "project_id": 2,
+    "project_id": 1,
     "title": "タスクに期限日を設定できるようにする",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:48.918Z",
-    "updated_at": "2026-10-01T12:07:48.918Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 12,
-      "iid": 3,
-      "group_id": 2,
-      "title": "Iteration-Q3-3",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.933Z",
-      "updated_at": "2026-10-01T12:02:37.933Z",
-      "due_date": "2026-11-11",
-      "start_date": "2026-10-29",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/3"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-25T03:00:00.000Z",
+    "updated_at": "2026-09-11T05:30:00.000Z",
+    "closed_at": "2026-09-11T05:30:00.000Z",
+    "closed_by": {
+      "id": 2,
+      "username": "kuro",
       "public_email": null,
-      "name": "dev",
+      "name": "Kuro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "labels": [
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 3,
+      "iid": 3,
+      "group_id": 7,
+      "title": "Iteration-3",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.617Z",
+      "updated_at": "2026-10-02T12:18:21.617Z",
+      "due_date": "2026-09-16",
+      "start_date": "2026-09-03",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/3"
+    },
+    "assignees": [
+      {
+        "id": 2,
+        "username": "kuro",
+        "public_email": null,
+        "name": "Kuro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+        "web_url": "http://localhost:9080/kuro"
+      }
+    ],
+    "author": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1673,10 +2996,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/14",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/14/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/14/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/14",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/14/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/14/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1691,46 +3014,75 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 47,
+    "id": 17,
     "iid": 13,
-    "project_id": 2,
-    "title": "ログアウト機能を実装する",
+    "project_id": 1,
+    "title": "タスクの完了／未完了を切り替えられるようにする",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:48.824Z",
-    "updated_at": "2026-10-01T12:07:48.824Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 11,
-      "iid": 2,
-      "group_id": 2,
-      "title": "Iteration-Q3-2",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.901Z",
-      "updated_at": "2026-10-01T12:02:37.901Z",
-      "due_date": "2026-10-28",
-      "start_date": "2026-10-15",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/2"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-25T01:00:00.000Z",
+    "updated_at": "2026-09-09T04:30:00.000Z",
+    "closed_at": "2026-09-09T04:30:00.000Z",
+    "closed_by": {
+      "id": 5,
+      "username": "ao",
       "public_email": null,
-      "name": "dev",
+      "name": "Ao",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
+    },
+    "labels": [
+      "frontend"
+    ],
+    "milestone": {
+      "id": 3,
+      "iid": 3,
+      "group_id": 7,
+      "title": "Iteration-3",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.617Z",
+      "updated_at": "2026-10-02T12:18:21.617Z",
+      "due_date": "2026-09-16",
+      "start_date": "2026-09-03",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/3"
+    },
+    "assignees": [
+      {
+        "id": 5,
+        "username": "ao",
+        "public_email": null,
+        "name": "Ao",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+        "web_url": "http://localhost:9080/ao"
+      }
+    ],
+    "author": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 5,
+      "username": "ao",
+      "public_email": null,
+      "name": "Ao",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1754,10 +3106,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/13",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/13/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/13/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/13",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/13/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/13/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1772,46 +3124,76 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 46,
+    "id": 16,
     "iid": 12,
-    "project_id": 2,
-    "title": "タスクの完了／未完了を切り替えられるようにする",
+    "project_id": 1,
+    "title": "タスク削除機能を実装する",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:48.733Z",
-    "updated_at": "2026-10-01T12:07:48.733Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 11,
-      "iid": 2,
-      "group_id": 2,
-      "title": "Iteration-Q3-2",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.901Z",
-      "updated_at": "2026-10-01T12:02:37.901Z",
-      "due_date": "2026-10-28",
-      "start_date": "2026-10-15",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/2"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-24T07:00:00.000Z",
+    "updated_at": "2026-09-08T03:30:00.000Z",
+    "closed_at": "2026-09-08T03:30:00.000Z",
+    "closed_by": {
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
+    "labels": [
+      "backend",
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 3,
+      "iid": 3,
+      "group_id": 7,
+      "title": "Iteration-3",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.617Z",
+      "updated_at": "2026-10-02T12:18:21.617Z",
+      "due_date": "2026-09-16",
+      "start_date": "2026-09-03",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/3"
+    },
+    "assignees": [
+      {
+        "id": 3,
+        "username": "shiro",
+        "public_email": null,
+        "name": "Shiro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/shiro"
+      }
+    ],
+    "author": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1835,10 +3217,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/12",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/12/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/12/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/12",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/12/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/12/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1853,46 +3235,85 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 45,
+    "id": 15,
     "iid": 11,
-    "project_id": 2,
-    "title": "タスク削除機能を実装する",
+    "project_id": 1,
+    "title": "タスク編集機能を実装する",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:48.630Z",
-    "updated_at": "2026-10-01T12:07:48.630Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 11,
-      "iid": 2,
-      "group_id": 2,
-      "title": "Iteration-Q3-2",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.901Z",
-      "updated_at": "2026-10-01T12:02:37.901Z",
-      "due_date": "2026-10-28",
-      "start_date": "2026-10-15",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/2"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-24T05:00:00.000Z",
+    "updated_at": "2026-09-04T02:30:00.000Z",
+    "closed_at": "2026-09-04T02:30:00.000Z",
+    "closed_by": {
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
+    "labels": [
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 3,
+      "iid": 3,
+      "group_id": 7,
+      "title": "Iteration-3",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.617Z",
+      "updated_at": "2026-10-02T12:18:21.617Z",
+      "due_date": "2026-09-16",
+      "start_date": "2026-09-03",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/3"
+    },
+    "assignees": [
+      {
+        "id": 3,
+        "username": "shiro",
+        "public_email": null,
+        "name": "Shiro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/shiro"
+      },
+      {
+        "id": 5,
+        "username": "ao",
+        "public_email": null,
+        "name": "Ao",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+        "web_url": "http://localhost:9080/ao"
+      }
+    ],
+    "author": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -1916,10 +3337,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/11",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/11/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/11/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/11",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/11/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/11/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -1934,43 +3355,263 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 44,
-    "iid": 10,
+    "id": 14,
+    "iid": 4,
     "project_id": 2,
-    "title": "タスク編集機能を実装する",
+    "title": "管理者向けユーザー一覧画面を作成する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:48.542Z",
-    "updated_at": "2026-10-01T12:07:48.542Z",
+    "created_at": "2026-07-24T03:00:00.000Z",
+    "updated_at": "2026-07-24T03:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
-      "status::ready"
+      "frontend",
+      "status::doing",
+      "type::feature"
     ],
     "milestone": {
-      "id": 11,
+      "id": 2,
       "iid": 2,
-      "group_id": 2,
-      "title": "Iteration-Q3-2",
+      "group_id": 7,
+      "title": "Iteration-2",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.901Z",
-      "updated_at": "2026-10-01T12:02:37.901Z",
-      "due_date": "2026-10-28",
-      "start_date": "2026-10-15",
-      "expired": false,
+      "created_at": "2026-10-02T12:18:21.589Z",
+      "updated_at": "2026-10-02T12:18:21.589Z",
+      "due_date": "2026-09-02",
+      "start_date": "2026-08-20",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/2"
+    },
+    "assignees": [
+      {
+        "id": 4,
+        "username": "aka",
+        "public_email": null,
+        "name": "Aka",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+        "web_url": "http://localhost:9080/aka"
+      }
+    ],
+    "author": {
+      "id": 5,
+      "username": "ao",
+      "public_email": null,
+      "name": "Ao",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/4",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/4",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/4/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/4/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#4",
+      "relative": "world#4",
+      "full": "colors/world#4"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 13,
+    "iid": 3,
+    "project_id": 2,
+    "title": "監視ダッシュボードを構築する",
+    "description": null,
+    "state": "closed",
+    "created_at": "2026-07-24T01:00:00.000Z",
+    "updated_at": "2026-09-01T07:30:00.000Z",
+    "closed_at": "2026-09-01T07:30:00.000Z",
+    "closed_by": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
+    "labels": [],
+    "milestone": {
+      "id": 2,
+      "iid": 2,
+      "group_id": 7,
+      "title": "Iteration-2",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.589Z",
+      "updated_at": "2026-10-02T12:18:21.589Z",
+      "due_date": "2026-09-02",
+      "start_date": "2026-08-20",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/2"
+    },
+    "assignees": [
+      {
+        "id": 6,
+        "username": "midori",
+        "public_email": null,
+        "name": "Midori",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/midori"
+      }
+    ],
+    "author": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/3",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/3",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/3/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/3/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#3",
+      "relative": "world#3",
+      "full": "colors/world#3"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 12,
+    "iid": 10,
+    "project_id": 1,
+    "title": "ログアウト機能を実装する",
+    "description": null,
+    "state": "closed",
+    "created_at": "2026-07-23T07:00:00.000Z",
+    "updated_at": "2026-08-31T06:30:00.000Z",
+    "closed_at": "2026-08-31T06:30:00.000Z",
+    "closed_by": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
+    "labels": [
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 2,
+      "iid": 2,
+      "group_id": 7,
+      "title": "Iteration-2",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.589Z",
+      "updated_at": "2026-10-02T12:18:21.589Z",
+      "due_date": "2026-09-02",
+      "start_date": "2026-08-20",
+      "expired": true,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/2"
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
     },
     "type": "ISSUE",
     "assignee": null,
@@ -1997,10 +3638,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/10",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/10/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/10/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/10",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/10/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/10/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -2015,46 +3656,85 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 43,
+    "id": 11,
     "iid": 9,
-    "project_id": 2,
+    "project_id": 1,
     "title": "タスク作成フォームを作成する",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:48.446Z",
-    "updated_at": "2026-10-01T12:07:48.446Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 10,
-      "iid": 1,
-      "group_id": 2,
-      "title": "Iteration-Q3-1",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.862Z",
-      "updated_at": "2026-10-01T12:02:37.862Z",
-      "due_date": "2026-10-14",
-      "start_date": "2026-10-01",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-23T05:00:00.000Z",
+    "updated_at": "2026-08-28T05:30:00.000Z",
+    "closed_at": "2026-08-28T05:30:00.000Z",
+    "closed_by": {
+      "id": 5,
+      "username": "ao",
       "public_email": null,
-      "name": "dev",
+      "name": "Ao",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
+    },
+    "labels": [
+      "frontend"
+    ],
+    "milestone": {
+      "id": 2,
+      "iid": 2,
+      "group_id": 7,
+      "title": "Iteration-2",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.589Z",
+      "updated_at": "2026-10-02T12:18:21.589Z",
+      "due_date": "2026-09-02",
+      "start_date": "2026-08-20",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/2"
+    },
+    "assignees": [
+      {
+        "id": 5,
+        "username": "ao",
+        "public_email": null,
+        "name": "Ao",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+        "web_url": "http://localhost:9080/ao"
+      },
+      {
+        "id": 4,
+        "username": "aka",
+        "public_email": null,
+        "name": "Aka",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+        "web_url": "http://localhost:9080/aka"
+      }
+    ],
+    "author": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 5,
+      "username": "ao",
+      "public_email": null,
+      "name": "Ao",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -2078,10 +3758,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/9",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/9/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/9/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/9",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/9/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/9/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -2096,46 +3776,76 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 42,
+    "id": 10,
     "iid": 8,
-    "project_id": 2,
+    "project_id": 1,
     "title": "タスク作成 API を実装する",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:48.358Z",
-    "updated_at": "2026-10-01T12:07:48.358Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::ready"
-    ],
-    "milestone": {
-      "id": 10,
-      "iid": 1,
-      "group_id": 2,
-      "title": "Iteration-Q3-1",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.862Z",
-      "updated_at": "2026-10-01T12:02:37.862Z",
-      "due_date": "2026-10-14",
-      "start_date": "2026-10-01",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-23T03:00:00.000Z",
+    "updated_at": "2026-08-26T04:30:00.000Z",
+    "closed_at": "2026-08-26T04:30:00.000Z",
+    "closed_by": {
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
+    "labels": [
+      "backend",
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 2,
+      "iid": 2,
+      "group_id": 7,
+      "title": "Iteration-2",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.589Z",
+      "updated_at": "2026-10-02T12:18:21.589Z",
+      "due_date": "2026-09-02",
+      "start_date": "2026-08-20",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/2"
+    },
+    "assignees": [
+      {
+        "id": 3,
+        "username": "shiro",
+        "public_email": null,
+        "name": "Shiro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/shiro"
+      }
+    ],
+    "author": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -2159,10 +3869,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/8",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/8/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/8/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/8",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/8/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/8/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -2177,55 +3887,76 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 41,
+    "id": 9,
     "iid": 7,
-    "project_id": 2,
-    "title": "CI パイプラインを構築する",
+    "project_id": 1,
+    "title": "タスク一覧画面を作成する",
     "description": null,
     "state": "closed",
-    "created_at": "2026-10-01T12:07:48.193Z",
-    "updated_at": "2026-10-01T12:07:48.300Z",
-    "closed_at": "2026-10-01T12:07:48.272Z",
+    "created_at": "2026-07-23T01:00:00.000Z",
+    "updated_at": "2026-08-25T03:30:00.000Z",
+    "closed_at": "2026-08-25T03:30:00.000Z",
     "closed_by": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 5,
+      "username": "ao",
       "public_email": null,
-      "name": "dev",
+      "name": "Ao",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
     },
     "labels": [
-      "status::ready"
+      "frontend",
+      "type::feature"
     ],
     "milestone": {
-      "id": 10,
-      "iid": 1,
-      "group_id": 2,
-      "title": "Iteration-Q3-1",
+      "id": 2,
+      "iid": 2,
+      "group_id": 7,
+      "title": "Iteration-2",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.862Z",
-      "updated_at": "2026-10-01T12:02:37.862Z",
-      "due_date": "2026-10-14",
-      "start_date": "2026-10-01",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
+      "created_at": "2026-10-02T12:18:21.589Z",
+      "updated_at": "2026-10-02T12:18:21.589Z",
+      "due_date": "2026-09-02",
+      "start_date": "2026-08-20",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/2"
     },
-    "assignees": [],
+    "assignees": [
+      {
+        "id": 5,
+        "username": "ao",
+        "public_email": null,
+        "name": "Ao",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+        "web_url": "http://localhost:9080/ao"
+      }
+    ],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 5,
+      "username": "ao",
       "public_email": null,
-      "name": "dev",
+      "name": "Ao",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 5,
+      "username": "ao",
+      "public_email": null,
+      "name": "Ao",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -2249,10 +3980,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/7",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/7/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/7/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/7",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/7/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/7/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -2267,46 +3998,76 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 40,
+    "id": 8,
     "iid": 6,
-    "project_id": 2,
-    "title": "タスク一覧画面を作成する",
+    "project_id": 1,
+    "title": "タスク一覧 API を実装する",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:48.104Z",
-    "updated_at": "2026-10-01T12:07:48.104Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::doing"
-    ],
-    "milestone": {
-      "id": 10,
-      "iid": 1,
-      "group_id": 2,
-      "title": "Iteration-Q3-1",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.862Z",
-      "updated_at": "2026-10-01T12:02:37.862Z",
-      "due_date": "2026-10-14",
-      "start_date": "2026-10-01",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-22T07:00:00.000Z",
+    "updated_at": "2026-08-21T02:30:00.000Z",
+    "closed_at": "2026-08-21T02:30:00.000Z",
+    "closed_by": {
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
+    "labels": [
+      "backend",
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 2,
+      "iid": 2,
+      "group_id": 7,
+      "title": "Iteration-2",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.589Z",
+      "updated_at": "2026-10-02T12:18:21.589Z",
+      "due_date": "2026-09-02",
+      "start_date": "2026-08-20",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/2"
+    },
+    "assignees": [
+      {
+        "id": 3,
+        "username": "shiro",
+        "public_email": null,
+        "name": "Shiro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/shiro"
+      }
+    ],
+    "author": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -2330,10 +4091,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/6",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/6/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/6/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/6",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/6/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/6/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -2348,46 +4109,262 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 39,
-    "iid": 5,
+    "id": 7,
+    "iid": 2,
     "project_id": 2,
-    "title": "タスク一覧 API を実装する",
+    "title": "ログ収集基盤を整備する",
     "description": null,
     "state": "opened",
-    "created_at": "2026-10-01T12:07:48.014Z",
-    "updated_at": "2026-10-01T12:07:48.014Z",
+    "created_at": "2026-07-22T05:00:00.000Z",
+    "updated_at": "2026-07-22T05:00:00.000Z",
     "closed_at": null,
     "closed_by": null,
     "labels": [
-      "status::doing"
+      "backend"
     ],
     "milestone": {
-      "id": 10,
+      "id": 1,
       "iid": 1,
-      "group_id": 2,
-      "title": "Iteration-Q3-1",
+      "group_id": 7,
+      "title": "Iteration-1",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.862Z",
-      "updated_at": "2026-10-01T12:02:37.862Z",
-      "due_date": "2026-10-14",
-      "start_date": "2026-10-01",
-      "expired": false,
+      "created_at": "2026-10-02T12:18:21.553Z",
+      "updated_at": "2026-10-02T12:18:21.553Z",
+      "due_date": "2026-08-19",
+      "start_date": "2026-08-06",
+      "expired": true,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
     },
     "assignees": [],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 3,
+      "username": "shiro",
       "public_email": null,
-      "name": "dev",
+      "name": "Shiro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
     },
     "type": "ISSUE",
     "assignee": null,
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/2",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/2",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/2/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/2/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#2",
+      "relative": "world#2",
+      "full": "colors/world#2"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 6,
+    "iid": 1,
+    "project_id": 2,
+    "title": "ステージング環境を構築する",
+    "description": null,
+    "state": "closed",
+    "created_at": "2026-07-22T03:00:00.000Z",
+    "updated_at": "2026-08-18T07:30:00.000Z",
+    "closed_at": "2026-08-18T07:30:00.000Z",
+    "closed_by": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
+    "labels": [],
+    "milestone": {
+      "id": 1,
+      "iid": 1,
+      "group_id": 7,
+      "title": "Iteration-1",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.553Z",
+      "updated_at": "2026-10-02T12:18:21.553Z",
+      "due_date": "2026-08-19",
+      "start_date": "2026-08-06",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
+    },
+    "assignees": [
+      {
+        "id": 6,
+        "username": "midori",
+        "public_email": null,
+        "name": "Midori",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/midori"
+      }
+    ],
+    "author": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "start_date": null,
+    "due_date": null,
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:9080/colors/world/-/work_items/1",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "has_tasks": true,
+    "task_status": "",
+    "_links": {
+      "self": "http://localhost:9080/api/v4/projects/2/issues/1",
+      "notes": "http://localhost:9080/api/v4/projects/2/issues/1/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/1/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/2",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#1",
+      "relative": "world#1",
+      "full": "colors/world#1"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "imported": false,
+    "imported_from": "none",
+    "service_desk_reply_to": null
+  },
+  {
+    "id": 5,
+    "iid": 5,
+    "project_id": 1,
+    "title": "CI パイプラインを構築する",
+    "description": null,
+    "state": "closed",
+    "created_at": "2026-07-22T01:00:00.000Z",
+    "updated_at": "2026-08-14T06:30:00.000Z",
+    "closed_at": "2026-08-14T06:30:00.000Z",
+    "closed_by": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
+    "labels": [],
+    "milestone": {
+      "id": 1,
+      "iid": 1,
+      "group_id": 7,
+      "title": "Iteration-1",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.553Z",
+      "updated_at": "2026-10-02T12:18:21.553Z",
+      "due_date": "2026-08-19",
+      "start_date": "2026-08-06",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
+    },
+    "assignees": [
+      {
+        "id": 6,
+        "username": "midori",
+        "public_email": null,
+        "name": "Midori",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/midori"
+      }
+    ],
+    "author": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 6,
+      "username": "midori",
+      "public_email": null,
+      "name": "Midori",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/eec13c4c9349680da0d5a01036de59f2344b13908f83a54645da4309a4c6158f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/midori"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -2411,10 +4388,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/5",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/5/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/5/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/5",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/5/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/5/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -2429,55 +4406,85 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 38,
+    "id": 4,
     "iid": 4,
-    "project_id": 2,
+    "project_id": 1,
     "title": "DB スキーマ（users, tasks）を設計する",
     "description": null,
     "state": "closed",
-    "created_at": "2026-10-01T12:07:47.832Z",
-    "updated_at": "2026-10-01T12:07:47.955Z",
-    "closed_at": "2026-10-01T12:07:47.918Z",
+    "created_at": "2026-07-21T07:00:00.000Z",
+    "updated_at": "2026-08-07T05:30:00.000Z",
+    "closed_at": "2026-08-07T05:30:00.000Z",
     "closed_by": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 2,
+      "username": "kuro",
       "public_email": null,
-      "name": "dev",
+      "name": "Kuro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
     },
     "labels": [
-      "status::doing"
+      "backend"
     ],
     "milestone": {
-      "id": 10,
+      "id": 1,
       "iid": 1,
-      "group_id": 2,
-      "title": "Iteration-Q3-1",
+      "group_id": 7,
+      "title": "Iteration-1",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.862Z",
-      "updated_at": "2026-10-01T12:02:37.862Z",
-      "due_date": "2026-10-14",
-      "start_date": "2026-10-01",
-      "expired": false,
+      "created_at": "2026-10-02T12:18:21.553Z",
+      "updated_at": "2026-10-02T12:18:21.553Z",
+      "due_date": "2026-08-19",
+      "start_date": "2026-08-06",
+      "expired": true,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
     },
-    "assignees": [],
+    "assignees": [
+      {
+        "id": 2,
+        "username": "kuro",
+        "public_email": null,
+        "name": "Kuro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+        "web_url": "http://localhost:9080/kuro"
+      },
+      {
+        "id": 3,
+        "username": "shiro",
+        "public_email": null,
+        "name": "Shiro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+        "web_url": "http://localhost:9080/shiro"
+      }
+    ],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 5,
+      "username": "ao",
       "public_email": null,
-      "name": "dev",
+      "name": "Ao",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+      "web_url": "http://localhost:9080/ao"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -2501,10 +4508,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/4",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/4/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/4/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/4",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/4/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/4/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -2519,46 +4526,75 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 37,
+    "id": 3,
     "iid": 3,
-    "project_id": 2,
+    "project_id": 1,
     "title": "パスワードのハッシュ化を実装する",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:47.729Z",
-    "updated_at": "2026-10-01T12:07:47.729Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::review"
-    ],
-    "milestone": {
-      "id": 10,
-      "iid": 1,
-      "group_id": 2,
-      "title": "Iteration-Q3-1",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.862Z",
-      "updated_at": "2026-10-01T12:02:37.862Z",
-      "due_date": "2026-10-14",
-      "start_date": "2026-10-01",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-21T05:00:00.000Z",
+    "updated_at": "2026-08-11T04:30:00.000Z",
+    "closed_at": "2026-08-11T04:30:00.000Z",
+    "closed_by": {
+      "id": 2,
+      "username": "kuro",
       "public_email": null,
-      "name": "dev",
+      "name": "Kuro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
+    "labels": [
+      "backend"
+    ],
+    "milestone": {
+      "id": 1,
+      "iid": 1,
+      "group_id": 7,
+      "title": "Iteration-1",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.553Z",
+      "updated_at": "2026-10-02T12:18:21.553Z",
+      "due_date": "2026-08-19",
+      "start_date": "2026-08-06",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
+    },
+    "assignees": [
+      {
+        "id": 2,
+        "username": "kuro",
+        "public_email": null,
+        "name": "Kuro",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+        "web_url": "http://localhost:9080/kuro"
+      }
+    ],
+    "author": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 2,
+      "username": "kuro",
+      "public_email": null,
+      "name": "Kuro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -2582,10 +4618,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/3",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/3/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/3/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/3",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/3/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/3/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -2600,46 +4636,86 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 36,
+    "id": 2,
     "iid": 2,
-    "project_id": 2,
+    "project_id": 1,
     "title": "ログイン画面を作成する",
     "description": null,
-    "state": "opened",
-    "created_at": "2026-10-01T12:07:47.629Z",
-    "updated_at": "2026-10-01T12:07:47.629Z",
-    "closed_at": null,
-    "closed_by": null,
-    "labels": [
-      "status::review"
-    ],
-    "milestone": {
-      "id": 10,
-      "iid": 1,
-      "group_id": 2,
-      "title": "Iteration-Q3-1",
-      "description": null,
-      "state": "active",
-      "created_at": "2026-10-01T12:02:37.862Z",
-      "updated_at": "2026-10-01T12:02:37.862Z",
-      "due_date": "2026-10-14",
-      "start_date": "2026-10-01",
-      "expired": false,
-      "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
-    },
-    "assignees": [],
-    "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+    "state": "closed",
+    "created_at": "2026-07-21T03:00:00.000Z",
+    "updated_at": "2026-08-12T03:30:00.000Z",
+    "closed_at": "2026-08-12T03:30:00.000Z",
+    "closed_by": {
+      "id": 4,
+      "username": "aka",
       "public_email": null,
-      "name": "dev",
+      "name": "Aka",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
+    "labels": [
+      "frontend",
+      "type::feature"
+    ],
+    "milestone": {
+      "id": 1,
+      "iid": 1,
+      "group_id": 7,
+      "title": "Iteration-1",
+      "description": null,
+      "state": "active",
+      "created_at": "2026-10-02T12:18:21.553Z",
+      "updated_at": "2026-10-02T12:18:21.553Z",
+      "due_date": "2026-08-19",
+      "start_date": "2026-08-06",
+      "expired": true,
+      "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
+    },
+    "assignees": [
+      {
+        "id": 4,
+        "username": "aka",
+        "public_email": null,
+        "name": "Aka",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+        "web_url": "http://localhost:9080/aka"
+      },
+      {
+        "id": 5,
+        "username": "ao",
+        "public_email": null,
+        "name": "Ao",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/c9cb15643b08f43e317c999bf809975658625e3d91b3696e06016f6990ddafd6?s=80&d=identicon",
+        "web_url": "http://localhost:9080/ao"
+      }
+    ],
+    "author": {
+      "id": 3,
+      "username": "shiro",
+      "public_email": null,
+      "name": "Shiro",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/d10945628b1e2c475f61120e4a41ea5021bc873dcaf32f1a6bb10156bc55e54f?s=80&d=identicon",
+      "web_url": "http://localhost:9080/shiro"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -2663,10 +4739,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/2",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/2/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/2/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/2",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/2/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/2/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {
@@ -2681,55 +4757,76 @@
     "service_desk_reply_to": null
   },
   {
-    "id": 35,
+    "id": 1,
     "iid": 1,
-    "project_id": 2,
+    "project_id": 1,
     "title": "ユーザー登録画面を作成する",
     "description": null,
     "state": "closed",
-    "created_at": "2026-10-01T12:07:47.425Z",
-    "updated_at": "2026-10-01T12:07:47.569Z",
-    "closed_at": "2026-10-01T12:07:47.529Z",
+    "created_at": "2026-07-21T01:00:00.000Z",
+    "updated_at": "2026-08-10T02:30:00.000Z",
+    "closed_at": "2026-08-10T02:30:00.000Z",
     "closed_by": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 4,
+      "username": "aka",
       "public_email": null,
-      "name": "dev",
+      "name": "Aka",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
     },
     "labels": [
-      "status::review"
+      "frontend",
+      "type::feature"
     ],
     "milestone": {
-      "id": 10,
+      "id": 1,
       "iid": 1,
-      "group_id": 2,
-      "title": "Iteration-Q3-1",
+      "group_id": 7,
+      "title": "Iteration-1",
       "description": null,
       "state": "active",
-      "created_at": "2026-10-01T12:02:37.862Z",
-      "updated_at": "2026-10-01T12:02:37.862Z",
-      "due_date": "2026-10-14",
-      "start_date": "2026-10-01",
-      "expired": false,
+      "created_at": "2026-10-02T12:18:21.553Z",
+      "updated_at": "2026-10-02T12:18:21.553Z",
+      "due_date": "2026-08-19",
+      "start_date": "2026-08-06",
+      "expired": true,
       "web_url": "http://localhost:9080/groups/colors/-/milestones/1"
     },
-    "assignees": [],
+    "assignees": [
+      {
+        "id": 4,
+        "username": "aka",
+        "public_email": null,
+        "name": "Aka",
+        "state": "active",
+        "locked": false,
+        "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+        "web_url": "http://localhost:9080/aka"
+      }
+    ],
     "author": {
-      "id": 8,
-      "username": "service_account_group_2_7c7b72eff2c3a72924e24e6947106244",
+      "id": 2,
+      "username": "kuro",
       "public_email": null,
-      "name": "dev",
+      "name": "Kuro",
       "state": "active",
       "locked": false,
-      "avatar_url": "https://www.gravatar.com/avatar/8589a16757ecd0af697c3619c041c5c88300abaf660726a14820fdded0806c12?s=80&d=identicon",
-      "web_url": "http://localhost:9080/service_account_group_2_7c7b72eff2c3a72924e24e6947106244"
+      "avatar_url": "https://www.gravatar.com/avatar/d98b3a7aaa06eca50bdff92bda140b5531dfa080eb3c168072587423fe2895d0?s=80&d=identicon",
+      "web_url": "http://localhost:9080/kuro"
     },
     "type": "ISSUE",
-    "assignee": null,
+    "assignee": {
+      "id": 4,
+      "username": "aka",
+      "public_email": null,
+      "name": "Aka",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://www.gravatar.com/avatar/51b407f638128a1ce38552e6c56889ba2a797dcb550db76e89849cdf493c7302?s=80&d=identicon",
+      "web_url": "http://localhost:9080/aka"
+    },
     "user_notes_count": 0,
     "merge_requests_count": 0,
     "upvotes": 0,
@@ -2753,10 +4850,10 @@
     "has_tasks": true,
     "task_status": "",
     "_links": {
-      "self": "http://localhost:9080/api/v4/projects/2/issues/1",
-      "notes": "http://localhost:9080/api/v4/projects/2/issues/1/notes",
-      "award_emoji": "http://localhost:9080/api/v4/projects/2/issues/1/award_emoji",
-      "project": "http://localhost:9080/api/v4/projects/2",
+      "self": "http://localhost:9080/api/v4/projects/1/issues/1",
+      "notes": "http://localhost:9080/api/v4/projects/1/issues/1/notes",
+      "award_emoji": "http://localhost:9080/api/v4/projects/1/issues/1/award_emoji",
+      "project": "http://localhost:9080/api/v4/projects/1",
       "closed_as_duplicate_of": null
     },
     "references": {

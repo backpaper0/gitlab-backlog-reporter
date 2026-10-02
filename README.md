@@ -22,3 +22,15 @@ UPDATE_GOLDEN=1 uv run pytest     # golden test の期待ファイル（tests/go
 uv run mypy                       # 型検査
 uv run scripts/record_fixtures.py # 例の環境から tests/fixtures/colors/ のスナップショットを取り直す
 ```
+
+### 例の環境
+
+golden test のスナップショットを取る GitLab（group `colors`、http://localhost:9080）を docker compose で立てる。root のパスワードはローカル専用の固定値で、`example/root_password` にある。
+
+```sh
+docker compose -f example/compose.yaml up -d --wait  # 起動（初回は数分かかる）
+uv run scripts/seed_example.py                       # データを投入し、root の token を example/.token に保存する
+GITLAB_HOST=http://localhost:9080 GITLAB_PRIVATE_TOKEN=$(cat example/.token) uv run gbr colors
+```
+
+`seed_example.py` は group `colors` がすでにあるとエラーで止まる。立て直すときは `docker compose -f example/compose.yaml down -v` からやり直す。
