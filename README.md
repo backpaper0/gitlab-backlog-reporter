@@ -25,7 +25,7 @@ uv run scripts/record_fixtures.py # 例の環境から tests/fixtures/colors/ �
 
 ### 例の環境
 
-golden test のスナップショットを取る GitLab（group `colors`、http://localhost:9080）を docker compose で立てる。root のパスワードはローカル専用の固定値で、`example/root_password` にある。
+golden test のスナップショットを取る GitLab（group `colors`、`http://localhost:9080`）を docker compose で立てる。root のパスワードはローカル専用の固定値で、`example/root_password` にある。
 
 ```sh
 docker compose -f example/compose.yaml up -d --wait  # 起動（初回は数分かかる）
