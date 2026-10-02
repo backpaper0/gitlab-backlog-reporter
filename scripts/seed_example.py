@@ -226,18 +226,6 @@ class Api:
         return response.json()
 
 
-def arrange_board(api: Api, group_id: int, label_ids: dict[str, int]) -> None:
-    """group の issue board に、バックログ状態の順で status:: のリストを並べる（Open と Closed は最初からある）。
-
-    CE の group が持てるボードは1つなので、既定のボード（一覧を取ると作られる）があればそれを使う。
-    """
-    boards = api.get_list(f"/groups/{group_id}/boards")
-    board = boards[0] if boards else api.post(f"/groups/{group_id}/boards", {"name": "Development"})
-    for name, label_id in label_ids.items():
-        if name.startswith("status::"):
-            api.post(f"/groups/{group_id}/boards/{board['id']}/lists", {"label_id": label_id})
-
-
 def seed(api: Api) -> list[Json]:
     """REST API でデータを作り、gitlab-rails runner で書き換える issue の情報を返す。"""
     users = {}
@@ -262,11 +250,8 @@ def seed(api: Api) -> list[Json]:
         name: api.post("/projects", {"name": name, "path": name, "namespace_id": group["id"]})["id"]
         for name in PROJECTS
     }
-    label_ids = {
-        name: api.post(f"/groups/{group['id']}/labels", {"name": name, "color": color})["id"]
-        for name, color in LABELS.items()
-    }
-    arrange_board(api, group["id"], label_ids)
+    for name, color in LABELS.items():
+        api.post(f"/groups/{group['id']}/labels", {"name": name, "color": color})
     milestones = {}
     for number in range(1, SPRINT_COUNT + 1):
         start, due = sprint_period(number)
@@ -276,7 +261,7 @@ def seed(api: Api) -> list[Json]:
             {"title": title, "start_date": start.isoformat(), "due_date": due.isoformat()},
         )["id"]
     milestones[ICEBOX] = api.post(f"/groups/{group['id']}/milestones", {"title": ICEBOX})["id"]
-    print(f"created group {GROUP}, projects, labels, board, milestones", file=sys.stderr)
+    print(f"created group {GROUP}, projects, labels, milestones", file=sys.stderr)
 
     planned = [(sprint_title(n), b) for n, sprint in enumerate(SPRINTS, 1) for b in sprint]
     planned += [(ICEBOX, b) for b in ICEBOX_BACKLOGS]
@@ -309,8 +294,11 @@ def seed(api: Api) -> list[Json]:
     return fixes
 
 
-def rewrite_issues(fixes: list[Json]) -> None:
-    """created_at、closed_at（と close のイベントの日時）、担当者を書き換える。"""
+def rewrite_with_rails(fixes: list[Json]) -> None:
+    """issue の created_at、closed_at（と close のイベントの日時）、担当者を書き換え、group の issue board を作る。
+
+    CE では REST API でボードを作れないので、ここで作る（CE の group が持てるボードは1つ）。
+    """
     payload = base64.b64encode(json.dumps(fixes).encode()).decode()
     rails_runner(
         f"""
@@ -322,16 +310,32 @@ def rewrite_issues(fixes: list[Json]) -> None:
           ResourceStateEvent.where(issue_id: issue.id).update_all(created_at: closed) if closed
           issue.assignee_ids = fix['assignee_ids']
         end
+        group = Group.find_by_full_path({GROUP!r})
+        Boards::CreateService.new(group, User.find_by_username('root')).execute if group.boards.empty?
         """
     )
     print(f"rewrote dates and assignees of {len(fixes)} issues", file=sys.stderr)
+
+
+def arrange_board(api: Api) -> None:
+    """group の issue board に、バックログ状態の順で status:: のリストを並べる（Open と Closed は最初からある）。"""
+    boards = api.get_list(f"/groups/{GROUP}/boards")
+    if not boards:
+        sys.exit(f"error: group `{GROUP}` の issue board がありません")
+    label_ids = {label["name"]: label["id"] for label in api.get_list(f"/groups/{GROUP}/labels")}
+    for name in LABELS:
+        if name.startswith("status::"):
+            api.post(f"/groups/{GROUP}/boards/{boards[0]['id']}/lists", {"label_id": label_ids[name]})
+    print(f"arranged board {boards[0]['name']}", file=sys.stderr)
 
 
 def main() -> None:
     token = issue_root_token()
     TOKEN_FILE.write_text(token + "\n", encoding="utf-8")
     print(f"saved {TOKEN_FILE}", file=sys.stderr)
-    rewrite_issues(seed(Api(token)))
+    api = Api(token)
+    rewrite_with_rails(seed(api))
+    arrange_board(api)
 
 
 if __name__ == "__main__":
