@@ -12,7 +12,9 @@ ENV = {"GITLAB_HOST": "http://gitlab.test", "GITLAB_PRIVATE_TOKEN": "secret"}
 
 
 def gbr(milestones: list[Json], issues: list[Json] | None = None) -> RunResult:
-    fake = FakeGitLab(make_group(), [*milestones, make_milestone("Icebox")], issues or [])
+    """対象バックログが 0件の警告を避けるため、最初のスプリントに issue を1件置く。"""
+    target = make_issue(milestones[0], project="colors/target")
+    fake = FakeGitLab(make_group(), [*milestones, make_milestone("Icebox")], [*(issues or []), target])
     return run(["colors"], ENV, TODAY, TZ, fake.transport())
 
 
