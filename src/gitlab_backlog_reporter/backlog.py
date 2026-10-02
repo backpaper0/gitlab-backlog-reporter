@@ -1,7 +1,7 @@
 """期のスプリントと Icebox を選び、対象バックログを集計する。"""
 
 from collections import Counter
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from datetime import date, timedelta
 from gitlab_backlog_reporter.errors import ReportError
@@ -64,6 +64,19 @@ class Period:
 
 
 @dataclass(frozen=True)
+class BreakdownRow:
+    """内訳の1行。name が None の行は、ラベルや担当者がないバックログをまとめたもの。"""
+
+    name: str | None
+    total: int
+    consumed: int
+
+    @property
+    def remaining(self) -> int:
+        return self.total - self.consumed
+
+
+@dataclass(frozen=True)
 class PeriodBacklog:
     """1つの期について集計したバックログ。"""
 
@@ -88,11 +101,22 @@ class PeriodBacklog:
     @property
     def consumed(self) -> int:
         """消化されたバックログの件数。"""
+        return sum(1 for issue in self.targets if is_consumed(issue))
+
         return consumed_count(self.targets)
 
     @property
     def remaining(self) -> int:
         return self.total - self.consumed
+
+    def by_label(self) -> tuple[BreakdownRow, ...]:
+        """`status::*` 以外のラベル別の内訳。"""
+        return _breakdown(self.targets, lambda i: (label for label in i["labels"] if not label.startswith("status::")))
+
+    def by_assignee(self) -> tuple[BreakdownRow, ...]:
+        """担当者（username）別の内訳。"""
+        return _breakdown(self.targets, lambda i: (a["username"] for a in i["assignees"]))
+
 
     def sprint_targets(self, sprint: Sprint) -> tuple[Json, ...]:
         """スプリントに割り当てられたバックログ。project、iid の順に並べる。"""
@@ -110,6 +134,24 @@ class PeriodBacklog:
 
 def is_consumed(issue: Json) -> bool:
     return bool(issue["state"] == "closed")
+
+
+def _breakdown(issues: Iterable[Json], names_of: Callable[[Json], Iterable[str]]) -> tuple[BreakdownRow, ...]:
+    """名前ごとに数える。名前が複数あるバックログはそれぞれに数え、ないものは最後の None の行にまとめる。
+
+    None の行は、件数が 0 なら省く。ただし、ほかの行もなければ 0 件の行として残す。
+    """
+    totals: Counter[str | None] = Counter()
+    consumed: Counter[str | None] = Counter()
+    for issue in issues:
+        names: set[str | None] = set(names_of(issue)) or {None}
+        totals.update(names)
+        if is_consumed(issue):
+            consumed.update(names)
+    rows = [BreakdownRow(n, totals[n], consumed[n]) for n in sorted(n for n in totals if n is not None)]
+    if None in totals or not rows:
+        rows.append(BreakdownRow(None, totals[None], consumed[None]))
+    return tuple(rows)
 
 
 def consumed_count(issues: tuple[Json, ...]) -> int:

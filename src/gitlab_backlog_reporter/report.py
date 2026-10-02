@@ -1,10 +1,12 @@
 """バックログを Markdown のレポートにする。"""
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import date, tzinfo
 from decimal import Decimal
 
 from gitlab_backlog_reporter.backlog import (
+    BreakdownRow,
     Period,
     PeriodBacklog,
     Sprint,
@@ -39,6 +41,7 @@ def render(backlog: PeriodBacklog, context: ReportContext) -> str:
         _burndown(backlog, burndown),
         _backlog_states(backlog),
         _sprint_summary(backlog, context.today),
+        _breakdown(backlog),
         _backlog_list(backlog),
     ]
     return "\n\n".join(sections) + "\n"
@@ -133,6 +136,42 @@ def _sprint_summary(backlog: PeriodBacklog, today: date) -> str:
             *rows,
         ]
     )
+
+
+def _breakdown(backlog: PeriodBacklog) -> str:
+    return "\n".join(
+        [
+            "## 内訳",
+            "",
+            "### ラベル別",
+            "",
+            "| ラベル | 件数 | 消化 | 進捗率 |",
+            "|---|---:|---:|---:|",
+            *(
+                f"| {_row_name(r, lambda n: _cell(f'`{n}`'))} | {r.total} | {r.consumed} | {_percent_cell(r.consumed, r.total)} |"
+                for r in backlog.by_label()
+            ),
+            "",
+            "### 担当者別",
+            "",
+            "| 担当者 | 件数 | 消化 | 残り |",
+            "|---|---:|---:|---:|",
+            *(
+                f"| {_row_name(r, lambda n: f'@{n}')} | {r.total} | {r.consumed} | {r.remaining} |"
+                for r in backlog.by_assignee()
+            ),
+            "",
+            "※ 担当者が複数いるバックログは、それぞれの担当者に数えています。",
+        ]
+    )
+
+
+def _row_name(row: BreakdownRow, decorate: Callable[[str], str]) -> str:
+    return "（なし）" if row.name is None else decorate(row.name)
+
+
+def _percent_cell(consumed: int, total: int) -> str:
+    return "—" if total == 0 else f"{_percent(consumed, total)}%"
 
 
 def _backlog_list(backlog: PeriodBacklog) -> str:
