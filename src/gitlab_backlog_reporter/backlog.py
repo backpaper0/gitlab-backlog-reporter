@@ -2,9 +2,12 @@
 
 from collections import Counter
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, timedelta
 from gitlab_backlog_reporter.errors import ReportError
 from gitlab_backlog_reporter.gitlab import Json
+
+MAX_UNASSIGNED_LINKS = 5
+"""割り当てのない issue の警告にリンクを出す件数。"""
 
 
 BACKLOG_STATES = ("open", "ready", "doing", "review", "close")
@@ -139,7 +142,7 @@ def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, ice
     sprint_ids = {s.id for s in period.sprints}
     targets = tuple(i for i in issues if _milestone_id(i) in sprint_ids)
 
-    warnings = []
+    warnings = _schedule_warnings(period)
     if not targets:
         warnings.append("対象バックログが 0件です")
     icebox_milestone = next((m for m in milestones if m["title"] == icebox), None)
@@ -150,7 +153,49 @@ def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, ice
         icebox_open = sum(
             1 for i in issues if _milestone_id(i) == icebox_milestone["id"] and i["state"] == "opened"
         )
+    warnings.extend(_unassigned_warnings(issues))
     return PeriodBacklog(period, targets, icebox_open, tuple(warnings))
+
+
+def _schedule_warnings(period: Period) -> list[str]:
+    """スプリントの隙間と重なり。重なりはペアごとに出す。スプリントの長さは問わない。"""
+    warnings = []
+    sprints = period.sprints
+    latest = sprints[0]  # それまでのスプリントのうち、いちばん遅く終わるもの
+    for i, sprint in enumerate(sprints[1:], start=1):
+        for earlier in sprints[:i]:
+            if sprint.start <= earlier.end:
+                warnings.append(f"スプリントの期間が重なっています: {_span(earlier)}と {_span(sprint)}")
+        if sprint.start > latest.end + timedelta(days=1):
+            warnings.append(f"スプリントの間に隙間があります: {_span(latest)}と {_span(sprint)}")
+        if sprint.end > latest.end:
+            latest = sprint
+    return warnings
+
+
+def _span(sprint: Sprint) -> str:
+    return f"{sprint.title}（{sprint.start.month}/{sprint.start.day}〜{sprint.end.month}/{sprint.end.day}）"
+
+
+def _unassigned_warnings(issues: list[Json]) -> list[str]:
+    """milestone がないか project milestone に付いている open の issue。ほかの group milestone と close 済みは数えない。"""
+    unassigned = sorted(
+        (i for i in issues if i["state"] == "opened" and (i["milestone"] is None or "project_id" in i["milestone"])),
+        key=_reference_key,
+    )
+    if not unassigned:
+        return []
+    links = ", ".join(f"[{i['references']['full']}]({i['web_url']})" for i in unassigned[:MAX_UNASSIGNED_LINKS])
+    rest = len(unassigned) - MAX_UNASSIGNED_LINKS
+    more = f" ほか {rest} 件" if rest > 0 else ""
+    return [
+        f"期のスプリントにも Icebox にも割り当てられていない open の issue が {len(unassigned)} 件あります: {links}{more}"
+    ]
+
+
+def _reference_key(issue: Json) -> tuple[str, int]:
+    project, iid = issue["references"]["full"].rsplit("#", 1)
+    return project, int(iid)
 
 
 def _milestone_id(issue: Json) -> int | None:

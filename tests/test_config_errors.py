@@ -126,3 +126,64 @@ def test_sprint_starting_and_ending_on_the_same_day_is_valid() -> None:
     fake = FakeGitLab(make_group(), [make_milestone("Iteration-1", "2026-10-01", "2026-10-01")], [])
 
     assert gbr(fake).exit_code == 0
+
+
+def test_forbidden_shows_status_and_url_without_token() -> None:
+    fake = FakeGitLab(make_group(), [], []).fail("group", 403)
+
+    result = gbr(fake)
+
+    assert result == RunResult(
+        "",
+        "error: GitLab API がエラーを返しました（HTTP 403）: "
+        "GET http://gitlab.test/api/v4/groups/colors?with_projects=false\n",
+        1,
+    )
+
+
+def test_server_error_on_paged_endpoint_shows_status_and_url() -> None:
+    fake = FakeGitLab(make_group(), [], []).fail("issues", 502)
+
+    result = gbr(fake)
+
+    assert result == RunResult(
+        "",
+        "error: GitLab API がエラーを返しました（HTTP 502）: "
+        "GET http://gitlab.test/api/v4/groups/10/issues?include_subgroups=true&state=all&scope=all&per_page=100&page=1\n",
+        1,
+    )
+
+
+def test_not_found_on_milestones_is_not_reported_as_missing_group() -> None:
+    fake = FakeGitLab(make_group(), [], []).fail("milestones", 404)
+
+    result = gbr(fake)
+
+    assert result.exit_code == 1
+    assert result.stderr == (
+        "error: GitLab API がエラーを返しました（HTTP 404）: "
+        "GET http://gitlab.test/api/v4/groups/10/milestones?per_page=100&page=1\n"
+    )
+
+
+def test_connection_failure_shows_url_without_token() -> None:
+    def refuse(request: httpx.Request) -> httpx.Response:
+        raise httpx.ConnectError("[Errno 111] Connection refused", request=request)
+
+    result = run(["colors"], ENV, TODAY, TZ, httpx.MockTransport(refuse))
+
+    assert result == RunResult(
+        "",
+        "error: GitLab API に接続できませんでした（[Errno 111] Connection refused）: "
+        "GET http://gitlab.test/api/v4/groups/colors?with_projects=false\n",
+        1,
+    )
+    assert "secret" not in result.stderr
+
+
+def test_api_errors_are_not_retried() -> None:
+    fake = FakeGitLab(make_group(), [], []).fail("group", 503)
+
+    gbr(fake)
+
+    assert len(fake.requests) == 1
