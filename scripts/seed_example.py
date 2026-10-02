@@ -1,0 +1,314 @@
+"""example/compose.yaml で立てた GitLab に、例の環境（group colors）のデータを投入する。
+
+使い方: docker compose -f example/compose.yaml up -d --wait のあとで uv run scripts/seed_example.py
+
+root の personal access token（api、sudo）を gitlab-rails runner で発行して example/.token に保存し、それを使って
+REST API でユーザー、group、project、ラベル、スプリント、バックログを作る。バックログは Sudo で各ユーザーとして作る。
+REST API では過去の日時にできない created_at と closed_at、CE では API から複数にできない担当者は、最後に
+gitlab-rails runner で書き換える。
+
+group colors がすでにあれば、何も変えずにエラーで止まる。立て直すときは docker compose down -v からやり直す。
+"""
+
+import base64
+import json
+import subprocess
+import sys
+from dataclasses import dataclass
+from datetime import date, datetime, timedelta
+from pathlib import Path
+from typing import Any
+from zoneinfo import ZoneInfo
+
+import httpx
+
+HOST = "http://localhost:9080"
+EXAMPLE = Path(__file__).resolve().parent.parent / "example"
+TOKEN_FILE = EXAMPLE / ".token"
+TZ = ZoneInfo("Asia/Tokyo")
+
+GROUP = "colors"
+USERS = ["kuro", "shiro", "aka", "ao", "midori"]
+LABELS = {
+    "status::ready": "#428bca",
+    "status::doing": "#f0ad4e",
+    "status::review": "#8e44ad",
+    "type::feature": "#5cb85c",
+    "type::bug": "#d9534f",
+    "frontend": "#00b140",
+    "backend": "#6699cc",
+}
+SPRINT_COUNT = 6
+FIRST_SPRINT_START = date(2026, 8, 6)
+SPRINT_DAYS = 14
+ICEBOX = "Icebox"
+DEVELOPER = 30
+
+type Json = dict[str, Any]
+
+
+@dataclass(frozen=True)
+class Backlog:
+    project: str
+    title: str
+    status: str
+    """バックログ状態（open / ready / doing / review / close）。"""
+    labels: tuple[str, ...] = ()
+    """status:: 以外のラベル。"""
+    assignees: tuple[str, ...] = ()
+    closed_on: date | None = None
+
+
+def b(
+    project: str,
+    title: str,
+    status: str,
+    labels: tuple[str, ...] = (),
+    assignees: tuple[str, ...] = (),
+    closed_on: str | None = None,
+) -> Backlog:
+    return Backlog(
+        project, title, status, labels, assignees, date.fromisoformat(f"2026-{closed_on}") if closed_on else None
+    )
+
+
+FEATURE, BUG, FRONT, BACK = "type::feature", "type::bug", "frontend", "backend"
+
+# スプリント（1 始まり）ごとのバックログ。1〜4 は終わったスプリント、5 は進行中（今日 10/7）、6 は未来。
+SPRINTS: list[list[Backlog]] = [
+    [
+        b("hello", "ユーザー登録画面を作成する", "close", (FEATURE, FRONT), ("aka",), "08-10"),
+        b("hello", "ログイン画面を作成する", "close", (FEATURE, FRONT), ("aka", "ao"), "08-12"),
+        b("hello", "パスワードのハッシュ化を実装する", "close", (BACK,), ("kuro",), "08-11"),
+        b("hello", "DB スキーマ（users, tasks）を設計する", "close", (BACK,), ("kuro", "shiro"), "08-07"),
+        b("hello", "CI パイプラインを構築する", "close", (), ("midori",), "08-14"),
+        b("world", "ステージング環境を構築する", "close", (), ("midori",), "08-18"),
+        b("world", "ログ収集基盤を整備する", "open", (BACK,)),
+    ],
+    [
+        b("hello", "タスク一覧 API を実装する", "close", (FEATURE, BACK), ("shiro",), "08-21"),
+        b("hello", "タスク一覧画面を作成する", "close", (FEATURE, FRONT), ("ao",), "08-25"),
+        b("hello", "タスク作成 API を実装する", "close", (FEATURE, BACK), ("shiro",), "08-26"),
+        b("hello", "タスク作成フォームを作成する", "close", (FRONT,), ("ao", "aka"), "08-28"),
+        b("hello", "ログアウト機能を実装する", "close", (FEATURE,), (), "08-31"),
+        b("world", "監視ダッシュボードを構築する", "close", (), ("midori",), "09-01"),
+        b("world", "管理者向けユーザー一覧画面を作成する", "doing", (FEATURE, FRONT), ("aka",)),
+    ],
+    [
+        b("hello", "タスク編集機能を実装する", "close", (FEATURE,), ("shiro", "ao"), "09-04"),
+        b("hello", "タスク削除機能を実装する", "close", (FEATURE, BACK), ("shiro",), "09-08"),
+        b("hello", "タスクの完了／未完了を切り替えられるようにする", "close", (FRONT,), ("ao",), "09-09"),
+        b("hello", "タスクに期限日を設定できるようにする", "close", (FEATURE,), ("kuro",), "09-11"),
+        b("hello", "パスワードリセット機能を実装する", "open", (FEATURE, BACK)),
+        b("world", "管理者向けユーザー停止機能を実装する", "close", (FEATURE, BACK), ("kuro",), "09-14"),
+        b("world", "API ドキュメントを公開する", "close", (), (), "09-15"),
+    ],
+    [
+        b("hello", "タスク一覧を期限日でソートできるようにする", "close", (FEATURE, BACK), ("shiro",), "09-18"),
+        b("hello", "タスクのキーワード検索を実装する", "close", (FEATURE, BACK), ("kuro",), "09-22"),
+        b("hello", "タスクにタグを付けられるようにする", "close", (FEATURE,), ("aka", "shiro"), "09-24"),
+        b("hello", "タグでタスクを絞り込めるようにする", "close", (FRONT,), ("aka",), "09-25"),
+        b("hello", "タスクの優先度を設定できるようにする", "review", (FEATURE,), ("ao",)),
+        b("world", "エラー通知を Slack に送る", "close", (BACK,), ("midori",), "09-29"),
+        b("world", "管理画面でユーザー名が文字化けする不具合を直す", "close", (BUG, FRONT), ("aka",), "09-30"),
+    ],
+    [
+        b("hello", "ページネーションを実装する", "close", (BACK,), ("shiro",), "10-02"),
+        b("hello", "期限前日にメール通知を送る", "review", (FEATURE, BACK), ("kuro", "midori")),
+        b("hello", "プロフィール編集画面を作成する", "review", (FRONT,), ("aka",)),
+        b("hello", "レスポンシブデザインに対応する", "doing", (FRONT,), ("ao",)),
+        b("hello", "E2E テストを整備する", "ready", (), ("midori",)),
+        b("world", "監査ログを記録する", "close", (FEATURE, BACK), ("kuro",), "10-05"),
+        b("world", "権限管理（ロール）を実装する", "doing", (FEATURE, BACK), ("shiro", "kuro")),
+        b("world", "負荷試験を実施する", "ready"),
+    ],
+    [
+        b("hello", "タスクをチームメンバーに共有できるようにする", "ready", (FEATURE,), ("aka",)),
+        b("hello", "タスクにコメントを付けられるようにする", "ready", (FEATURE, FRONT)),
+        b("hello", "操作履歴（アクティビティログ）を表示する", "ready", (FRONT,)),
+        b("hello", "本番環境へのデプロイ手順を整備する", "ready", (), ("midori",)),
+        b("world", "バックアップを自動化する", "ready", (BACK,)),
+        b("world", "利用状況の集計バッチを作成する", "open", (BACK,)),
+        b("world", "ログ収集でタイムゾーンがずれる不具合を直す", "open", (BUG, BACK)),
+    ],
+]
+
+ICEBOX_BACKLOGS: list[Backlog] = [
+    b("hello", "ダークモードに対応する", "open", (FRONT,)),
+    b("hello", "タスクを CSV でエクスポートする", "open"),
+    b("hello", "カレンダー表示を追加する", "open", (FEATURE, FRONT)),
+    b("hello", "Google カレンダーと連携する", "open", (FEATURE,)),
+    b("hello", "モバイルアプリ（PWA）化する", "open"),
+]
+
+PROJECTS = ["hello", "world"]
+
+
+def sprint_period(number: int) -> tuple[date, date]:
+    start = FIRST_SPRINT_START + timedelta(days=SPRINT_DAYS * (number - 1))
+    return start, start + timedelta(days=SPRINT_DAYS - 1)
+
+
+def created_at(index: int) -> datetime:
+    """期の開始（8/6）より前の 7/21〜8/1 に、作った順で散らす。"""
+    day = date(2026, 7, 21) + timedelta(days=index // 4)
+    return datetime(day.year, day.month, day.day, 10 + (index % 4) * 2, tzinfo=TZ)
+
+
+def closed_at(index: int, closed_on: date) -> datetime:
+    return datetime(closed_on.year, closed_on.month, closed_on.day, 11 + index % 7, 30, tzinfo=TZ)
+
+
+def rails_runner(code: str) -> str:
+    """コンテナの中で gitlab-rails runner を実行し、標準出力を返す。失敗したら止まる。"""
+    result = subprocess.run(
+        ["docker", "compose", "-f", str(EXAMPLE / "compose.yaml"), "exec", "-T", "gitlab", "gitlab-rails", "runner", code],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        sys.exit(f"error: gitlab-rails runner が失敗しました\n{result.stdout}{result.stderr}")
+    return result.stdout
+
+
+def issue_root_token() -> str:
+    """group colors がなければ root の token を発行する。あればエラーで止まり、何も変えない。"""
+    output = rails_runner(
+        f"""
+        if Group.find_by_full_path({GROUP!r})
+          puts 'GROUP_EXISTS'
+        else
+          root = User.find_by_username('root')
+          token = root.personal_access_tokens.create!(
+            name: 'seed_example', scopes: [:api, :sudo], expires_at: 365.days.from_now,
+            organization: root.organizations.first || Organizations::Organization.first)
+          puts "TOKEN=#{{token.token}}"
+        end
+        """
+    )
+    lines = output.splitlines()
+    if "GROUP_EXISTS" in lines:
+        sys.exit(
+            f"error: group `{GROUP}` はすでにあります。"
+            "立て直すときは docker compose -f example/compose.yaml down -v からやり直してください"
+        )
+    tokens = [line.removeprefix("TOKEN=") for line in lines if line.startswith("TOKEN=")]
+    if not tokens:
+        sys.exit(f"error: token を発行できませんでした\n{output}")
+    return tokens[0]
+
+
+class Api:
+    def __init__(self, token: str) -> None:
+        self._http = httpx.Client(base_url=f"{HOST}/api/v4", headers={"PRIVATE-TOKEN": token}, timeout=60)
+
+    def post(self, path: str, data: Json, *, sudo: str | None = None) -> Json:
+        return self._send("POST", path, data, sudo)
+
+    def put(self, path: str, data: Json, *, sudo: str | None = None) -> Json:
+        return self._send("PUT", path, data, sudo)
+
+    def _send(self, method: str, path: str, data: Json, sudo: str | None) -> Json:
+        headers = {"Sudo": sudo} if sudo else {}
+        response = self._http.request(method, path, json=data, headers=headers)
+        if not response.is_success:
+            sys.exit(f"error: {method} {path} が失敗しました（HTTP {response.status_code}）: {response.text}")
+        result: Json = response.json()
+        return result
+
+
+def seed(api: Api) -> list[Json]:
+    """REST API でデータを作り、gitlab-rails runner で書き換える issue の情報を返す。"""
+    users = {}
+    for username in USERS:
+        user = api.post(
+            "/users",
+            {
+                "username": username,
+                "name": username.capitalize(),
+                "email": f"{username}@example.com",
+                "force_random_password": True,
+                "skip_confirmation": True,
+            },
+        )
+        users[username] = user["id"]
+        print(f"created user {username}", file=sys.stderr)
+
+    group = api.post("/groups", {"name": GROUP, "path": GROUP, "visibility": "private"})
+    for user_id in users.values():
+        api.post(f"/groups/{group['id']}/members", {"user_id": user_id, "access_level": DEVELOPER})
+    projects = {
+        name: api.post("/projects", {"name": name, "path": name, "namespace_id": group["id"]})["id"]
+        for name in PROJECTS
+    }
+    for name, color in LABELS.items():
+        api.post(f"/groups/{group['id']}/labels", {"name": name, "color": color})
+    milestones = {}
+    for number in range(1, SPRINT_COUNT + 1):
+        start, due = sprint_period(number)
+        title = f"Iteration-Q3-{number}"
+        milestones[title] = api.post(
+            f"/groups/{group['id']}/milestones",
+            {"title": title, "start_date": start.isoformat(), "due_date": due.isoformat()},
+        )["id"]
+    milestones[ICEBOX] = api.post(f"/groups/{group['id']}/milestones", {"title": ICEBOX})["id"]
+    print(f"created group {GROUP}, projects, labels, milestones", file=sys.stderr)
+
+    planned = [(f"Iteration-Q3-{n}", backlog) for n, sprint in enumerate(SPRINTS, 1) for backlog in sprint]
+    planned += [(ICEBOX, backlog) for backlog in ICEBOX_BACKLOGS]
+    fixes = []
+    for index, (milestone, backlog) in enumerate(planned):
+        author = USERS[index % len(USERS)]
+        labels = list(backlog.labels)
+        if backlog.status in ("ready", "doing", "review"):
+            labels.insert(0, f"status::{backlog.status}")
+        project_id = projects[backlog.project]
+        issue = api.post(
+            f"/projects/{project_id}/issues",
+            {"title": backlog.title, "milestone_id": milestones[milestone], "labels": ",".join(labels)},
+            sudo=author,
+        )
+        fix: Json = {
+            "id": issue["id"],
+            "created_at": created_at(index).isoformat(),
+            "assignee_ids": [users[name] for name in backlog.assignees],
+        }
+        if backlog.closed_on:
+            api.put(
+                f"/projects/{project_id}/issues/{issue['iid']}",
+                {"state_event": "close"},
+                sudo=(backlog.assignees or (author,))[0],
+            )
+            fix["closed_at"] = closed_at(index, backlog.closed_on).isoformat()
+        fixes.append(fix)
+        print(f"created {backlog.project}#{issue['iid']} {backlog.title}", file=sys.stderr)
+    return fixes
+
+
+def rewrite_issues(fixes: list[Json]) -> None:
+    """created_at、closed_at（と close のイベントの日時）、担当者を書き換える。"""
+    payload = base64.b64encode(json.dumps(fixes).encode()).decode()
+    rails_runner(
+        f"""
+        JSON.parse(Base64.decode64('{payload}')).each do |fix|
+          issue = Issue.find(fix['id'])
+          created = Time.iso8601(fix['created_at'])
+          closed = fix['closed_at'] && Time.iso8601(fix['closed_at'])
+          issue.update_columns(created_at: created, updated_at: closed || created, closed_at: closed)
+          ResourceStateEvent.where(issue_id: issue.id).update_all(created_at: closed) if closed
+          issue.assignee_ids = fix['assignee_ids']
+        end
+        """
+    )
+    print(f"rewrote dates and assignees of {len(fixes)} issues", file=sys.stderr)
+
+
+def main() -> None:
+    token = issue_root_token()
+    TOKEN_FILE.write_text(token + "\n", encoding="utf-8")
+    print(f"saved {TOKEN_FILE}", file=sys.stderr)
+    rewrite_issues(seed(Api(token)))
+
+
+if __name__ == "__main__":
+    main()
