@@ -65,7 +65,7 @@ def run(
     except ReportError as e:
         return RunResult("", "".join(f"error: {m}\n" for m in e.messages), 1)
 
-    report = render(backlog, ReportContext(connection.host, group["full_path"], today))
+    report = render(backlog, ReportContext(connection.host, group["full_path"], today, tz))
     warnings = "".join(f"warning: {w}\n" for w in backlog.warnings)
     if args.output is None:
         return RunResult(report, warnings, 0)

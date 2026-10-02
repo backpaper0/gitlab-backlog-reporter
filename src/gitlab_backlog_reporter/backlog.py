@@ -82,6 +82,10 @@ class PeriodBacklog:
         """スプリントに割り当てられたバックログ。"""
         return tuple(issue for issue in self.targets if _milestone_id(issue) == sprint.id)
 
+    def assigned_to(self, sprint: Sprint) -> int:
+        """sprint に割り当てられた対象バックログの件数（消化済みも含む）。"""
+        return len(self.sprint_targets(sprint))
+
     def state_counts(self) -> dict[str, int]:
         """バックログ状態ごとの件数。BACKLOG_STATES の順に、0件の状態も含めて並べる。"""
         counts = Counter(backlog_state(issue) for issue in self.targets)
@@ -136,6 +140,8 @@ def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, ice
     targets = tuple(i for i in issues if _milestone_id(i) in sprint_ids)
 
     warnings = []
+    if not targets:
+        warnings.append("対象バックログが 0件です")
     icebox_milestone = next((m for m in milestones if m["title"] == icebox), None)
     icebox_open = None
     if icebox_milestone is None:
