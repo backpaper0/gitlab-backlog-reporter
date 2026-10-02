@@ -91,12 +91,19 @@ class GitLabClient:
     def _get(
         self, path: str, params: dict[str, str] | None = None, *, not_found: str | None = None
     ) -> httpx.Response:
-        response = self._http.get(path, params=params)
+        """失敗したらリトライせずに GitLabError にする。メッセージに URL は出すが、ヘッダーで送る token は出さない。"""
+        try:
+            response = self._http.get(path, params=params)
+        except httpx.TransportError as e:
+            raise GitLabError(f"GitLab API に接続できませんでした（{e}）: GET {e.request.url}") from e
         if response.status_code == 401:
             raise GitLabError("token が無効か、期限切れです")
         if response.status_code == 404 and not_found:
             raise GitLabError(not_found)
-        response.raise_for_status()
+        if not response.is_success:
+            raise GitLabError(
+                f"GitLab API がエラーを返しました（HTTP {response.status_code}）: GET {response.request.url}"
+            )
         return response
 
 
