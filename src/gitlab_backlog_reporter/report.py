@@ -4,8 +4,16 @@ from dataclasses import dataclass
 from datetime import date, tzinfo
 from decimal import Decimal
 
-from gitlab_backlog_reporter.backlog import Period, PeriodBacklog, consumed_count
+from gitlab_backlog_reporter.backlog import (
+    Period,
+    PeriodBacklog,
+    Sprint,
+    backlog_state,
+    consumed_count,
+    is_status_label,
+)
 from gitlab_backlog_reporter.burndown import Burndown, build_burndown
+from gitlab_backlog_reporter.gitlab import Json
 
 BURNDOWN_NOTE = (
     "※ 3本の線は、すべて実行時点の割り当てから計算しています。"
@@ -31,6 +39,7 @@ def render(backlog: PeriodBacklog, context: ReportContext) -> str:
         _burndown(backlog, burndown),
         _backlog_states(backlog),
         _sprint_summary(backlog, context.today),
+        _backlog_list(backlog),
     ]
     return "\n\n".join(sections) + "\n"
 
@@ -124,6 +133,53 @@ def _sprint_summary(backlog: PeriodBacklog, today: date) -> str:
             *rows,
         ]
     )
+
+
+def _backlog_list(backlog: PeriodBacklog) -> str:
+    sections = ["## バックログ一覧"]
+    sections += [_sprint_backlog(sprint, backlog.sprint_targets(sprint)) for sprint in backlog.period.sprints]
+    sections.append(_icebox_backlog(backlog))
+    return "\n\n".join(sections)
+
+
+def _sprint_backlog(sprint: Sprint, issues: tuple[Json, ...]) -> str:
+    heading = f"### {sprint.title}（{_period_range(sprint.start, sprint.end)}）"
+    rows = [
+        f"| {_issue_link(i)} | {_cell(i['title'])} | {backlog_state(i)} | {_assignees(i)} | {_cell(_labels(i))} |"
+        for i in issues
+    ]
+    return "\n\n".join([heading, _table(["issue", "タイトル", "状態", "担当者", "ラベル"], rows)])
+
+
+def _icebox_backlog(backlog: PeriodBacklog) -> str:
+    heading = "### Icebox（open、参考）"
+    if backlog.icebox_open_issues is None:
+        return "\n\n".join([heading, f'milestone "{backlog.icebox}" が見つかりません'])
+    rows = [f"| {_issue_link(i)} | {_cell(i['title'])} |" for i in backlog.icebox_open_issues]
+    return "\n\n".join([heading, _table(["issue", "タイトル"], rows)])
+
+
+def _table(columns: list[str], rows: list[str]) -> str:
+    if not rows:
+        return "（なし）"
+    return "\n".join(["| " + " | ".join(columns) + " |", "|" + "---|" * len(columns), *rows])
+
+
+def _cell(text: str) -> str:
+    """表のセルを区切らないよう `|` をエスケープする。"""
+    return text.replace("|", "\\|")
+
+
+def _issue_link(issue: Json) -> str:
+    return f"[{issue['references']['relative']}]({issue['web_url']})"
+
+
+def _assignees(issue: Json) -> str:
+    return ", ".join(f"@{a['username']}" for a in issue["assignees"]) or "—"
+
+
+def _labels(issue: Json) -> str:
+    return " ".join(f"`{label}`" for label in issue["labels"] if not is_status_label(label)) or "—"
 
 
 def _burndown(backlog: PeriodBacklog, burndown: Burndown) -> str:

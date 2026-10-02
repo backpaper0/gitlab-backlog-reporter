@@ -476,3 +476,141 @@ def test_no_current_sprint_tells_before_or_after_the_period_or_a_gap(today: date
     result = gbr(fake, today=today)
 
     assert f"現在のスプリント: {expected}\n" in result.stdout
+
+
+def test_backlog_list_has_a_table_per_sprint() -> None:
+    q1, q2 = sprints()
+    fake = FakeGitLab(
+        make_group(),
+        [q1, q2, make_milestone("Icebox")],
+        [
+            make_issue(
+                q1,
+                project="colors/hello",
+                title="ログイン画面を作成する",
+                labels=["type::feature", "status::doing", "frontend"],
+                assignees=["alice", "bob"],
+            ),
+            make_issue(q2, project="colors/hello", title="タスク削除機能を実装する"),
+        ],
+    )
+
+    result = gbr(fake)
+
+    q1_issue, q2_issue = fake.issues
+    assert result.stdout.endswith(
+        "## バックログ一覧\n"
+        "\n"
+        "### Iteration-Q3-1（10/1〜10/14）\n"
+        "\n"
+        "| issue | タイトル | 状態 | 担当者 | ラベル |\n"
+        "|---|---|---|---|---|\n"
+        f"| [hello#{q1_issue['iid']}](http://gitlab.test/colors/hello/-/issues/{q1_issue['iid']}) "
+        "| ログイン画面を作成する | doing | @alice, @bob | `type::feature` `frontend` |\n"
+        "\n"
+        "### Iteration-Q3-2（10/15〜10/28）\n"
+        "\n"
+        "| issue | タイトル | 状態 | 担当者 | ラベル |\n"
+        "|---|---|---|---|---|\n"
+        f"| [hello#{q2_issue['iid']}](http://gitlab.test/colors/hello/-/issues/{q2_issue['iid']}) "
+        "| タスク削除機能を実装する | open | — | — |\n"
+        "\n"
+        "### Icebox（open、参考）\n"
+        "\n"
+        "（なし）\n"
+    )
+
+
+def test_backlog_state_comes_from_issue_state_and_status_label() -> None:
+    q1, _ = sprints()
+    fake = FakeGitLab(
+        make_group(),
+        [q1, make_milestone("Icebox")],
+        [
+            make_issue(q1, title="未着手"),
+            make_issue(q1, title="準備済み", labels=["status::ready"]),
+            make_issue(q1, title="作業中", labels=["status::doing"]),
+            make_issue(q1, title="レビュー中", labels=["status::review"]),
+            make_issue(q1, title="消化済み", labels=["status::review"], closed_at="2026-10-01T09:00:00.000Z"),
+            make_issue(q1, title="未知の状態", labels=["status::blocked"]),
+        ],
+    )
+
+    result = gbr(fake)
+
+    for title, state in [
+        ("未着手", "open"),
+        ("準備済み", "ready"),
+        ("作業中", "doing"),
+        ("レビュー中", "review"),
+        ("消化済み", "close"),
+        ("未知の状態", "open"),
+    ]:
+        assert f"| {title} | {state} | — |" in result.stdout
+
+
+def test_icebox_lists_only_open_issues_with_issue_and_title() -> None:
+    q1, _ = sprints()
+    icebox = make_milestone("Icebox")
+    fake = FakeGitLab(
+        make_group(),
+        [q1, icebox],
+        [
+            make_issue(icebox, project="colors/hello", title="ダークモードに対応する", labels=["frontend"]),
+            make_issue(icebox, title="見送った案", closed_at="2026-09-01T09:00:00.000Z"),
+        ],
+    )
+
+    result = gbr(fake)
+
+    open_issue = fake.issues[0]
+    assert result.stdout.endswith(
+        "### Icebox（open、参考）\n"
+        "\n"
+        "| issue | タイトル |\n"
+        "|---|---|\n"
+        f"| [hello#{open_issue['iid']}](http://gitlab.test/colors/hello/-/issues/{open_issue['iid']}) "
+        "| ダークモードに対応する |\n"
+    )
+
+
+def test_missing_icebox_is_noted_in_its_section() -> None:
+    fake = FakeGitLab(make_group(), sprints(), [])
+
+    result = gbr(fake, "--icebox", "Freezer")
+
+    assert result.stdout.endswith('### Icebox（open、参考）\n\nmilestone "Freezer" が見つかりません\n')
+
+
+def test_backlog_list_is_ordered_by_project_and_iid() -> None:
+    q1, _ = sprints()
+    first = make_issue(q1, project="colors/hello", title="hello の1件目")
+    second = make_issue(q1, project="colors/hello", title="hello の2件目")
+    rainbow = make_issue(q1, project="colors/rainbow", title="rainbow の1件目")
+    fake = FakeGitLab(make_group(), [q1, make_milestone("Icebox")], [rainbow, second, first])
+
+    result = gbr(fake)
+
+    titles = ["hello の1件目", "hello の2件目", "rainbow の1件目"]
+    positions = [result.stdout.index(f"| {t} |") for t in titles]
+    assert positions == sorted(positions)
+
+
+def test_iid_order_is_numeric() -> None:
+    q1, _ = sprints()
+    ninth = make_issue(q1, project="colors/hello", title="9番", iid=9)
+    tenth = make_issue(q1, project="colors/hello", title="10番", iid=10)
+    fake = FakeGitLab(make_group(), [q1, make_milestone("Icebox")], [tenth, ninth])
+
+    result = gbr(fake)
+
+    assert result.stdout.index("| 9番 |") < result.stdout.index("| 10番 |")
+
+
+def test_pipe_in_title_is_escaped() -> None:
+    q1, _ = sprints()
+    fake = FakeGitLab(make_group(), [q1, make_milestone("Icebox")], [make_issue(q1, title="A | B を比較する")])
+
+    result = gbr(fake)
+
+    assert "| A \\| B を比較する | open |" in result.stdout

@@ -1,6 +1,7 @@
 """期のスプリントと Icebox を選び、対象バックログを集計する。"""
 
 from collections import Counter
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import date, timedelta
 from gitlab_backlog_reporter.errors import ReportError
@@ -14,6 +15,11 @@ BACKLOG_STATES = ("open", "ready", "doing", "review", "close")
 """バックログ状態。遷移する順に並べる。"""
 
 _STATUS_LABELS = {f"status::{state}": state for state in ("ready", "doing", "review")}
+
+
+def is_status_label(label: str) -> bool:
+    """バックログ状態を表す `status::` scoped label か。"""
+    return label.startswith("status::")
 
 
 def backlog_state(issue: Json) -> str:
@@ -64,9 +70,16 @@ class PeriodBacklog:
     period: Period
     targets: tuple[Json, ...]
     """対象バックログ。"""
-    icebox_open: int | None
-    """Icebox にある open のバックログの件数。Icebox が見つからなければ None。"""
+    icebox_open_issues: tuple[Json, ...] | None
+    """Icebox にある open のバックログ。project、iid の順に並べる。Icebox が見つからなければ None。"""
+    icebox: str
+    """Icebox とする group milestone の名前。"""
     warnings: tuple[str, ...]
+
+    @property
+    def icebox_open(self) -> int | None:
+        """Icebox にある open のバックログの件数。Icebox が見つからなければ None。"""
+        return None if self.icebox_open_issues is None else len(self.icebox_open_issues)
 
     @property
     def total(self) -> int:
@@ -82,8 +95,8 @@ class PeriodBacklog:
         return self.total - self.consumed
 
     def sprint_targets(self, sprint: Sprint) -> tuple[Json, ...]:
-        """スプリントに割り当てられたバックログ。"""
-        return tuple(issue for issue in self.targets if _milestone_id(issue) == sprint.id)
+        """スプリントに割り当てられたバックログ。project、iid の順に並べる。"""
+        return _by_reference(issue for issue in self.targets if _milestone_id(issue) == sprint.id)
 
     def assigned_to(self, sprint: Sprint) -> int:
         """sprint に割り当てられた対象バックログの件数（消化済みも含む）。"""
@@ -146,15 +159,15 @@ def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, ice
     if not targets:
         warnings.append("対象バックログが 0件です")
     icebox_milestone = next((m for m in milestones if m["title"] == icebox), None)
-    icebox_open = None
+    icebox_open_issues = None
     if icebox_milestone is None:
         warnings.append(f'Icebox の group milestone "{icebox}" が見つかりません')
     else:
-        icebox_open = sum(
-            1 for i in issues if _milestone_id(i) == icebox_milestone["id"] and i["state"] == "opened"
+        icebox_open_issues = _by_reference(
+            i for i in issues if _milestone_id(i) == icebox_milestone["id"] and i["state"] == "opened"
         )
     warnings.extend(_unassigned_warnings(issues))
-    return PeriodBacklog(period, targets, icebox_open, tuple(warnings))
+    return PeriodBacklog(period, targets, icebox_open_issues, icebox, tuple(warnings))
 
 
 def _schedule_warnings(period: Period) -> list[str]:
@@ -191,6 +204,11 @@ def _unassigned_warnings(issues: list[Json]) -> list[str]:
     return [
         f"期のスプリントにも Icebox にも割り当てられていない open の issue が {len(unassigned)} 件あります: {links}{more}"
     ]
+
+
+def _by_reference(issues: Iterable[Json]) -> tuple[Json, ...]:
+    """project、iid の順に並べる。"""
+    return tuple(sorted(issues, key=_reference_key))
 
 
 def _reference_key(issue: Json) -> tuple[str, int]:
