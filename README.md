@@ -12,6 +12,8 @@ GITLAB_HOST=https://gitlab.example.com GITLAB_PRIVATE_TOKEN=... uv run gbr color
 - `-o/--output PATH`: レポートを書くファイル（既存のファイルは上書き）。デフォルトは標準出力
 - `--sprint-prefix`: スプリントとする group milestone の名前の prefix（デフォルト `Iteration-`）
 - `--icebox`: Icebox とする group milestone の名前（デフォルト `Icebox`）
+- `--no-report-warnings`: レポートに warning を書かない。標準エラー出力には今までどおり書く
+- `--no-icebox-list`: バックログ一覧に Icebox のセクションを書かない。サマリーの Icebox の件数は残る
 - タイムゾーンはローカルのものを使う。変えたいときは `TZ` 環境変数で指定する
 
 ## 開発

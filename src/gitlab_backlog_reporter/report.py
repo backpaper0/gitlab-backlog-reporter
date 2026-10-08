@@ -30,19 +30,23 @@ class ReportContext:
     group: str
     today: date
     tz: tzinfo
+    show_warnings: bool = True
+    """レポートに warning のブロックを書くか。"""
+    show_icebox_list: bool = True
+    """バックログ一覧に Icebox のセクションを書くか。"""
 
 
 def render(backlog: PeriodBacklog, context: ReportContext) -> str:
     burndown = build_burndown(backlog, context.today, context.tz)
     sections = [
         _header(backlog, context),
-        *_warnings(backlog.warnings),
+        *(_warnings(backlog.warnings) if context.show_warnings else []),
         _summary(backlog, burndown, context.today),
         _burndown(backlog, burndown),
         _backlog_states(backlog),
         _sprint_summary(backlog, context.today),
         _breakdown(backlog),
-        _backlog_list(backlog),
+        _backlog_list(backlog, context.show_icebox_list),
     ]
     return "\n\n".join(sections) + "\n"
 
@@ -174,10 +178,11 @@ def _percent_cell(consumed: int, total: int) -> str:
     return "—" if total == 0 else f"{_percent(consumed, total)}%"
 
 
-def _backlog_list(backlog: PeriodBacklog) -> str:
+def _backlog_list(backlog: PeriodBacklog, show_icebox: bool) -> str:
     sections = ["## バックログ一覧"]
     sections += [_sprint_backlog(sprint, backlog.sprint_targets(sprint)) for sprint in backlog.period.sprints]
-    sections.append(_icebox_backlog(backlog))
+    if show_icebox:
+        sections.append(_icebox_backlog(backlog))
     return "\n\n".join(sections)
 
 
