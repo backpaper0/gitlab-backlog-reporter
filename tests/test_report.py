@@ -139,6 +139,18 @@ def test_missing_icebox_is_a_warning_in_report_and_stderr() -> None:
     assert "| Icebox（open、参考） | — |" in result.stdout
 
 
+def test_no_report_warnings_drops_the_block_but_keeps_stderr() -> None:
+    q1, q2 = sprints()
+    fake = FakeGitLab(make_group(), [q1, q2], [make_issue(q1)])
+
+    result = gbr(fake, "--no-report-warnings")
+
+    assert result.exit_code == 0
+    assert result.stderr == 'warning: Icebox の group milestone "Icebox" が見つかりません\n'
+    assert "[!WARNING]" not in result.stdout
+    assert "| 2026-10-02 |\n\n## サマリー\n" in result.stdout
+
+
 def test_custom_icebox_name_is_matched_exactly() -> None:
     q1, q2 = sprints()
     old_freezer = make_milestone("Freezer-old")
@@ -580,6 +592,29 @@ def test_missing_icebox_is_noted_in_its_section() -> None:
     result = gbr(fake, "--icebox", "Freezer")
 
     assert result.stdout.endswith('### Icebox（open、参考）\n\nmilestone "Freezer" が見つかりません\n')
+
+
+def test_no_icebox_list_drops_the_section_but_keeps_the_summary_row() -> None:
+    q1, _ = sprints()
+    icebox = make_milestone("Icebox")
+    fake = FakeGitLab(make_group(), [q1, icebox], [make_issue(q1, title="スプリントの1件"), make_issue(icebox)])
+
+    result = gbr(fake, "--no-icebox-list")
+
+    assert result.stderr == ""
+    assert "### Icebox" not in result.stdout
+    assert "| Icebox（open、参考） | 1 |" in result.stdout
+    assert result.stdout.endswith("| スプリントの1件 | open | — | — |\n")
+
+
+def test_no_icebox_list_still_warns_about_a_missing_icebox() -> None:
+    fake = FakeGitLab(make_group(), sprints(), [])
+
+    result = gbr(fake, "--no-icebox-list", "--icebox", "Freezer")
+
+    assert 'warning: Icebox の group milestone "Freezer" が見つかりません' in result.stderr
+    assert '> - Icebox の group milestone "Freezer" が見つかりません' in result.stdout
+    assert "### Icebox" not in result.stdout
 
 
 def test_backlog_list_is_ordered_by_project_and_iid() -> None:
