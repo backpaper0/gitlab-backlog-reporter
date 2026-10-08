@@ -1,4 +1,4 @@
-"""どのセクションにも属さない警告: スプリントの隙間と重なり、割り当てのない issue。"""
+"""どのセクションにも属さない警告: 何も除外しない除外 prefix、スプリントの隙間と重なり、割り当てのない issue。"""
 
 from datetime import date
 from zoneinfo import ZoneInfo
@@ -11,11 +11,11 @@ TZ = ZoneInfo("Asia/Tokyo")
 ENV = {"GITLAB_HOST": "http://gitlab.test", "GITLAB_PRIVATE_TOKEN": "secret"}
 
 
-def gbr(milestones: list[Json], issues: list[Json] | None = None) -> RunResult:
+def gbr(milestones: list[Json], issues: list[Json] | None = None, *args: str) -> RunResult:
     """対象バックログが 0件の警告を避けるため、最初のスプリントに issue を1件置く。"""
     target = make_issue(milestones[0], project="colors/target")
     fake = FakeGitLab(make_group(), [*milestones, make_milestone("Icebox")], [*(issues or []), target])
-    return run(["colors"], ENV, TODAY, TZ, fake.transport())
+    return run(["colors", *args], ENV, TODAY, TZ, fake.transport())
 
 
 def warnings(result: RunResult) -> list[str]:
@@ -23,6 +23,29 @@ def warnings(result: RunResult) -> list[str]:
     lines = result.stderr.splitlines()
     assert all(line.startswith("warning: ") for line in lines)
     return [line.removeprefix("warning: ") for line in lines]
+
+
+def test_exclude_prefix_that_excludes_nothing_is_warned_in_report_and_stderr() -> None:
+    sprint = make_milestone("Iteration-1", "2026-10-01", "2026-10-14")
+    release = make_milestone("Release-1")
+    excluded = make_milestone("Iteration-3Q-1", "2026-10-15", "2026-10-28")
+
+    result = gbr(
+        [sprint, release, excluded],
+        None,
+        "--exclude-sprint-prefix",
+        "Iteration-3Q-",
+        "--exclude-sprint-prefix",
+        "Iteration-3q-",
+        "--exclude-sprint-prefix",
+        "Release-",
+    )
+
+    assert warnings(result) == [
+        '除外 prefix "Iteration-3q-" は何も除外していません（名前が "Iteration-" で始まる group milestone に該当なし）',
+        '除外 prefix "Release-" は何も除外していません（名前が "Iteration-" で始まる group milestone に該当なし）',
+    ]
+    assert '> - 除外 prefix "Release-" は何も除外していません' in result.stdout
 
 
 def test_contiguous_sprints_have_no_warning() -> None:
@@ -157,6 +180,14 @@ def test_closed_issues_and_other_group_milestones_are_ignored() -> None:
     ]
 
     result = gbr([SPRINT, other_prefix], issues)
+
+    assert result.stderr == ""
+
+
+def test_issues_in_excluded_sprints_are_ignored() -> None:
+    excluded = make_milestone("Iteration-3Q-1", "2026-10-15", "2026-10-28")
+
+    result = gbr([SPRINT, excluded], [make_issue(excluded)], "--exclude-sprint-prefix", "Iteration-3Q-")
 
     assert result.stderr == ""
 

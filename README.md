@@ -11,6 +11,7 @@ GITLAB_HOST=https://gitlab.example.com GITLAB_PRIVATE_TOKEN=... uv run gbr color
 - 位置引数: group の full path（数値だけなら id）
 - `-o/--output PATH`: レポートを書くファイル（既存のファイルは上書き）。デフォルトは標準出力
 - `--sprint-prefix`: スプリントとする group milestone の名前の prefix（デフォルト `Iteration-`）
+- `--exclude-sprint-prefix PREFIX`: スプリントから除外する group milestone の名前の prefix。繰り返し指定できる（例: `--sprint-prefix Iteration- --exclude-sprint-prefix Iteration-3Q-`）
 - `--icebox`: Icebox とする group milestone の名前（デフォルト `Icebox`）
 - `--no-report-warnings`: レポートに warning を書かない。標準エラー出力には今までどおり書く
 - `--no-icebox-list`: バックログ一覧に Icebox のセクションを書かない。サマリーの Icebox の件数は残る
