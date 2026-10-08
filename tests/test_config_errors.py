@@ -55,6 +55,7 @@ def test_help_is_printed_to_stdout() -> None:
 
     assert result.exit_code == 0
     assert "--sprint-prefix" in result.stdout
+    assert "--exclude-sprint-prefix" in result.stdout
 
 
 def test_invalid_token() -> None:
@@ -87,6 +88,24 @@ def test_no_sprint_matches_prefix_lists_group_milestones() -> None:
         "",
         'error: 名前が "Iteration-Q4-" で始まる group milestone がありません。'
         'group "colors" の milestone: Icebox, Iteration-Q3-1, Iteration-Q3-2\n',
+        1,
+    )
+
+
+def test_all_sprints_excluded_names_the_excluded_milestones() -> None:
+    milestones = [
+        make_milestone("Iteration-3Q-2", "2026-10-15", "2026-10-28"),
+        make_milestone("Icebox"),
+        make_milestone("Iteration-3Q-1", "2026-10-01", "2026-10-14"),
+    ]
+    fake = FakeGitLab(make_group(), milestones, [])
+
+    result = gbr(fake, "colors", "--exclude-sprint-prefix", "Iteration-3Q-")
+
+    assert result == RunResult(
+        "",
+        'error: 名前が "Iteration-" で始まる group milestone は、すべて除外 prefix で除外されました: '
+        "Iteration-3Q-1, Iteration-3Q-2\n",
         1,
     )
 

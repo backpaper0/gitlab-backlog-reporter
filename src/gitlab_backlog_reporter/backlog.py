@@ -159,21 +159,35 @@ def consumed_count(issues: tuple[Json, ...]) -> int:
     return sum(1 for issue in issues if is_consumed(issue))
 
 
-def select_period(milestones: list[Json], prefix: str, group: str) -> Period:
-    """名前が prefix で始まる group milestone をスプリントとして選ぶ。state は問わない。"""
+def select_period(
+    milestones: list[Json], prefix: str, excludes: tuple[str, ...], group: str
+) -> tuple[Period, list[str]]:
+    """名前が prefix で始まり、除外 prefix のどれでも始まらない group milestone をスプリントとして選ぶ。state は問わない。
+
+    何も除外しなかった除外 prefix は警告にする。
+    """
     matched = [m for m in milestones if m["title"].startswith(prefix)]
     if not matched:
         names = ", ".join(sorted(m["title"] for m in milestones)) or "（なし）"
         raise ReportError(
             f'名前が "{prefix}" で始まる group milestone がありません。group "{group}" の milestone: {names}'
         )
-    _check_dates(matched)
+    warnings = [
+        f'除外 prefix "{e}" は何も除外していません（名前が "{prefix}" で始まる group milestone に該当なし）'
+        for e in excludes
+        if not any(m["title"].startswith(e) for m in matched)
+    ]
+    kept = [m for m in matched if not m["title"].startswith(excludes)]
+    if not kept:
+        names = ", ".join(sorted(m["title"] for m in matched))
+        raise ReportError(f'名前が "{prefix}" で始まる group milestone は、すべて除外 prefix で除外されました: {names}')
+    _check_dates(kept)
     sprints = [
         Sprint(m["id"], m["title"], date.fromisoformat(m["start_date"]), date.fromisoformat(m["due_date"]))
-        for m in matched
+        for m in kept
     ]
     sprints.sort(key=lambda s: (s.start, s.end, s.title))
-    return Period(prefix, tuple(sprints))
+    return Period(prefix, tuple(sprints)), warnings
 
 
 def _check_dates(milestones: list[Json]) -> None:
@@ -192,12 +206,14 @@ def _check_dates(milestones: list[Json]) -> None:
         raise ReportError(*messages)
 
 
-def collect_backlog(milestones: list[Json], issues: list[Json], prefix: str, icebox: str, group: str) -> PeriodBacklog:
-    period = select_period(milestones, prefix, group)
+def collect_backlog(
+    milestones: list[Json], issues: list[Json], prefix: str, excludes: tuple[str, ...], icebox: str, group: str
+) -> PeriodBacklog:
+    period, warnings = select_period(milestones, prefix, excludes, group)
     sprint_ids = {s.id for s in period.sprints}
     targets = tuple(i for i in issues if _milestone_id(i) in sprint_ids)
 
-    warnings = _schedule_warnings(period)
+    warnings.extend(_schedule_warnings(period))
     if not targets:
         warnings.append("対象バックログが 0件です")
     icebox_milestone = next((m for m in milestones if m["title"] == icebox), None)

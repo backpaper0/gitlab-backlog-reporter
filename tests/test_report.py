@@ -120,6 +120,35 @@ def test_sprint_prefix_and_icebox_are_case_sensitive() -> None:
     assert 'warning: Icebox の group milestone "Icebox" が見つかりません' in result.stderr
 
 
+def test_excluded_sprint_prefixes_leave_their_milestones_out_of_the_period() -> None:
+    q1, q2 = sprints()
+    new_period = make_milestone("Iteration-3Q-1", "2026-10-29", "2026-11-11")
+    dateless = make_milestone("Iteration-Template")
+    fake = FakeGitLab(
+        make_group(),
+        [q1, q2, new_period, dateless, make_milestone("Icebox")],
+        [make_issue(q1), make_issue(new_period), make_issue(dateless)],
+    )
+
+    result = gbr(
+        fake, "--exclude-sprint-prefix", "Iteration-3Q-", "--exclude-sprint-prefix", "Iteration-Template"
+    )
+
+    assert result.exit_code == 0
+    assert result.stderr == ""
+    assert "`Iteration-`（10/1〜10/28、2 スプリント）" in result.stdout
+    assert "| 対象バックログ | 1 |" in result.stdout
+
+
+def test_exclude_sprint_prefix_is_case_sensitive() -> None:
+    q1, q2 = sprints()
+    fake = FakeGitLab(make_group(), [q1, q2, make_milestone("Icebox")], [make_issue(q1)])
+
+    result = gbr(fake, "--exclude-sprint-prefix", "iteration-Q3-2")
+
+    assert "2 スプリント" in result.stdout
+
+
 def test_missing_icebox_is_a_warning_in_report_and_stderr() -> None:
     q1, q2 = sprints()
     fake = FakeGitLab(make_group(), [q1, q2], [make_issue(q1)])

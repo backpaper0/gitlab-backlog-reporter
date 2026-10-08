@@ -35,6 +35,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--sprint-prefix", default="Iteration-", help="スプリントとする group milestone の名前の prefix（デフォルト: %(default)s）"
     )
     parser.add_argument(
+        "--exclude-sprint-prefix",
+        action="append",
+        default=[],
+        metavar="PREFIX",
+        help="スプリントから除外する group milestone の名前の prefix。繰り返し指定できる",
+    )
+    parser.add_argument(
         "--icebox", default="Icebox", help="Icebox とする group milestone の名前（デフォルト: %(default)s）"
     )
     return parser
@@ -61,7 +68,14 @@ def run(
             group = client.group(args.group)
             milestones = client.group_milestones(group["id"])
             issues = client.group_issues(group["id"])
-        backlog = collect_backlog(milestones, issues, args.sprint_prefix, args.icebox, group["full_path"])
+        backlog = collect_backlog(
+            milestones,
+            issues,
+            args.sprint_prefix,
+            tuple(args.exclude_sprint_prefix),
+            args.icebox,
+            group["full_path"],
+        )
     except ReportError as e:
         return RunResult("", "".join(f"error: {m}\n" for m in e.messages), 1)
 
