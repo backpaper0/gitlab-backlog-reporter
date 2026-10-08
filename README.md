@@ -2,10 +2,16 @@
 
 GitLab の group のバックログとスプリントの進捗を Markdown のレポートにする。用語は [CONTEXT.md](CONTEXT.md) を参照。
 
+## インストール
+
+```sh
+uv tool install git+https://github.com/backpaper0/gitlab-backlog-reporter  # 更新は uv tool upgrade gitlab-backlog-reporter
+```
+
 ## 使い方
 
 ```sh
-GITLAB_HOST=https://gitlab.example.com GITLAB_PRIVATE_TOKEN=... uv run gbr colors -o report.md
+GITLAB_HOST=https://gitlab.example.com GITLAB_PRIVATE_TOKEN=... gbr colors -o report.md
 ```
 
 - 位置引数: group の full path（数値だけなら id）
@@ -16,6 +22,35 @@ GITLAB_HOST=https://gitlab.example.com GITLAB_PRIVATE_TOKEN=... uv run gbr color
 - `--no-report-warnings`: レポートに warning を書かない。標準エラー出力には今までどおり書く
 - `--no-icebox-list`: バックログ一覧に Icebox のセクションを書かない。サマリーの Icebox の件数は残る
 - タイムゾーンはローカルのものを使う。変えたいときは `TZ` 環境変数で指定する
+
+### mise で複数のレポートを管理する
+
+[mise](https://mise.jdx.dev/) の task にすると、group やオプション、接続先の GitLab が違う複数のレポートを1つの `mise.toml` で管理できる。PAT は `.secrets.env` に書き、task の `env` で接続先ごとに渡し分ける。
+
+```sh
+# .secrets.env（commit しない。このディレクトリを git で管理するなら .gitignore に入れる）
+GITLAB_PRIVATE_TOKEN=...
+OTHER_GITLAB_PRIVATE_TOKEN=...
+```
+
+```toml
+# mise.toml
+[env]
+_.file = { path = ".secrets.env", redact = true }
+
+[tasks.report-colors]
+run = "gbr colors -o colors.md"
+env = { GITLAB_HOST = "https://gitlab.example.com" }
+
+[tasks.report-shapes]
+run = "gbr shapes --sprint-prefix Iteration-Q3- -o shapes.md"
+env = { GITLAB_HOST = "https://gitlab.other.example.com", GITLAB_PRIVATE_TOKEN = "{{ env.OTHER_GITLAB_PRIVATE_TOKEN }}" }
+```
+
+`mise run report-colors` で実行する。PAT の変数名（`OTHER_GITLAB_PRIVATE_TOKEN`）は例で、task の `env` から参照できれば何でもよい。
+
+- `run` に `GITLAB_PRIVATE_TOKEN=...` を直接書かない。`mise run` は実行するコマンドを表示するので、PAT がコンソールに出る
+- task の `env` にも PAT を直接書かない。コマンドとしては表示されないが、`mise.toml` に平文で残り、redact の対象にもならない。`.secrets.env` から読んだ値は、task の出力に出ても `[redacted]` に置き換わる
 
 ## 開発
 
