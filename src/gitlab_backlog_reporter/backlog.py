@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from datetime import date, timedelta
 from gitlab_backlog_reporter.errors import ReportError
 from gitlab_backlog_reporter.gitlab import Json
+from gitlab_backlog_reporter.holidays import is_holiday
 
 MAX_UNASSIGNED_LINKS = 5
 """割り当てのない issue の警告にリンクを出す件数。"""
@@ -207,13 +208,19 @@ def _check_dates(milestones: list[Json]) -> None:
 
 
 def collect_backlog(
-    milestones: list[Json], issues: list[Json], prefix: str, excludes: tuple[str, ...], icebox: str, group: str
+    milestones: list[Json],
+    issues: list[Json],
+    prefix: str,
+    excludes: tuple[str, ...],
+    icebox: str,
+    group: str,
+    holidays: frozenset[date],
 ) -> PeriodBacklog:
     period, warnings = select_period(milestones, prefix, excludes, group)
     sprint_ids = {s.id for s in period.sprints}
     targets = tuple(i for i in issues if _milestone_id(i) in sprint_ids)
 
-    warnings.extend(_schedule_warnings(period))
+    warnings.extend(_schedule_warnings(period, holidays))
     if not targets:
         warnings.append("対象バックログが 0件です")
     icebox_milestone = next((m for m in milestones if m["title"] == icebox), None)
@@ -228,8 +235,11 @@ def collect_backlog(
     return PeriodBacklog(period, targets, icebox_open_issues, icebox, tuple(warnings))
 
 
-def _schedule_warnings(period: Period) -> list[str]:
-    """スプリントの隙間と重なり。重なりはペアごとに出す。スプリントの長さは問わない。"""
+def _schedule_warnings(period: Period, holidays: frozenset[date]) -> list[str]:
+    """スプリントの隙間と重なり。重なりはペアごとに出す。スプリントの長さは問わない。
+
+    休日だけでできている隙間は警告しない。
+    """
     warnings = []
     sprints = period.sprints
     latest = sprints[0]  # それまでのスプリントのうち、いちばん遅く終わるもの
@@ -237,11 +247,17 @@ def _schedule_warnings(period: Period) -> list[str]:
         for earlier in sprints[:i]:
             if sprint.start <= earlier.end:
                 warnings.append(f"スプリントの期間が重なっています: {_span(earlier)}と {_span(sprint)}")
-        if sprint.start > latest.end + timedelta(days=1):
+        if _has_business_day(latest.end + timedelta(days=1), sprint.start, holidays):
             warnings.append(f"スプリントの間に隙間があります: {_span(latest)}と {_span(sprint)}")
         if sprint.end > latest.end:
             latest = sprint
     return warnings
+
+
+def _has_business_day(start: date, stop: date, holidays: frozenset[date]) -> bool:
+    """start から stop の前日までに稼働日があるか。"""
+    days = (start + timedelta(days=n) for n in range((stop - start).days))
+    return any(not is_holiday(day, holidays) for day in days)
 
 
 def _span(sprint: Sprint) -> str:
