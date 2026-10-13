@@ -1,4 +1,5 @@
 from datetime import date
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import httpx
@@ -206,3 +207,39 @@ def test_api_errors_are_not_retried() -> None:
     gbr(fake)
 
     assert len(fake.requests) == 1
+
+
+SPRINTS = [make_milestone("Iteration-1", "2026-10-01", "2026-10-14"), make_milestone("Icebox")]
+
+
+def test_unparsable_holidays_are_all_named_with_line_numbers(tmp_path: Path) -> None:
+    holidays = tmp_path / "holidays.txt"
+    holidays.write_text("# 2026 年\n2026-01-01\n2026/01/12  # 成人の日\n2026-02-30\n20260223\n", encoding="utf-8")
+
+    result = run(["colors", "--holidays", str(holidays)], ENV, TODAY, TZ, httpx.MockTransport(unreachable))
+
+    assert result == RunResult(
+        "",
+        f"error: 休業日のファイル {holidays} の 3 行目を日付として解釈できません（YYYY-MM-DD で書いてください）: 2026/01/12\n"
+        f"error: 休業日のファイル {holidays} の 4 行目を日付として解釈できません（YYYY-MM-DD で書いてください）: 2026-02-30\n"
+        f"error: 休業日のファイル {holidays} の 5 行目を日付として解釈できません（YYYY-MM-DD で書いてください）: 20260223\n",
+        1,
+    )
+
+
+def test_missing_holidays_file(tmp_path: Path) -> None:
+    holidays = tmp_path / "missing.txt"
+
+    result = run(["colors", "--holidays", str(holidays)], ENV, TODAY, TZ, httpx.MockTransport(unreachable))
+
+    assert result.exit_code == 1
+    assert result.stdout == ""
+    assert result.stderr.startswith(f"error: 休業日のファイル {holidays} を読めません（")
+
+
+def test_valid_holidays_file_does_not_fail(tmp_path: Path) -> None:
+    holidays = tmp_path / "holidays.txt"
+    holidays.write_text("2026-01-01  # 元日\n", encoding="utf-8")
+    fake = FakeGitLab(make_group(), SPRINTS, [])
+
+    assert gbr(fake, "colors", "--holidays", str(holidays)).exit_code == 0

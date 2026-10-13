@@ -12,6 +12,7 @@ import httpx
 from gitlab_backlog_reporter.backlog import collect_backlog
 from gitlab_backlog_reporter.errors import ReportError
 from gitlab_backlog_reporter.gitlab import GitLabClient, read_connection
+from gitlab_backlog_reporter.holidays import read_holidays
 from gitlab_backlog_reporter.report import ReportContext, render
 
 
@@ -52,6 +53,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--no-icebox-list", action="store_true", help="バックログ一覧に Icebox のセクションを書かない"
     )
+    parser.add_argument(
+        "--holidays",
+        metavar="PATH",
+        help="休業日（土日以外の休日）を1行に1日付 YYYY-MM-DD で書いたファイル。休日だけのスプリントの隙間は警告しない",
+    )
     return parser
 
 
@@ -72,6 +78,7 @@ def run(
 
     try:
         connection = read_connection(env)
+        holidays = frozenset() if args.holidays is None else read_holidays(args.holidays)
         with GitLabClient(connection, transport) as client:
             group = client.group(args.group)
             milestones = client.group_milestones(group["id"])
@@ -83,6 +90,7 @@ def run(
             tuple(args.exclude_sprint_prefix),
             args.icebox,
             group["full_path"],
+            holidays,
         )
     except ReportError as e:
         return RunResult("", "".join(f"error: {m}\n" for m in e.messages), 1)

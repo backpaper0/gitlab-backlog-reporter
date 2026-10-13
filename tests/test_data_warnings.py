@@ -1,6 +1,7 @@
 """どのセクションにも属さない警告: 何も除外しない除外 prefix、スプリントの隙間と重なり、割り当てのない issue。"""
 
 from datetime import date
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from gitlab_backlog_reporter.cli import RunResult, run
@@ -216,3 +217,86 @@ def test_unassigned_issues_are_ordered_by_project_then_iid() -> None:
     [warning] = warnings(result)
     refs = [part.split("]")[0] for part in warning.split("[")[1:]]
     assert refs == [f"colors/a#{issues[1]['iid']}", "colors/b#2", f"colors/b#{issues[0]['iid']}"]
+
+
+def test_gap_of_only_a_weekend_is_not_warned() -> None:
+    result = gbr(
+        [
+            make_milestone("Iteration-1", "2026-10-01", "2026-10-09"),  # 金曜日に終わる
+            make_milestone("Iteration-2", "2026-10-12", "2026-10-23"),  # 月曜日に始まる
+        ]
+    )
+
+    assert result.stderr == ""
+
+
+def test_gap_of_a_weekend_and_a_monday_is_warned() -> None:
+    result = gbr(
+        [
+            make_milestone("Iteration-1", "2026-10-01", "2026-10-09"),  # 金曜日に終わる
+            make_milestone("Iteration-2", "2026-10-13", "2026-10-23"),  # 火曜日に始まる
+        ]
+    )
+
+    assert warnings(result) == [
+        "スプリントの間に隙間があります: Iteration-1（10/1〜10/9）と Iteration-2（10/13〜10/23）"
+    ]
+
+
+def test_gap_of_a_friday_and_a_weekend_is_warned() -> None:
+    result = gbr(
+        [
+            make_milestone("Iteration-1", "2026-10-01", "2026-10-08"),  # 木曜日に終わる
+            make_milestone("Iteration-2", "2026-10-12", "2026-10-23"),  # 月曜日に始まる
+        ]
+    )
+
+    assert warnings(result) == [
+        "スプリントの間に隙間があります: Iteration-1（10/1〜10/8）と Iteration-2（10/12〜10/23）"
+    ]
+
+
+def test_gap_of_a_weekend_and_business_holidays_is_not_warned(tmp_path: Path) -> None:
+    holidays = tmp_path / "holidays.txt"
+    holidays.write_text("2026-10-12\n", encoding="utf-8")
+
+    result = gbr(
+        [
+            make_milestone("Iteration-1", "2026-10-01", "2026-10-09"),  # 金曜日に終わる
+            make_milestone("Iteration-2", "2026-10-13", "2026-10-23"),  # 火曜日に始まる
+        ],
+        None,
+        "--holidays",
+        str(holidays),
+    )
+
+    assert result.stderr == ""
+    assert "[!WARNING]" not in result.stdout
+
+
+def test_holidays_file_allows_comments_blank_lines_weekends_duplicates_and_other_years(tmp_path: Path) -> None:
+    holidays = tmp_path / "holidays.txt"
+    holidays.write_text(
+        "# 2026 年\n"
+        "\n"
+        "2025-12-31  # 期の外\n"
+        "2026-10-10  # 土曜日\n"
+        "  2026-10-12  # スポーツの日\n"
+        "2026-10-12\n"
+        "   \n",
+        encoding="utf-8",
+    )
+
+    result = gbr(
+        [
+            make_milestone("Iteration-1", "2026-10-01", "2026-10-09"),
+            make_milestone("Iteration-2", "2026-10-13", "2026-10-23"),
+        ],
+        None,
+        "--holidays",
+        str(holidays),
+    )
+
+    assert result.stderr == ""
+    assert "holidays" not in result.stdout
+    assert "休業日" not in result.stdout
