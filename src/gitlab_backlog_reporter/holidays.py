@@ -19,7 +19,7 @@ def read_holidays(path: str) -> frozenset[date]:
     土日、重複、期の外の日付もそのまま受け付ける。解釈できない行はすべてまとめてエラーにする。
     """
     try:
-        with open(path, encoding="utf-8") as f:
+        with open(path, encoding="utf-8-sig") as f:  # BOM 付きでも読めるように
             lines = f.read().splitlines()
     except (OSError, UnicodeDecodeError) as e:
         reason = e.strerror if isinstance(e, OSError) and e.strerror else str(e)
