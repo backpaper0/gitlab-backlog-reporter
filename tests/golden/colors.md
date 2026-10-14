@@ -1,8 +1,8 @@
 # バックログレポート: colors / Iteration-
 
-| 接続先 | group | 期 | 基準日 |
+| 接続先 | 集計範囲 | 期 | 基準日 |
 |---|---|---|---|
-| http://localhost:9080 | `colors` | `Iteration-`（8/6〜10/28、6 スプリント） | 2026-10-07 |
+| http://localhost:9080 | `colors`（group） | `Iteration-`（8/6〜10/28、6 スプリント） | 2026-10-07 |
 
 ## サマリー
 

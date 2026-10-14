@@ -15,7 +15,7 @@ from gitlab_backlog_reporter.backlog import (
     is_status_label,
 )
 from gitlab_backlog_reporter.burndown import Burndown, build_burndown
-from gitlab_backlog_reporter.gitlab import Json
+from gitlab_backlog_reporter.gitlab import Json, Scope
 
 BURNDOWN_NOTE = (
     "※ 3本の線は、すべて実行時点の割り当てから計算しています。"
@@ -27,7 +27,7 @@ BURNDOWN_NOTE = (
 @dataclass(frozen=True)
 class ReportContext:
     host: str
-    group: str
+    scope: Scope
     today: date
     tz: tzinfo
     show_warnings: bool = True
@@ -53,16 +53,17 @@ def render(backlog: PeriodBacklog, context: ReportContext) -> str:
 
 def _header(backlog: PeriodBacklog, context: ReportContext) -> str:
     period = backlog.period
+    scope = context.scope
     period_cell = (
         f"`{period.prefix}`（{_period_range(period.start, period.end)}、{len(period.sprints)} スプリント）"
     )
     return "\n".join(
         [
-            f"# バックログレポート: {context.group} / {period.prefix}",
+            f"# バックログレポート: {scope.full_path} / {period.prefix}",
             "",
-            "| 接続先 | group | 期 | 基準日 |",
+            "| 接続先 | 集計範囲 | 期 | 基準日 |",
             "|---|---|---|---|",
-            f"| {context.host} | `{context.group}` | {period_cell} | {context.today.isoformat()} |",
+            f"| {context.host} | `{scope.full_path}`（{scope.kind}） | {period_cell} | {context.today.isoformat()} |",
         ]
     )
 

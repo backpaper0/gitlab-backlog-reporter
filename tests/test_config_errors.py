@@ -43,12 +43,12 @@ def gbr(fake: FakeGitLab, *argv: str) -> RunResult:
     return run(list(argv) or ["colors"], ENV, TODAY, TZ, fake.transport())
 
 
-def test_missing_group_argument_is_an_argument_error() -> None:
+def test_missing_path_argument_is_an_argument_error() -> None:
     result = run([], ENV, TODAY, TZ, httpx.MockTransport(unreachable))
 
     assert result.exit_code == 2
     assert result.stdout == ""
-    assert "group" in result.stderr
+    assert "path" in result.stderr
 
 
 def test_help_is_printed_to_stdout() -> None:
@@ -57,10 +57,11 @@ def test_help_is_printed_to_stdout() -> None:
     assert result.exit_code == 0
     assert "--sprint-prefix" in result.stdout
     assert "--exclude-sprint-prefix" in result.stdout
+    assert "--project" in result.stdout
 
 
 def test_invalid_token() -> None:
-    fake = FakeGitLab(make_group(), [], []).fail("group", 401)
+    fake = FakeGitLab(make_group(), [], []).fail("scope", 401)
 
     assert gbr(fake) == RunResult("", "error: token が無効か、期限切れです\n", 1)
 
@@ -149,7 +150,7 @@ def test_sprint_starting_and_ending_on_the_same_day_is_valid() -> None:
 
 
 def test_forbidden_shows_status_and_url_without_token() -> None:
-    fake = FakeGitLab(make_group(), [], []).fail("group", 403)
+    fake = FakeGitLab(make_group(), [], []).fail("scope", 403)
 
     result = gbr(fake)
 
@@ -202,7 +203,7 @@ def test_connection_failure_shows_url_without_token() -> None:
 
 
 def test_api_errors_are_not_retried() -> None:
-    fake = FakeGitLab(make_group(), [], []).fail("group", 503)
+    fake = FakeGitLab(make_group(), [], []).fail("scope", 503)
 
     gbr(fake)
 

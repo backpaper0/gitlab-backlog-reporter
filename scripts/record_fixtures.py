@@ -1,4 +1,4 @@
-"""例の環境から group、group milestones、group issues の API レスポンスを保存し、golden test のスナップショットにする。
+"""例の環境から group（id と full_path）、group milestones、group issues の API レスポンスを保存し、golden test のスナップショットにする。
 
 使い方: uv run scripts/record_fixtures.py [group] [保存先]（デフォルトは colors と tests/fixtures/colors）
 
@@ -32,11 +32,11 @@ def main() -> None:
     try:
         connection = read_connection(os.environ)
         with GitLabClient(connection, httpx.HTTPTransport()) as client:
-            group = client.group(group_path)
+            scope = client.scope("group", group_path)
             snapshot = {
-                "group": group,
-                "milestones": client.group_milestones(group["id"]),
-                "issues": client.group_issues(group["id"]),
+                "group": {"id": scope.id, "full_path": scope.full_path},
+                "milestones": client.milestones(scope),
+                "issues": client.issues(scope),
             }
     except ReportError as e:
         for message in e.messages:

@@ -26,24 +26,30 @@ class RunResult:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="gbr",
-        description="GitLab の group のバックログとスプリントの進捗を Markdown のレポートにする",
+        description="GitLab の group か project のバックログとスプリントの進捗を Markdown のレポートにする",
     )
-    parser.add_argument("group", help="group の full path（数値だけなら id）")
+    parser.add_argument(
+        "path",
+        help="集計範囲の full path（数値だけなら id）。--project を付けなければ group、付ければ project",
+    )
+    parser.add_argument(
+        "--project", action="store_true", help="位置引数を group ではなく project として解釈する"
+    )
     parser.add_argument(
         "-o", "--output", metavar="PATH", help="レポートを書くファイル（既存のファイルは上書き）。デフォルトは標準出力"
     )
     parser.add_argument(
-        "--sprint-prefix", default="Iteration-", help="スプリントとする group milestone の名前の prefix（デフォルト: %(default)s）"
+        "--sprint-prefix", default="Iteration-", help="スプリントとする、集計範囲の milestone の名前の prefix（デフォルト: %(default)s）"
     )
     parser.add_argument(
         "--exclude-sprint-prefix",
         action="append",
         default=[],
         metavar="PREFIX",
-        help="スプリントから除外する group milestone の名前の prefix。繰り返し指定できる",
+        help="スプリントから除外する、集計範囲の milestone の名前の prefix。繰り返し指定できる",
     )
     parser.add_argument(
-        "--icebox", default="Icebox", help="Icebox とする group milestone の名前（デフォルト: %(default)s）"
+        "--icebox", default="Icebox", help="Icebox とする、集計範囲の milestone の名前（デフォルト: %(default)s）"
     )
     parser.add_argument(
         "--no-report-warnings",
@@ -80,16 +86,16 @@ def run(
         connection = read_connection(env)
         holidays = frozenset() if args.holidays is None else read_holidays(args.holidays)
         with GitLabClient(connection, transport) as client:
-            group = client.group(args.group)
-            milestones = client.group_milestones(group["id"])
-            issues = client.group_issues(group["id"])
+            scope = client.scope("project" if args.project else "group", args.path)
+            milestones = client.milestones(scope)
+            issues = client.issues(scope)
         backlog = collect_backlog(
             milestones,
             issues,
             args.sprint_prefix,
             tuple(args.exclude_sprint_prefix),
             args.icebox,
-            group["full_path"],
+            scope,
             holidays,
         )
     except ReportError as e:
@@ -97,7 +103,7 @@ def run(
 
     context = ReportContext(
         connection.host,
-        group["full_path"],
+        scope,
         today,
         tz,
         show_warnings=not args.no_report_warnings,
