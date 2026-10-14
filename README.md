@@ -1,6 +1,6 @@
 # gitlab-backlog-reporter
 
-GitLab の group のバックログとスプリントの進捗を Markdown のレポートにする。用語は [CONTEXT.md](CONTEXT.md) を参照。
+GitLab の group か project のバックログとスプリントの進捗を Markdown のレポートにする。group なら group milestone、project なら project milestone をスプリントと Icebox として集計する。用語は [CONTEXT.md](CONTEXT.md) を参照。
 
 ## インストール
 
@@ -12,13 +12,17 @@ uv tool install git+https://github.com/backpaper0/gitlab-backlog-reporter  # 更
 
 ```sh
 GITLAB_HOST=https://gitlab.example.com GITLAB_PRIVATE_TOKEN=... gbr colors -o report.md
+
+# project を集計範囲にする（project milestone をスプリントと Icebox にする）
+GITLAB_HOST=https://gitlab.example.com GITLAB_PRIVATE_TOKEN=... gbr --project colors/red -o report.md
 ```
 
-- 位置引数: group の full path（数値だけなら id）
+- 位置引数: 集計範囲の full path（数値だけなら id）。`--project` を付けなければ group、付ければ project
+- `--project`: 位置引数を project として解釈し、その project の issue と project milestone だけを集計する。祖先の group の group milestone はスプリントにも Icebox にもならない
 - `-o/--output PATH`: レポートを書くファイル（既存のファイルは上書き）。デフォルトは標準出力
-- `--sprint-prefix`: スプリントとする group milestone の名前の prefix（デフォルト `Iteration-`）
-- `--exclude-sprint-prefix PREFIX`: スプリントから除外する group milestone の名前の prefix。繰り返し指定できる（例: `--sprint-prefix Iteration- --exclude-sprint-prefix Iteration-3Q-`）
-- `--icebox`: Icebox とする group milestone の名前（デフォルト `Icebox`）
+- `--sprint-prefix`: スプリントとする、集計範囲の milestone の名前の prefix（デフォルト `Iteration-`）
+- `--exclude-sprint-prefix PREFIX`: スプリントから除外する、集計範囲の milestone の名前の prefix。繰り返し指定できる（例: `--sprint-prefix Iteration- --exclude-sprint-prefix Iteration-3Q-`）
+- `--icebox`: Icebox とする、集計範囲の milestone の名前（デフォルト `Icebox`）
 - `--no-report-warnings`: レポートに warning を書かない。標準エラー出力には今までどおり書く
 - `--no-icebox-list`: バックログ一覧に Icebox のセクションを書かない。サマリーの Icebox の件数は残る
 - `--holidays PATH`: 休業日（土日以外の休日）を書いたファイル。スプリントの隙間が休日（土日と休業日）だけなら警告しない。指定しなければ、休日は土日だけ
@@ -40,7 +44,7 @@ UTF-8 で、1行に1日付を `YYYY-MM-DD` で書く。空行は読み飛ばし�
 
 ### mise で複数のレポートを管理する
 
-[mise](https://mise.jdx.dev/) の task にすると、group やオプション、接続先の GitLab が違う複数のレポートを1つの `mise.toml` で管理できる。PAT は `.secrets.env` に書き、task の `env` で接続先ごとに渡し分ける。
+[mise](https://mise.jdx.dev/) の task にすると、集計範囲やオプション、接続先の GitLab が違う複数のレポートを1つの `mise.toml` で管理できる。PAT は `.secrets.env` に書き、task の `env` で接続先ごとに渡し分ける。
 
 ```sh
 # .secrets.env（commit しない。このディレクトリを git で管理するなら .gitignore に入れる）

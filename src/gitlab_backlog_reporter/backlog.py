@@ -5,7 +5,7 @@ from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from datetime import date, timedelta
 from gitlab_backlog_reporter.errors import ReportError
-from gitlab_backlog_reporter.gitlab import Json
+from gitlab_backlog_reporter.gitlab import Json, Scope
 from gitlab_backlog_reporter.holidays import is_holiday
 
 MAX_UNASSIGNED_LINKS = 5
@@ -87,7 +87,7 @@ class PeriodBacklog:
     icebox_open_issues: tuple[Json, ...] | None
     """Icebox にある open のバックログ。project、iid の順に並べる。Icebox が見つからなければ None。"""
     icebox: str
-    """Icebox とする group milestone の名前。"""
+    """Icebox とする、集計範囲の milestone の名前。"""
     warnings: tuple[str, ...]
 
     @property
@@ -161,27 +161,28 @@ def consumed_count(issues: tuple[Json, ...]) -> int:
 
 
 def select_period(
-    milestones: list[Json], prefix: str, excludes: tuple[str, ...], group: str
+    milestones: list[Json], prefix: str, excludes: tuple[str, ...], scope: Scope
 ) -> tuple[Period, list[str]]:
-    """名前が prefix で始まり、除外 prefix のどれでも始まらない group milestone をスプリントとして選ぶ。state は問わない。
+    """名前が prefix で始まり、除外 prefix のどれでも始まらない、集計範囲の milestone をスプリントとして選ぶ。state は問わない。
 
     何も除外しなかった除外 prefix は警告にする。
     """
+    kind = scope.milestone_kind
     matched = [m for m in milestones if m["title"].startswith(prefix)]
     if not matched:
         names = ", ".join(sorted(m["title"] for m in milestones)) or "（なし）"
         raise ReportError(
-            f'名前が "{prefix}" で始まる group milestone がありません。group "{group}" の milestone: {names}'
+            f'名前が "{prefix}" で始まる {kind} がありません。{scope.kind} "{scope.full_path}" の milestone: {names}'
         )
     warnings = [
-        f'除外 prefix "{e}" は何も除外していません（名前が "{prefix}" で始まる group milestone に該当なし）'
+        f'除外 prefix "{e}" は何も除外していません（名前が "{prefix}" で始まる {kind} に該当なし）'
         for e in excludes
         if not any(m["title"].startswith(e) for m in matched)
     ]
     kept = [m for m in matched if not m["title"].startswith(excludes)]
     if not kept:
         names = ", ".join(sorted(m["title"] for m in matched))
-        raise ReportError(f'名前が "{prefix}" で始まる group milestone は、すべて除外 prefix で除外されました: {names}')
+        raise ReportError(f'名前が "{prefix}" で始まる {kind} は、すべて除外 prefix で除外されました: {names}')
     _check_dates(kept)
     sprints = [
         Sprint(m["id"], m["title"], date.fromisoformat(m["start_date"]), date.fromisoformat(m["due_date"]))
@@ -213,10 +214,11 @@ def collect_backlog(
     prefix: str,
     excludes: tuple[str, ...],
     icebox: str,
-    group: str,
+    scope: Scope,
     holidays: frozenset[date],
 ) -> PeriodBacklog:
-    period, warnings = select_period(milestones, prefix, excludes, group)
+    """milestones は集計範囲の milestone、issues は集計範囲の issue。"""
+    period, warnings = select_period(milestones, prefix, excludes, scope)
     sprint_ids = {s.id for s in period.sprints}
     targets = tuple(i for i in issues if _milestone_id(i) in sprint_ids)
 
@@ -226,12 +228,12 @@ def collect_backlog(
     icebox_milestone = next((m for m in milestones if m["title"] == icebox), None)
     icebox_open_issues = None
     if icebox_milestone is None:
-        warnings.append(f'Icebox の group milestone "{icebox}" が見つかりません')
+        warnings.append(f'Icebox の {scope.milestone_kind} "{icebox}" が見つかりません')
     else:
         icebox_open_issues = _by_reference(
             i for i in issues if _milestone_id(i) == icebox_milestone["id"] and i["state"] == "opened"
         )
-    warnings.extend(_unassigned_warnings(issues))
+    warnings.extend(_unassigned_warnings(issues, scope))
     return PeriodBacklog(period, targets, icebox_open_issues, icebox, tuple(warnings))
 
 
@@ -264,10 +266,14 @@ def _span(sprint: Sprint) -> str:
     return f"{sprint.title}（{sprint.start.month}/{sprint.start.day}〜{sprint.end.month}/{sprint.end.day}）"
 
 
-def _unassigned_warnings(issues: list[Json]) -> list[str]:
-    """milestone がないか project milestone に付いている open の issue。ほかの group milestone と close 済みは数えない。"""
+def _unassigned_warnings(issues: list[Json], scope: Scope) -> list[str]:
+    """集計範囲の milestone 以外（milestone なしを含む）に付いている open の issue。
+
+    集計範囲が group なら milestone なしか project milestone、project なら milestone なしか group milestone。
+    集計範囲のほかの milestone（ほかの期のスプリントなど）と close 済みは数えない。
+    """
     unassigned = sorted(
-        (i for i in issues if i["state"] == "opened" and (i["milestone"] is None or "project_id" in i["milestone"])),
+        (i for i in issues if i["state"] == "opened" and (i["milestone"] is None or not scope.is_same_kind(i["milestone"]))),
         key=_reference_key,
     )
     if not unassigned:

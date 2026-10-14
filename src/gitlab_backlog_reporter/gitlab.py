@@ -1,8 +1,13 @@
-"""GitLab REST API (v4) の薄いクライアント。使うのは group、group milestones、group issues だけ。"""
+"""GitLab REST API (v4) の薄いクライアント。
+
+使うのは集計範囲そのもの、その milestones、その issues だけ。集計範囲が group なら group、group milestones、
+group issues（subgroup を含む）、project なら project、project milestones（祖先の group milestone を含まない）、
+project issues。
+"""
 
 from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Literal
 from urllib.parse import quote
 
 import httpx
@@ -16,6 +21,27 @@ PER_PAGE = 100
 
 class GitLabError(ReportError):
     pass
+
+
+type ScopeKind = Literal["group", "project"]
+
+
+@dataclass(frozen=True)
+class Scope:
+    """集計範囲。"""
+
+    kind: ScopeKind
+    id: int
+    full_path: str
+
+    @property
+    def milestone_kind(self) -> str:
+        """集計範囲の milestone の呼び名。group なら group milestone、project なら project milestone。"""
+        return f"{self.kind} milestone"
+
+    def is_same_kind(self, milestone: Json) -> bool:
+        """milestone が集計範囲と同じ種類（group milestone か project milestone）か。どの group や project のものかは見ない。"""
+        return milestone.get(f"{self.kind}_id") is not None
 
 
 @dataclass(frozen=True)
@@ -61,23 +87,28 @@ class GitLabClient:
     def __exit__(self, *_: object) -> None:
         self._http.close()
 
-    def group(self, group: str) -> Json:
+    def scope(self, kind: ScopeKind, path: str) -> Scope:
+        """path は full path か、数値だけなら id。"""
+        params = {"with_projects": "false"} if kind == "group" else {}
         response = self._get(
-            _group_path(group),
-            {"with_projects": "false"},
-            not_found=f"group `{group}` が見つからないか、token にアクセス権がありません",
+            _scope_path(kind, path),
+            params,
+            not_found=f"{kind} `{path}` が見つからないか、token にアクセス権がありません",
         )
         result: Json = response.json()
-        return result
+        full_path = result["full_path"] if kind == "group" else result["path_with_namespace"]
+        return Scope(kind, result["id"], full_path)
 
-    def group_milestones(self, group_id: int) -> list[Json]:
-        return self._get_all(f"{_group_path(str(group_id))}/milestones", {})
+    def milestones(self, scope: Scope) -> list[Json]:
+        return self._get_all(f"{_scope_path(scope.kind, str(scope.id))}/milestones", {})
 
-    def group_issues(self, group_id: int) -> list[Json]:
-        return self._get_all(
-            f"{_group_path(str(group_id))}/issues",
-            {"include_subgroups": "true", "state": "all", "scope": "all"},
+    def issues(self, scope: Scope) -> list[Json]:
+        params = (
+            {"include_subgroups": "true", "state": "all", "scope": "all"}
+            if scope.kind == "group"
+            else {"state": "all"}
         )
+        return self._get_all(f"{_scope_path(scope.kind, str(scope.id))}/issues", params)
 
     def _get_all(self, path: str, params: dict[str, str]) -> list[Json]:
         items: list[Json] = []
@@ -107,5 +138,5 @@ class GitLabClient:
         return response
 
 
-def _group_path(group: str) -> str:
-    return f"/groups/{quote(group, safe='')}"
+def _scope_path(kind: ScopeKind, path: str) -> str:
+    return f"/{kind}s/{quote(path, safe='')}"

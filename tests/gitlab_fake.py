@@ -16,6 +16,10 @@ def make_group(full_path: str = "colors", id: int = 10) -> Json:
     return {"id": id, "name": full_path.rsplit("/", 1)[-1], "full_path": full_path}
 
 
+def make_project(full_path: str = "colors/red", id: int = 20) -> Json:
+    return {"id": id, "name": full_path.rsplit("/", 1)[-1], "path_with_namespace": full_path}
+
+
 def make_milestone(
     title: str,
     start_date: str | None = None,
@@ -67,17 +71,20 @@ def make_issue(
 
 
 class FakeGitLab:
-    """group、group milestones、group issues の3つのエンドポイントだけを持つ GitLab。"""
+    """集計範囲1つについて、その集計範囲、milestones、issues の3つのエンドポイントだけを持つ GitLab。
+
+    集計範囲は make_group か make_project で作る。project なら `/projects/...`、group なら `/groups/...` に答える。
+    """
 
     def __init__(
         self,
-        group: Json,
+        scope: Json,
         milestones: list[Json],
         issues: list[Json],
         *,
         per_page: int = 100,
     ) -> None:
-        self.group = group
+        self.scope = scope
         self.milestones = milestones
         self.issues = issues
         self.per_page = per_page
@@ -85,7 +92,7 @@ class FakeGitLab:
         self.failures: dict[str, int] = {}
 
     def fail(self, endpoint: str, status: int) -> "FakeGitLab":
-        """`group`、`milestones`、`issues` のいずれかを status で失敗させる。"""
+        """`scope`、`milestones`、`issues` のいずれかを status で失敗させる。"""
         self.failures[endpoint] = status
         return self
 
@@ -95,19 +102,22 @@ class FakeGitLab:
     def _handle(self, request: httpx.Request) -> httpx.Response:
         self.requests.append(request)
         path = unquote(request.url.raw_path.decode().split("?", 1)[0])
-        prefix = "/api/v4/groups/"
-        assert path.startswith(prefix), path
+        if "path_with_namespace" in self.scope:
+            prefix, full_path, not_found = "/api/v4/projects/", self.scope["path_with_namespace"], "Project"
+        else:
+            prefix, full_path, not_found = "/api/v4/groups/", self.scope["full_path"], "Group"
+        if not path.startswith(prefix):
+            return httpx.Response(404, json={"message": f"404 {not_found} Not Found"})
         rest = path.removeprefix(prefix)
-        group_ids = {self.group["full_path"], str(self.group["id"])}
         routes: dict[str, Callable[[], httpx.Response]] = {}
-        for gid in group_ids:
-            routes[gid] = lambda: self._respond("group", lambda: httpx.Response(200, json=self.group))
+        for gid in (full_path, str(self.scope["id"])):
+            routes[gid] = lambda: self._respond("scope", lambda: httpx.Response(200, json=self.scope))
             routes[f"{gid}/milestones"] = lambda: self._respond(
                 "milestones", lambda: self._paged(request, self.milestones)
             )
             routes[f"{gid}/issues"] = lambda: self._respond("issues", lambda: self._paged(request, self.issues))
         if rest not in routes:
-            return httpx.Response(404, json={"message": "404 Group Not Found"})
+            return httpx.Response(404, json={"message": f"404 {not_found} Not Found"})
         return routes[rest]()
 
     def _respond(self, endpoint: str, ok: Callable[[], httpx.Response]) -> httpx.Response:

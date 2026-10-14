@@ -1,15 +1,19 @@
 # GitLab Backlog Reporter
 
-GitLab の group 上で運用されるアジャイル開発のバックログとスプリントを読み取り、進捗を可視化するレポートを作るためのコンテキスト。
+GitLab の group または project で運用されるアジャイル開発のバックログとスプリントを読み取り、進捗を可視化するレポートを作るためのコンテキスト。
 
 ## Language
+
+**集計範囲**:
+レポートが issue を集める GitLab 上の範囲。1つの group（subgroup を含む）か、1つの project のどちらか。1つのレポートは1つの集計範囲を扱う。スプリントと Icebox は集計範囲そのものの milestone からだけ選び、project を集計範囲にしたときに祖先の group の group milestone は見ない。
+_Avoid_: 対象（対象バックログと紛らわしいため）, namespace（GitLab の namespace は project を含まないため）
 
 **バックログ**:
 GitLab の issue 1件で表される作業単位。必ずいずれかのスプリントか Icebox に割り当てられる。
 _Avoid_: チケット, タスク, ストーリー
 
 **スプリント**:
-名前が期の prefix（例: `Iteration-Q3-`）で始まり、期の除外 prefix のどれでも始まらない、開始日と終了日を持つ group milestone。期間の長さは運用で決まり、同じ期の中でそろっている必要もない。名前の大文字と小文字は区別する。milestone 自体の open / closed は問わない。
+名前が期の prefix（例: `Iteration-Q3-`）で始まり、期の除外 prefix のどれでも始まらない、開始日と終了日を持つ、集計範囲の milestone（集計範囲が group なら group milestone、project なら project milestone）。期間の長さは運用で決まり、同じ期の中でそろっている必要もない。名前の大文字と小文字は区別する。milestone 自体の open / closed は問わない。
 _Avoid_: イテレーション（GitLab の Iterations 機能と紛らわしいため）
 
 **期**:
@@ -38,7 +42,7 @@ _Avoid_: 非稼働日
 休日ではない日。
 
 **Icebox**:
-まだスプリント計画に乗っていないバックログの置き場となる group milestone。名前の完全一致で1つ指定し、日付を持たない。全期で共有するか期ごとに分けるかは運用で決まる。
+まだスプリント計画に乗っていないバックログの置き場となる、集計範囲の milestone（スプリントと同じく、group なら group milestone、project なら project milestone）。名前の完全一致で1つ指定し、日付を持たない。全期で共有するか期ごとに分けるかは運用で決まる。
 
 **バックログ状態**:
 バックログが遷移する5つの状態: open → ready → doing → review → close。ready / doing / review は `status::` scoped label で表し、open / close は issue の state で表す。
@@ -51,7 +55,7 @@ _Avoid_: 完了, Done
 バックログの集合のうち消化されたものの割合（件数ベース）。集合は対象バックログ全体（期）か、1つのスプリントに割り当てられたバックログのどちらか。
 
 **対象バックログ**:
-1つのレポートが集計するバックログの集合。1つの group 配下の全 project の issue のうち、そのレポートが扱う期のいずれかのスプリントに現在割り当てられているもの。Icebox にあるバックログは含めない。
+1つのレポートが集計するバックログの集合。集計範囲の issue のうち、そのレポートが扱う期のいずれかのスプリントに現在割り当てられているもの。Icebox にあるバックログは含めない。
 
 
 **バーンダウン**:

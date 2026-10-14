@@ -59,9 +59,9 @@ def test_header_and_summary_count_issues_in_the_periods_sprints() -> None:
     assert result.stdout.startswith(
         "# バックログレポート: colors / Iteration-Q3-\n"
         "\n"
-        "| 接続先 | group | 期 | 基準日 |\n"
+        "| 接続先 | 集計範囲 | 期 | 基準日 |\n"
         "|---|---|---|---|\n"
-        "| http://gitlab.test | `colors` | `Iteration-Q3-`（10/1〜10/28、2 スプリント） | 2026-10-02 |\n"
+        "| http://gitlab.test | `colors`（group） | `Iteration-Q3-`（10/1〜10/28、2 スプリント） | 2026-10-02 |\n"
         "\n"
         "> [!WARNING]\n"
         f"> - {unassigned}\n"
@@ -260,7 +260,7 @@ def test_host_without_scheme_gets_https() -> None:
     result = gbr(fake, env={**ENV, "GITLAB_HOST": "gitlab.test/"})
 
     assert all(str(r.url).startswith("https://gitlab.test/api/v4/") for r in fake.requests)
-    assert "| https://gitlab.test | `colors` |" in result.stdout
+    assert "| https://gitlab.test | `colors`（group） |" in result.stdout
 
 
 def test_token_is_sent_as_private_token_header() -> None:
@@ -278,7 +278,7 @@ def test_numeric_group_is_an_id_and_header_shows_full_path() -> None:
 
     assert fake.requests[0].url.raw_path.split(b"?")[0] == b"/api/v4/groups/42"
     assert result.stdout.startswith("# バックログレポート: colors/team / Iteration-\n")
-    assert "| `colors/team` |" in result.stdout
+    assert "| `colors/team`（group） |" in result.stdout
 
 
 def test_subgroup_full_path_is_url_encoded() -> None:
