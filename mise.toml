@@ -4,3 +4,43 @@ minimum_release_age = "7d"
 
 [tools]
 uv = "latest"
+
+[tasks.test]
+description = "pytest でテストを実行する。UPDATE_GOLDEN=1 を付けると golden test の期待ファイルを更新する"
+run = "uv run pytest"
+
+[tasks."check:format"]
+description = "ruff で format 済みかを確かめる（ファイルは書き換えない）"
+run = "uv run ruff format --check"
+
+[tasks."check:lint"]
+description = "ruff で lint する（ファイルは書き換えない）"
+run = "uv run ruff check"
+
+[tasks."check:type"]
+description = "ty で型検査する"
+run = "uv run ty check"
+
+[tasks.check]
+description = "format、lint、型をまとめて確かめる（ファイルは書き換えない）"
+depends = ["check:format", "check:lint", "check:type"]
+
+[tasks."fix:format"]
+description = "ruff で format する（ファイルを書き換える）"
+run = "uv run ruff format"
+
+[tasks."fix:lint"]
+description = "ruff で lint し、自動で直せる指摘を直す（ファイルを書き換える）"
+run = "uv run ruff check --fix"
+
+[tasks.fix]
+description = "format と lint の自動修正をまとめて行う（ファイルを書き換える）"
+depends = ["fix:format", "fix:lint"]
+
+[tasks.verify]
+description = "fix で直してから check とテストを実行する。コミット前に使う"
+run = [
+    "mise run fix",
+    "mise run check",
+    "mise run test",
+]

@@ -71,9 +71,7 @@ def test_group_not_found() -> None:
 
     result = gbr(fake, "colours")
 
-    assert result == RunResult(
-        "", "error: group `colours` が見つからないか、token にアクセス権がありません\n", 1
-    )
+    assert result == RunResult("", "error: group `colours` が見つからないか、token にアクセス権がありません\n", 1)
 
 
 def test_no_sprint_matches_prefix_lists_group_milestones() -> None:

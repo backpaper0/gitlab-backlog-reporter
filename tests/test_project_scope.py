@@ -120,9 +120,7 @@ def test_project_not_found() -> None:
 
     result = gbr(fake, "colors/blue")
 
-    assert result == RunResult(
-        "", "error: project `colors/blue` が見つからないか、token にアクセス権がありません\n", 1
-    )
+    assert result == RunResult("", "error: project `colors/blue` が見つからないか、token にアクセス権がありません\n", 1)
 
 
 def test_group_path_given_with_project_flag_is_not_found_as_project() -> None:
@@ -160,9 +158,7 @@ def test_all_sprints_excluded_is_reported_with_project_milestones() -> None:
 
 def test_exclude_prefix_that_excludes_nothing_names_project_milestones() -> None:
     sprint = project_milestone("Iteration-1", "2026-10-01", "2026-10-14")
-    fake = FakeGitLab(
-        make_project(), [sprint, project_milestone("Icebox")], [make_issue(sprint, project="colors/red")]
-    )
+    fake = FakeGitLab(make_project(), [sprint, project_milestone("Icebox")], [make_issue(sprint, project="colors/red")])
 
     result = gbr(fake, "colors/red", "--exclude-sprint-prefix", "Release-")
 

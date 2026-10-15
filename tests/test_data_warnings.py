@@ -163,8 +163,10 @@ def test_open_issues_without_milestone_or_with_project_milestone_are_warned() ->
 
     a, b = issues
     assert warnings(result) == [
-        "期のスプリントにも Icebox にも割り当てられていない open の issue が 2 件あります: "
-        f"[colors/hello#{b['iid']}]({b['web_url']}), [colors/rainbow#{a['iid']}]({a['web_url']})"
+        (
+            "期のスプリントにも Icebox にも割り当てられていない open の issue が 2 件あります: "
+            f"[colors/hello#{b['iid']}]({b['web_url']}), [colors/rainbow#{a['iid']}]({a['web_url']})"
+        )
     ]
     assert "> - 期のスプリントにも Icebox にも割り当てられていない open の issue が 2 件あります: " in result.stdout
 
@@ -277,13 +279,7 @@ def test_gap_of_a_weekend_and_business_holidays_is_not_warned(tmp_path: Path) ->
 def test_holidays_file_allows_comments_blank_lines_weekends_duplicates_and_other_years(tmp_path: Path) -> None:
     holidays = tmp_path / "holidays.txt"
     holidays.write_text(
-        "# 2026 年\n"
-        "\n"
-        "2025-12-31  # 期の外\n"
-        "2026-10-10  # 土曜日\n"
-        "  2026-10-12  # スポーツの日\n"
-        "2026-10-12\n"
-        "   \n",
+        "# 2026 年\n\n2025-12-31  # 期の外\n2026-10-10  # 土曜日\n  2026-10-12  # スポーツの日\n2026-10-12\n   \n",
         encoding="utf-8",
     )
 

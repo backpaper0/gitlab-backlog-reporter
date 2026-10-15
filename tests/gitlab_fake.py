@@ -91,7 +91,7 @@ class FakeGitLab:
         self.requests: list[httpx.Request] = []
         self.failures: dict[str, int] = {}
 
-    def fail(self, endpoint: str, status: int) -> "FakeGitLab":
+    def fail(self, endpoint: str, status: int) -> FakeGitLab:
         """`scope`、`milestones`、`issues` のいずれかを status で失敗させる。"""
         self.failures[endpoint] = status
         return self
