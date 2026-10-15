@@ -76,13 +76,15 @@ env = { GITLAB_HOST = "https://gitlab.other.example.com", GITLAB_PRIVATE_TOKEN =
 uv は mise で入れ、Python は uv が `.python-version` に従って入れる。mise も uv も、リリースから 7 日経っていないツールやパッケージは使わない（`mise.toml` の `minimum_release_age`、`pyproject.toml` の `exclude-newer`）。Python 本体は uv に埋め込まれたビルド情報（ハッシュ付き）から選ばれるので、uv の 7 日の制限が推移的にかかる。
 
 ```sh
-uv run pytest                     # テスト
-UPDATE_GOLDEN=1 uv run pytest     # golden test の期待ファイル（tests/golden/）を更新する
-uv run ty check                   # 型検査
-uv run ruff check                 # lint
-uv run ruff format                # format
+mise run verify                   # fix で直してから check とテストを実行する（コミット前に）
+mise run test                     # テスト
+UPDATE_GOLDEN=1 mise run test     # golden test の期待ファイル（tests/golden/）を更新する
+mise run check                    # format、lint、型をまとめて確かめる（書き換えない）
+mise run fix                      # format と lint の自動修正をまとめて行う（書き換える）
 uv run scripts/record_fixtures.py # サンプル GitLab から tests/fixtures/colors/ のスナップショットを取り直す
 ```
+
+`check` と `fix` は個別にも実行できる（`check:format`、`check:lint`、`check:type`、`fix:format`、`fix:lint`）。一覧は `mise tasks` で見られる。`mise run test -- -k xxx` のように `--` の後ろに書いた引数は pytest に渡る。
 
 ### サンプル GitLab
 

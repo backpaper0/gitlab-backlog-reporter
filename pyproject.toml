@@ -38,6 +38,3 @@ include = ["src", "tests", "scripts"]
 
 [tool.ruff]
 line-length = 120
-
-[tool.ruff.lint]
-extend-select = ["I", "UP", "B"]
