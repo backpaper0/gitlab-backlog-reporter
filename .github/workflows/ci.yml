@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# PR では新しく push されたら古い実行を取り消す。main への push は sha ごとに別の group にして取り消さない
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check-and-test:
+    runs-on: ubuntu-24.04
+    env:
+      # uv.lock が pyproject.toml と食い違っていたら落とす
+      UV_LOCKED: "1"
+    steps:
+      # Action と mise はリリースから 7 日以上経ったものを選ぶ（mise.toml と pyproject.toml の 7 日ルールに合わせる）
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
+        with:
+          version: 2026.10.4
+
+      # uv が入れる Python と依存のキャッシュ
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.cache/uv
+            ~/.local/share/uv/python
+          key: uv-${{ runner.os }}-${{ hashFiles('.python-version', 'uv.lock') }}
+          restore-keys: |
+            uv-${{ runner.os }}-
+
+      - run: mise run check
+
+      - run: mise run test
+
+      - run: uv cache prune --ci
