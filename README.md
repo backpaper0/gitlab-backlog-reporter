@@ -73,6 +73,8 @@ env = { GITLAB_HOST = "https://gitlab.other.example.com", GITLAB_PRIVATE_TOKEN =
 
 ## 開発
 
+uv は mise で入れ、Python は uv が `.python-version` に従って入れる。mise も uv も、リリースから 7 日経っていないツールやパッケージは使わない（`mise.toml` の `minimum_release_age`、`pyproject.toml` の `exclude-newer`）。Python 本体は uv に埋め込まれたビルド情報（ハッシュ付き）から選ばれるので、uv の 7 日の制限が推移的にかかる。
+
 ```sh
 uv run pytest                     # テスト
 UPDATE_GOLDEN=1 uv run pytest     # golden test の期待ファイル（tests/golden/）を更新する
