@@ -4,6 +4,7 @@ from collections import Counter
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from datetime import date, timedelta
+
 from gitlab_backlog_reporter.errors import ReportError
 from gitlab_backlog_reporter.gitlab import Json, Scope
 from gitlab_backlog_reporter.holidays import is_holiday
@@ -118,7 +119,6 @@ class PeriodBacklog:
         """担当者（username）別の内訳。"""
         return _breakdown(self.targets, lambda i: (a["username"] for a in i["assignees"]))
 
-
     def sprint_targets(self, sprint: Sprint) -> tuple[Json, ...]:
         """スプリントに割り当てられたバックログ。project、iid の順に並べる。"""
         return _by_reference(issue for issue in self.targets if _milestone_id(issue) == sprint.id)
@@ -195,9 +195,7 @@ def select_period(
 def _check_dates(milestones: list[Json]) -> None:
     missing = sorted(m["title"] for m in milestones if not m["start_date"] or not m["due_date"])
     reversed_ = sorted(
-        m["title"]
-        for m in milestones
-        if m["start_date"] and m["due_date"] and m["start_date"] > m["due_date"]
+        m["title"] for m in milestones if m["start_date"] and m["due_date"] and m["start_date"] > m["due_date"]
     )
     messages = []
     if missing:
@@ -273,7 +271,11 @@ def _unassigned_warnings(issues: list[Json], scope: Scope) -> list[str]:
     集計範囲のほかの milestone（ほかの期のスプリントなど）と close 済みは数えない。
     """
     unassigned = sorted(
-        (i for i in issues if i["state"] == "opened" and (i["milestone"] is None or not scope.is_same_kind(i["milestone"]))),
+        (
+            i
+            for i in issues
+            if i["state"] == "opened" and (i["milestone"] is None or not scope.is_same_kind(i["milestone"]))
+        ),
         key=_reference_key,
     )
     if not unassigned:

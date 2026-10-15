@@ -32,14 +32,14 @@ def build_parser() -> argparse.ArgumentParser:
         "path",
         help="集計範囲の full path（数値だけなら id）。--project を付けなければ group、付ければ project",
     )
-    parser.add_argument(
-        "--project", action="store_true", help="位置引数を group ではなく project として解釈する"
-    )
+    parser.add_argument("--project", action="store_true", help="位置引数を group ではなく project として解釈する")
     parser.add_argument(
         "-o", "--output", metavar="PATH", help="レポートを書くファイル（既存のファイルは上書き）。デフォルトは標準出力"
     )
     parser.add_argument(
-        "--sprint-prefix", default="Iteration-", help="スプリントとする、集計範囲の milestone の名前の prefix（デフォルト: %(default)s）"
+        "--sprint-prefix",
+        default="Iteration-",
+        help="スプリントとする、集計範囲の milestone の名前の prefix（デフォルト: %(default)s）",
     )
     parser.add_argument(
         "--exclude-sprint-prefix",
@@ -56,9 +56,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="レポートに warning を書かない（標準エラー出力には書く）",
     )
-    parser.add_argument(
-        "--no-icebox-list", action="store_true", help="バックログ一覧に Icebox のセクションを書かない"
-    )
+    parser.add_argument("--no-icebox-list", action="store_true", help="バックログ一覧に Icebox のセクションを書かない")
     parser.add_argument(
         "--holidays",
         metavar="PATH",

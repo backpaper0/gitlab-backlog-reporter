@@ -78,7 +78,9 @@ uv は mise で入れ、Python は uv が `.python-version` に従って入れ�
 ```sh
 uv run pytest                     # テスト
 UPDATE_GOLDEN=1 uv run pytest     # golden test の期待ファイル（tests/golden/）を更新する
-uv run mypy                       # 型検査
+uv run ty check                   # 型検査
+uv run ruff check                 # lint
+uv run ruff format                # format
 uv run scripts/record_fixtures.py # サンプル GitLab から tests/fixtures/colors/ のスナップショットを取り直す
 ```
 

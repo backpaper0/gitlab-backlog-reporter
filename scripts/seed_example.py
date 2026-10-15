@@ -166,9 +166,21 @@ def closed_at(index: int, closed_on: date) -> datetime:
 def rails_runner(code: str) -> str:
     """コンテナの中で gitlab-rails runner を実行し、標準出力を返す。失敗したら止まる。"""
     result = subprocess.run(
-        ["docker", "compose", "-f", str(EXAMPLE / "compose.yaml"), "exec", "-T", "gitlab", "gitlab-rails", "runner", code],
+        [
+            "docker",
+            "compose",
+            "-f",
+            str(EXAMPLE / "compose.yaml"),
+            "exec",
+            "-T",
+            "gitlab",
+            "gitlab-rails",
+            "runner",
+            code,
+        ],
         capture_output=True,
         text=True,
+        check=False,
     )
     if result.returncode != 0:
         sys.exit(f"error: gitlab-rails runner が失敗しました\n{result.stdout}{result.stderr}")

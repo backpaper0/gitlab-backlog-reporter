@@ -130,9 +130,7 @@ def test_excluded_sprint_prefixes_leave_their_milestones_out_of_the_period() -> 
         [make_issue(q1), make_issue(new_period), make_issue(dateless)],
     )
 
-    result = gbr(
-        fake, "--exclude-sprint-prefix", "Iteration-3Q-", "--exclude-sprint-prefix", "Iteration-Template"
-    )
+    result = gbr(fake, "--exclude-sprint-prefix", "Iteration-3Q-", "--exclude-sprint-prefix", "Iteration-Template")
 
     assert result.exit_code == 0
     assert result.stderr == ""
@@ -158,12 +156,7 @@ def test_missing_icebox_is_a_warning_in_report_and_stderr() -> None:
     assert result.exit_code == 0
     assert result.stderr == 'warning: Icebox の group milestone "Icebox" が見つかりません\n'
     assert (
-        "| 2026-10-02 |\n"
-        "\n"
-        "> [!WARNING]\n"
-        '> - Icebox の group milestone "Icebox" が見つかりません\n'
-        "\n"
-        "## サマリー\n"
+        '| 2026-10-02 |\n\n> [!WARNING]\n> - Icebox の group milestone "Icebox" が見つかりません\n\n## サマリー\n'
     ) in result.stdout
     assert "| Icebox（open、参考） | — |" in result.stdout
 
@@ -444,9 +437,9 @@ def test_before_the_period_there_is_no_actual_line() -> None:
     section = burndown_section(result.stdout)
     assert result.stderr == ""
     assert '  line "予定" [4, 2.5, 1, 0.5, 0]\n```\n' in section
-    assert "実績\" [" not in section
+    assert '実績" [' not in section
     assert section.endswith(
-        "凡例: 灰 = 理想 / 青 = 予定 / 赤 = 実績\n\n期が始まる前のため、実績線はありません\n\n" f"{NOTE}\n"
+        f"凡例: 灰 = 理想 / 青 = 予定 / 赤 = 実績\n\n期が始まる前のため、実績線はありません\n\n{NOTE}\n"
     )
     assert "| 予定線の今日の値 | 4 |\n| 理想線の今日の値 | 4 |\n" in result.stdout
 
@@ -490,11 +483,7 @@ def test_summary_names_the_current_sprint_below_the_table() -> None:
 
     result = gbr(fake)
 
-    assert (
-        "| Icebox（open、参考） | 0 |\n"
-        "\n"
-        "現在のスプリント: **Iteration-Q3-1**（10/1〜10/14）\n"
-    ) in result.stdout
+    assert ("| Icebox（open、参考） | 0 |\n\n現在のスプリント: **Iteration-Q3-1**（10/1〜10/14）\n") in result.stdout
 
 
 @pytest.mark.parametrize(

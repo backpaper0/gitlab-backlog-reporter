@@ -54,9 +54,7 @@ def render(backlog: PeriodBacklog, context: ReportContext) -> str:
 def _header(backlog: PeriodBacklog, context: ReportContext) -> str:
     period = backlog.period
     scope = context.scope
-    period_cell = (
-        f"`{period.prefix}`（{_period_range(period.start, period.end)}、{len(period.sprints)} スプリント）"
-    )
+    period_cell = f"`{period.prefix}`（{_period_range(period.start, period.end)}、{len(period.sprints)} スプリント）"
     return "\n".join(
         [
             f"# バックログレポート: {scope.full_path} / {period.prefix}",

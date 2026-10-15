@@ -7,7 +7,7 @@ project issues。
 
 from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Any, Literal
+from typing import Any, Literal, Self
 from urllib.parse import quote
 
 import httpx
@@ -81,7 +81,7 @@ class GitLabClient:
             transport=transport,
         )
 
-    def __enter__(self) -> "GitLabClient":
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, *_: object) -> None:
@@ -104,9 +104,7 @@ class GitLabClient:
 
     def issues(self, scope: Scope) -> list[Json]:
         params = (
-            {"include_subgroups": "true", "state": "all", "scope": "all"}
-            if scope.kind == "group"
-            else {"state": "all"}
+            {"include_subgroups": "true", "state": "all", "scope": "all"} if scope.kind == "group" else {"state": "all"}
         )
         return self._get_all(f"{_scope_path(scope.kind, str(scope.id))}/issues", params)
 
@@ -119,9 +117,7 @@ class GitLabClient:
             page = response.headers.get("x-next-page", "")
         return items
 
-    def _get(
-        self, path: str, params: dict[str, str] | None = None, *, not_found: str | None = None
-    ) -> httpx.Response:
+    def _get(self, path: str, params: dict[str, str] | None = None, *, not_found: str | None = None) -> httpx.Response:
         """失敗したらリトライせずに GitLabError にする。メッセージに URL は出すが、ヘッダーで送る token は出さない。"""
         try:
             response = self._http.get(path, params=params)
