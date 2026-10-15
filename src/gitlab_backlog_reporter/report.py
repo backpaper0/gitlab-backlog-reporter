@@ -7,9 +7,9 @@ from decimal import Decimal
 
 from gitlab_backlog_reporter.backlog import (
     BreakdownRow,
-    Period,
-    PeriodBacklog,
     Sprint,
+    TargetBacklog,
+    TargetSprints,
     backlog_state,
     consumed_count,
     is_status_label,
@@ -36,7 +36,7 @@ class ReportContext:
     """バックログ一覧に Icebox のセクションを書くか。"""
 
 
-def render(backlog: PeriodBacklog, context: ReportContext) -> str:
+def render(backlog: TargetBacklog, context: ReportContext) -> str:
     burndown = build_burndown(backlog, context.today, context.tz)
     sections = [
         _header(backlog, context),
@@ -51,17 +51,17 @@ def render(backlog: PeriodBacklog, context: ReportContext) -> str:
     return "\n\n".join(sections) + "\n"
 
 
-def _header(backlog: PeriodBacklog, context: ReportContext) -> str:
-    period = backlog.period
+def _header(backlog: TargetBacklog, context: ReportContext) -> str:
+    target_sprints = backlog.target_sprints
     scope = context.scope
-    period_cell = f"`{period.prefix}`（{_period_range(period.start, period.end)}、{len(period.sprints)} スプリント）"
+    target_sprints_cell = f"`{target_sprints.prefix}`（{_period_range(target_sprints.start, target_sprints.end)}、{len(target_sprints.sprints)} スプリント）"
     return "\n".join(
         [
-            f"# バックログレポート: {scope.full_path} / {period.prefix}",
+            f"# バックログレポート: {scope.full_path} / {target_sprints.prefix}",
             "",
-            "| 接続先 | 集計範囲 | 期 | 基準日 |",
+            "| 接続先 | 集計範囲 | 対象スプリント | 基準日 |",
             "|---|---|---|---|",
-            f"| {context.host} | `{scope.full_path}`（{scope.kind}） | {period_cell} | {context.today.isoformat()} |",
+            f"| {context.host} | `{scope.full_path}`（{scope.kind}） | {target_sprints_cell} | {context.today.isoformat()} |",
         ]
     )
 
@@ -72,7 +72,7 @@ def _warnings(warnings: tuple[str, ...]) -> list[str]:
     return ["\n".join(["> [!WARNING]", *(f"> - {w}" for w in warnings)])]
 
 
-def _summary(backlog: PeriodBacklog, burndown: Burndown, today: date) -> str:
+def _summary(backlog: TargetBacklog, burndown: Burndown, today: date) -> str:
     total = backlog.total
     icebox = "—" if backlog.icebox_open is None else str(backlog.icebox_open)
     return "\n".join(
@@ -90,23 +90,23 @@ def _summary(backlog: PeriodBacklog, burndown: Burndown, today: date) -> str:
             f"| 理想線の今日の値 | {_number(burndown.ideal_today)} |",
             f"| Icebox（open、参考） | {icebox} |",
             "",
-            f"現在のスプリント: {_current_sprint(backlog.period, today)}",
+            f"現在のスプリント: {_current_sprint(backlog.target_sprints, today)}",
         ]
     )
 
 
-def _current_sprint(period: Period, today: date) -> str:
-    sprint = period.current_sprint(today)
+def _current_sprint(target_sprints: TargetSprints, today: date) -> str:
+    sprint = target_sprints.current_sprint(today)
     if sprint is not None:
         return f"**{sprint.title}**（{_period_range(sprint.start, sprint.end)}）"
-    if today < period.start:
-        return "なし（期の開始前）"
-    if today > period.end:
-        return "なし（期の終了後）"
+    if today < target_sprints.start:
+        return "なし（集計期間の開始前）"
+    if today > target_sprints.end:
+        return "なし（集計期間の終了後）"
     return "なし"
 
 
-def _backlog_states(backlog: PeriodBacklog) -> str:
+def _backlog_states(backlog: TargetBacklog) -> str:
     counts = backlog.state_counts()
     return "\n".join(
         [
@@ -119,9 +119,9 @@ def _backlog_states(backlog: PeriodBacklog) -> str:
     )
 
 
-def _sprint_summary(backlog: PeriodBacklog, today: date) -> str:
+def _sprint_summary(backlog: TargetBacklog, today: date) -> str:
     rows = []
-    for sprint in backlog.period.sprints:
+    for sprint in backlog.target_sprints.sprints:
         issues = backlog.sprint_targets(sprint)
         total = len(issues)
         consumed = consumed_count(issues)
@@ -141,7 +141,7 @@ def _sprint_summary(backlog: PeriodBacklog, today: date) -> str:
     )
 
 
-def _breakdown(backlog: PeriodBacklog) -> str:
+def _breakdown(backlog: TargetBacklog) -> str:
     return "\n".join(
         [
             "## 内訳",
@@ -177,9 +177,9 @@ def _percent_cell(consumed: int, total: int) -> str:
     return "—" if total == 0 else f"{_percent(consumed, total)}%"
 
 
-def _backlog_list(backlog: PeriodBacklog, show_icebox: bool) -> str:
+def _backlog_list(backlog: TargetBacklog, show_icebox: bool) -> str:
     sections = ["## バックログ一覧"]
-    sections += [_sprint_backlog(sprint, backlog.sprint_targets(sprint)) for sprint in backlog.period.sprints]
+    sections += [_sprint_backlog(sprint, backlog.sprint_targets(sprint)) for sprint in backlog.target_sprints.sprints]
     if show_icebox:
         sections.append(_icebox_backlog(backlog))
     return "\n\n".join(sections)
@@ -194,7 +194,7 @@ def _sprint_backlog(sprint: Sprint, issues: tuple[Json, ...]) -> str:
     return "\n\n".join([heading, _table(["issue", "タイトル", "状態", "担当者", "ラベル"], rows)])
 
 
-def _icebox_backlog(backlog: PeriodBacklog) -> str:
+def _icebox_backlog(backlog: TargetBacklog) -> str:
     heading = "### Icebox（open、参考）"
     if backlog.icebox_open_issues is None:
         return "\n\n".join([heading, f'milestone "{backlog.icebox}" が見つかりません'])
@@ -225,7 +225,7 @@ def _labels(issue: Json) -> str:
     return " ".join(f"`{label}`" for label in issue["labels"] if not is_status_label(label)) or "—"
 
 
-def _burndown(backlog: PeriodBacklog, burndown: Burndown) -> str:
+def _burndown(backlog: TargetBacklog, burndown: Burndown) -> str:
     if backlog.total == 0:
         return "## バーンダウン\n\n対象バックログがないため、バーンダウンは表示しません"
     labels = ", ".join(f'"{_month_day(p)}"' for p in burndown.points)
@@ -243,7 +243,7 @@ def _burndown(backlog: PeriodBacklog, burndown: Burndown) -> str:
         '      plotColorPalette: "#9e9e9e, #1f77b4, #d62728"',
         "---",
         "xychart-beta",
-        f'  title "{backlog.period.prefix} バーンダウン"',
+        f'  title "{backlog.target_sprints.prefix} バーンダウン"',
         f'  x-axis "週" [{labels}]',
         f'  y-axis "残件数" 0 --> {backlog.total}',
         f'  line "理想" {_series(burndown.ideal)}',
@@ -253,7 +253,7 @@ def _burndown(backlog: PeriodBacklog, burndown: Burndown) -> str:
     if burndown.actual:
         lines.append(f'  line "実績" {_series(burndown.actual)}')
     else:
-        legend += ["", "期が始まる前のため、実績線はありません"]
+        legend += ["", "集計期間が始まる前のため、実績線はありません"]
     lines += ["```", "", *legend, "", BURNDOWN_NOTE]
     return "\n".join(lines)
 

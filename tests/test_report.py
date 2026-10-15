@@ -50,7 +50,7 @@ def test_header_and_summary_count_issues_in_the_periods_sprints() -> None:
     result = gbr(fake, "--sprint-prefix", "Iteration-Q3-")
 
     unassigned = (
-        "期のスプリントにも Icebox にも割り当てられていない open の issue が 2 件あります: "
+        "集計範囲の milestone に割り当てられていない open の issue が 2 件あります: "
         f"[colors/rainbow#{in_project_sprint['iid']}]({in_project_sprint['web_url']}), "
         f"[colors/rainbow#{without_milestone['iid']}]({without_milestone['web_url']})"
     )
@@ -59,7 +59,7 @@ def test_header_and_summary_count_issues_in_the_periods_sprints() -> None:
     assert result.stdout.startswith(
         "# バックログレポート: colors / Iteration-Q3-\n"
         "\n"
-        "| 接続先 | 集計範囲 | 期 | 基準日 |\n"
+        "| 接続先 | 集計範囲 | 対象スプリント | 基準日 |\n"
         "|---|---|---|---|\n"
         "| http://gitlab.test | `colors`（group） | `Iteration-Q3-`（10/1〜10/28、2 スプリント） | 2026-10-02 |\n"
         "\n"
@@ -439,7 +439,7 @@ def test_before_the_period_there_is_no_actual_line() -> None:
     assert '  line "予定" [4, 2.5, 1, 0.5, 0]\n```\n' in section
     assert '実績" [' not in section
     assert section.endswith(
-        f"凡例: 灰 = 理想 / 青 = 予定 / 赤 = 実績\n\n期が始まる前のため、実績線はありません\n\n{NOTE}\n"
+        f"凡例: 灰 = 理想 / 青 = 予定 / 赤 = 実績\n\n集計期間が始まる前のため、実績線はありません\n\n{NOTE}\n"
     )
     assert "| 予定線の今日の値 | 4 |\n| 理想線の今日の値 | 4 |\n" in result.stdout
 
@@ -489,10 +489,10 @@ def test_summary_names_the_current_sprint_below_the_table() -> None:
 @pytest.mark.parametrize(
     ("today", "expected"),
     [
-        (date(2026, 9, 30), "なし（期の開始前）"),
+        (date(2026, 9, 30), "なし（集計期間の開始前）"),
         (date(2026, 10, 15), "なし"),
         (date(2026, 10, 19), "なし"),
-        (date(2026, 11, 3), "なし（期の終了後）"),
+        (date(2026, 11, 3), "なし（集計期間の終了後）"),
     ],
 )
 def test_no_current_sprint_tells_before_or_after_the_period_or_a_gap(today: date, expected: str) -> None:

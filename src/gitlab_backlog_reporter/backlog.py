@@ -1,4 +1,4 @@
-"""期のスプリントと Icebox を選び、対象バックログを集計する。"""
+"""対象スプリントと Icebox を選び、対象バックログを集計する。"""
 
 from collections import Counter
 from collections.abc import Callable, Iterable
@@ -48,7 +48,7 @@ class Sprint:
 
 
 @dataclass(frozen=True)
-class Period:
+class TargetSprints:
     prefix: str
     sprints: tuple[Sprint, ...]
 
@@ -79,10 +79,10 @@ class BreakdownRow:
 
 
 @dataclass(frozen=True)
-class PeriodBacklog:
-    """1つの期について集計したバックログ。"""
+class TargetBacklog:
+    """対象スプリントについて集計したバックログ。"""
 
-    period: Period
+    target_sprints: TargetSprints
     targets: tuple[Json, ...]
     """対象バックログ。"""
     icebox_open_issues: tuple[Json, ...] | None
@@ -160,9 +160,9 @@ def consumed_count(issues: tuple[Json, ...]) -> int:
     return sum(1 for issue in issues if is_consumed(issue))
 
 
-def select_period(
+def select_target_sprints(
     milestones: list[Json], prefix: str, excludes: tuple[str, ...], scope: Scope
-) -> tuple[Period, list[str]]:
+) -> tuple[TargetSprints, list[str]]:
     """名前が prefix で始まり、除外 prefix のどれでも始まらない、集計範囲の milestone をスプリントとして選ぶ。state は問わない。
 
     何も除外しなかった除外 prefix は警告にする。
@@ -189,7 +189,7 @@ def select_period(
         for m in kept
     ]
     sprints.sort(key=lambda s: (s.start, s.end, s.title))
-    return Period(prefix, tuple(sprints)), warnings
+    return TargetSprints(prefix, tuple(sprints)), warnings
 
 
 def _check_dates(milestones: list[Json]) -> None:
@@ -214,13 +214,13 @@ def collect_backlog(
     icebox: str,
     scope: Scope,
     holidays: frozenset[date],
-) -> PeriodBacklog:
+) -> TargetBacklog:
     """milestones は集計範囲の milestone、issues は集計範囲の issue。"""
-    period, warnings = select_period(milestones, prefix, excludes, scope)
-    sprint_ids = {s.id for s in period.sprints}
+    target_sprints, warnings = select_target_sprints(milestones, prefix, excludes, scope)
+    sprint_ids = {s.id for s in target_sprints.sprints}
     targets = tuple(i for i in issues if _milestone_id(i) in sprint_ids)
 
-    warnings.extend(_schedule_warnings(period, holidays))
+    warnings.extend(_schedule_warnings(target_sprints, holidays))
     if not targets:
         warnings.append("対象バックログが 0件です")
     icebox_milestone = next((m for m in milestones if m["title"] == icebox), None)
@@ -232,16 +232,16 @@ def collect_backlog(
             i for i in issues if _milestone_id(i) == icebox_milestone["id"] and i["state"] == "opened"
         )
     warnings.extend(_unassigned_warnings(issues, scope))
-    return PeriodBacklog(period, targets, icebox_open_issues, icebox, tuple(warnings))
+    return TargetBacklog(target_sprints, targets, icebox_open_issues, icebox, tuple(warnings))
 
 
-def _schedule_warnings(period: Period, holidays: frozenset[date]) -> list[str]:
+def _schedule_warnings(target_sprints: TargetSprints, holidays: frozenset[date]) -> list[str]:
     """スプリントの隙間と重なり。重なりはペアごとに出す。スプリントの長さは問わない。
 
     休日だけでできている隙間は警告しない。
     """
     warnings = []
-    sprints = period.sprints
+    sprints = target_sprints.sprints
     latest = sprints[0]  # それまでのスプリントのうち、いちばん遅く終わるもの
     for i, sprint in enumerate(sprints[1:], start=1):
         for earlier in sprints[:i]:
@@ -268,7 +268,7 @@ def _unassigned_warnings(issues: list[Json], scope: Scope) -> list[str]:
     """集計範囲の milestone 以外（milestone なしを含む）に付いている open の issue。
 
     集計範囲が group なら milestone なしか project milestone、project なら milestone なしか group milestone。
-    集計範囲のほかの milestone（ほかの期のスプリントなど）と close 済みは数えない。
+    集計範囲のほかの milestone（除外 prefix で外したスプリントなど）と close 済みは数えない。
     """
     unassigned = sorted(
         (
@@ -283,9 +283,7 @@ def _unassigned_warnings(issues: list[Json], scope: Scope) -> list[str]:
     links = ", ".join(f"[{i['references']['full']}]({i['web_url']})" for i in unassigned[:MAX_UNASSIGNED_LINKS])
     rest = len(unassigned) - MAX_UNASSIGNED_LINKS
     more = f" ほか {rest} 件" if rest > 0 else ""
-    return [
-        f"期のスプリントにも Icebox にも割り当てられていない open の issue が {len(unassigned)} 件あります: {links}{more}"
-    ]
+    return [f"集計範囲の milestone に割り当てられていない open の issue が {len(unassigned)} 件あります: {links}{more}"]
 
 
 def _by_reference(issues: Iterable[Json]) -> tuple[Json, ...]:

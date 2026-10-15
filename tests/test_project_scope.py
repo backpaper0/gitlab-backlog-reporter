@@ -39,7 +39,7 @@ def test_project_milestones_are_sprints_and_icebox() -> None:
     assert result.stdout.startswith(
         "# バックログレポート: colors/red / Iteration-\n"
         "\n"
-        "| 接続先 | 集計範囲 | 期 | 基準日 |\n"
+        "| 接続先 | 集計範囲 | 対象スプリント | 基準日 |\n"
         "|---|---|---|---|\n"
         "| http://gitlab.test | `colors/red`（project） | `Iteration-`（10/1〜10/28、2 スプリント） | 2026-10-02 |\n"
     )
@@ -94,7 +94,7 @@ def test_group_milestones_are_neither_sprints_nor_icebox_and_their_open_issues_a
     assert result == RunResult(
         result.stdout,
         'warning: Icebox の project milestone "Icebox" が見つかりません\n'
-        "warning: 期のスプリントにも Icebox にも割り当てられていない open の issue が 3 件あります: "
+        "warning: 集計範囲の milestone に割り当てられていない open の issue が 3 件あります: "
         f"[colors/red#{a['iid']}]({a['web_url']}), "
         f"[colors/red#{b['iid']}]({b['web_url']}), "
         f"[colors/red#{c['iid']}]({c['web_url']})\n",

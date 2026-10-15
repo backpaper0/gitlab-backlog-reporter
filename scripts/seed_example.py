@@ -154,7 +154,7 @@ def sprint_period(number: int) -> tuple[date, date]:
 
 
 def created_at(index: int) -> datetime:
-    """期の開始（8/6）より前の 7/21〜8/1 に、作った順で散らす。"""
+    """集計期間の開始（8/6）より前の 7/21〜8/1 に、作った順で散らす。"""
     day = date(2026, 7, 21) + timedelta(days=index // 4)
     return datetime(day.year, day.month, day.day, 10 + (index % 4) * 2, tzinfo=TZ)
 

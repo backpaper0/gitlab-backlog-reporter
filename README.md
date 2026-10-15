@@ -1,6 +1,25 @@
 # gitlab-backlog-reporter
 
-GitLab の group か project のバックログとスプリントの進捗を Markdown のレポートにする。group なら group milestone、project なら project milestone をスプリントと Icebox として集計する。用語は [CONTEXT.md](CONTEXT.md) を参照。
+GitLab の group か project のバックログとスプリントの進捗を Markdown のレポートにする。group なら group milestone、project なら project milestone をスプリントと Icebox として集計する。
+
+## 前提とする GitLab の運用
+
+集計範囲（group か project）の issue と milestone を、次のように運用していることを前提にする。各用語の定義は [CONTEXT.md](CONTEXT.md) を参照。
+
+| 用語 | GitLab 上のもの | 条件 |
+| --- | --- | --- |
+| バックログ | issue | 対象スプリントか Icebox の milestone に割り当てる |
+| スプリント | 集計範囲の milestone（group なら group milestone、project なら project milestone） | 名前が `--sprint-prefix` で始まる。開始日と終了日が必須 |
+| Icebox | 集計範囲の milestone | 名前が `--icebox` と完全一致する。日付はなくてよい |
+| バックログ状態 | issue の state と `status::` ラベル | 下記 |
+
+- バックログ状態は open → ready → doing → review → close と遷移する。open と close は issue の state で表し、ready / doing / review はラベル `status::ready`、`status::doing`、`status::review` で表す
+- `status::` ラベルは任意だが、付けることを推奨する。付けないと、close されていないバックログはすべて open として数えられ、状態の内訳が open と close だけになる。ラベルはこのツールでは作らないので、集計範囲かその祖先の group にあらかじめ作っておく
+- `status::` ラベルは1つの issue に1つだけ付ける。GitLab Free では scoped label が排他にならず、複数付けられてしまう
+- `status::` 以外のラベルは、ラベル別の内訳に使われる
+- milestone がない、または集計範囲の milestone ではないもの（集計範囲が group なら project milestone、project なら group milestone）に付いている open の issue は、件数を警告に出す。集計範囲の milestone のうち、スプリントにも Icebox にも選ばれなかったもの（除外 prefix で外したスプリントなど）に付いている issue は警告しない
+- スプリントの milestone に開始日か終了日がないときは、レポートを書かずにエラー終了する。Icebox の milestone が見つからないときは警告を出す
+- PAT のスコープは `read_api` で足りる
 
 ## インストール
 
@@ -39,7 +58,7 @@ UTF-8 で、1行に1日付を `YYYY-MM-DD` で書く。空行は読み飛ばし�
 2026-12-29  # 年末年始休業
 ```
 
-- 土日の日付、重複した日付、期の外の日付を書いてもかまわない。何年分を1つのファイルに書いてもよい
+- 土日の日付、重複した日付、集計期間の外の日付を書いてもかまわない。何年分を1つのファイルに書いてもよい
 - 解釈できない日付がある、またはファイルを読めないときは、レポートを書かずにエラー終了する
 
 ### mise で複数のレポートを管理する
