@@ -23,6 +23,12 @@ dev = [
     "pytest>=9.1.1",
 ]
 
+[tool.uv]
+# Python は mise ではなく uv が管理する（バージョンは .python-version）
+python-preference = "only-managed"
+# リリースから 7 日経っていないパッケージは使わない
+exclude-newer = "7 days"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
