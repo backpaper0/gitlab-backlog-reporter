@@ -16,7 +16,7 @@ def is_holiday(day: date, holidays: frozenset[date]) -> bool:
 def read_holidays(path: str) -> frozenset[date]:
     """1行に1日付を YYYY-MM-DD で書いたファイルを読む。空行は読み飛ばし、`#` から行末まではコメントとする。
 
-    土日、重複、期の外の日付もそのまま受け付ける。解釈できない行はすべてまとめてエラーにする。
+    土日、重複、集計期間の外の日付もそのまま受け付ける。解釈できない行はすべてまとめてエラーにする。
     """
     try:
         with open(path, encoding="utf-8-sig") as f:  # BOM 付きでも読めるように

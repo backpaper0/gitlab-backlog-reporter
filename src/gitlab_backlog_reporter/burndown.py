@@ -1,4 +1,4 @@
-"""期の対象バックログのバーンダウン（理想線、予定線、実績線）を計算する。
+"""対象バックログのバーンダウン（理想線、予定線、実績線）を計算する。
 
 日付 D の点は「D の 00:00 時点に残っている件数」を表す。
 """
@@ -9,7 +9,7 @@ from datetime import date, datetime, timedelta, tzinfo
 from decimal import ROUND_HALF_UP, Decimal
 from fractions import Fraction
 
-from gitlab_backlog_reporter.backlog import PeriodBacklog
+from gitlab_backlog_reporter.backlog import TargetBacklog
 
 
 @dataclass(frozen=True)
@@ -27,7 +27,7 @@ class Burndown:
     ideal: tuple[Decimal, ...]
     planned: tuple[Decimal, ...]
     actual: tuple[int, ...]
-    """今日までの点の実績。今日が期の始まりより前なら空。"""
+    """今日までの点の実績。今日が集計期間の始まりより前なら空。"""
     ideal_today: Decimal
     planned_today: Decimal
 
@@ -64,10 +64,10 @@ def round1(x: Fraction) -> Decimal:
     return (Decimal(x.numerator) / Decimal(x.denominator)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
 
 
-def build_burndown(backlog: PeriodBacklog, today: date, tz: tzinfo) -> Burndown:
-    period = backlog.period
+def build_burndown(backlog: TargetBacklog, today: date, tz: tzinfo) -> Burndown:
+    target_sprints = backlog.target_sprints
     total = backlog.total
-    points = weekly_points(period.start, period.end)
+    points = weekly_points(target_sprints.start, target_sprints.end)
     start, finish = points[0], points[-1]
     loads = _sprint_loads(backlog)
     closed_on = [_local_date(i["closed_at"], tz) for i in backlog.targets if i["closed_at"]]
@@ -81,8 +81,8 @@ def build_burndown(backlog: PeriodBacklog, today: date, tz: tzinfo) -> Burndown:
     )
 
 
-def _sprint_loads(backlog: PeriodBacklog) -> Sequence[SprintLoad]:
-    return [SprintLoad(backlog.assigned_to(s), s.start, s.end) for s in backlog.period.sprints]
+def _sprint_loads(backlog: TargetBacklog) -> Sequence[SprintLoad]:
+    return [SprintLoad(backlog.assigned_to(s), s.start, s.end) for s in backlog.target_sprints.sprints]
 
 
 def _local_date(timestamp: str, tz: tzinfo) -> date:
