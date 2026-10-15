@@ -3,6 +3,7 @@
 minimum_release_age = "7d"
 
 [tools]
+trivy = "latest"
 uv = "latest"
 
 [tasks.test]
@@ -24,6 +25,10 @@ run = "uv run ty check"
 [tasks.check]
 description = "format、lint、型をまとめて確かめる（ファイルは書き換えない）"
 depends = ["check:format", "check:lint", "check:type"]
+
+[tasks.security]
+description = "trivy で依存の脆弱性、秘密情報、設定ミスを調べる。見つかったら失敗する"
+run = "trivy fs --scanners vuln,secret,misconfig --exit-code 1 --skip-version-check ."
 
 [tasks."fix:format"]
 description = "ruff で format する（ファイルを書き換える）"

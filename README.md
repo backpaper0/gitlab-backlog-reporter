@@ -73,7 +73,7 @@ env = { GITLAB_HOST = "https://gitlab.other.example.com", GITLAB_PRIVATE_TOKEN =
 
 ## 開発
 
-uv は mise で入れ、Python は uv が `.python-version` に従って入れる。mise も uv も、リリースから 7 日経っていないツールやパッケージは使わない（`mise.toml` の `minimum_release_age`、`pyproject.toml` の `exclude-newer`）。Python 本体は uv に埋め込まれたビルド情報（ハッシュ付き）から選ばれるので、uv の 7 日の制限が推移的にかかる。
+uv と Trivy は mise で入れ、Python は uv が `.python-version` に従って入れる。mise も uv も、リリースから 7 日経っていないツールやパッケージは使わない（`mise.toml` の `minimum_release_age`、`pyproject.toml` の `exclude-newer`）。Python 本体は uv に埋め込まれたビルド情報（ハッシュ付き）から選ばれるので、uv の 7 日の制限が推移的にかかる。
 
 ```sh
 mise run verify                   # fix で直してから check とテストを実行する（コミット前に）
@@ -81,10 +81,13 @@ mise run test                     # テスト
 UPDATE_GOLDEN=1 mise run test     # golden test の期待ファイル（tests/golden/）を更新する
 mise run check                    # format、lint、型をまとめて確かめる（書き換えない）
 mise run fix                      # format と lint の自動修正をまとめて行う（書き換える）
+mise run security                 # Trivy で依存の脆弱性、秘密情報、設定ミスを調べる
 uv run scripts/record_fixtures.py # サンプル GitLab から tests/fixtures/colors/ のスナップショットを取り直す
 ```
 
 `check` と `fix` は個別にも実行できる（`check:format`、`check:lint`、`check:type`、`fix:format`、`fix:lint`）。一覧は `mise tasks` で見られる。`mise run test -- -k xxx` のように `--` の後ろに書いた引数は pytest に渡る。
+
+`security` は脆弱性 DB をネットワークから取るので、`check` や `verify` には含めていない。CI では PR と main への push のたびに加え、毎日 1 回（9:17 JST）定期実行する。
 
 ### サンプル GitLab
 
