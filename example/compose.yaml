@@ -1,4 +1,4 @@
-# 例の環境（group colors）を立てる GitLab。データは scripts/seed_example.py で投入する。
+# サンプル GitLab を立てる。サンプルデータは scripts/seed_example.py で投入する。
 # golden とスナップショットの URL を変えないため、external_url とポートは http://localhost:9080 に固定する。
 services:
   gitlab:

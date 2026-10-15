@@ -77,12 +77,12 @@ env = { GITLAB_HOST = "https://gitlab.other.example.com", GITLAB_PRIVATE_TOKEN =
 uv run pytest                     # テスト
 UPDATE_GOLDEN=1 uv run pytest     # golden test の期待ファイル（tests/golden/）を更新する
 uv run mypy                       # 型検査
-uv run scripts/record_fixtures.py # 例の環境から tests/fixtures/colors/ のスナップショットを取り直す
+uv run scripts/record_fixtures.py # サンプル GitLab から tests/fixtures/colors/ のスナップショットを取り直す
 ```
 
-### 例の環境
+### サンプル GitLab
 
-golden test のスナップショットを取る GitLab（group `colors`、`http://localhost:9080`）を docker compose で立てる。root のパスワードはローカル専用の固定値で、`example/root_password` にある。
+golden test のスナップショットを取るための GitLab を、サンプル GitLab と呼ぶ。そこに投入する group `colors` のデータを、サンプルデータと呼ぶ。サンプル GitLab（`http://localhost:9080`）は docker compose で立てる。root のパスワードはローカル専用の固定値で、`example/root_password` にある。
 
 ```sh
 docker compose -f example/compose.yaml up -d --wait  # 起動（初回は数分かかる）

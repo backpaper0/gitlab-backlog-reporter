@@ -1,4 +1,4 @@
-"""example/compose.yaml で立てた GitLab に、例の環境（group colors）のデータを投入する。
+"""example/compose.yaml で立てた GitLab に、サンプルデータ（group colors）を投入する。
 
 使い方: docker compose -f example/compose.yaml up -d --wait のあとで uv run scripts/seed_example.py
 

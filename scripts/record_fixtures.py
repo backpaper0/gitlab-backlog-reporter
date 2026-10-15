@@ -1,4 +1,4 @@
-"""例の環境から group（id と full_path）、group milestones、group issues の API レスポンスを保存し、golden test のスナップショットにする。
+"""サンプル GitLab から group（id と full_path）、group milestones、group issues の API レスポンスを保存し、golden test のスナップショットにする。
 
 使い方: uv run scripts/record_fixtures.py [group] [保存先]（デフォルトは colors と tests/fixtures/colors）
 
