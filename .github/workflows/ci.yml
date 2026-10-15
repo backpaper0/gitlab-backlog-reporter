@@ -6,6 +6,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # コードを変えていない日でも、新しく公開された脆弱性に気づけるように毎日 security を回す（9:17 JST）
+  schedule:
+    - cron: "17 0 * * *"
 
 permissions:
   contents: read
@@ -17,6 +20,8 @@ concurrency:
 
 jobs:
   check-and-test:
+    # schedule では security だけを回す
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-24.04
     env:
       # uv.lock が pyproject.toml と食い違っていたら落とす
@@ -46,3 +51,16 @@ jobs:
       - run: mise run test
 
       - run: uv cache prune --ci
+
+  security:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
+        with:
+          version: 2026.10.4
+
+      - run: mise run security
