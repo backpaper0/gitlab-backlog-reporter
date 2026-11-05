@@ -397,8 +397,38 @@ def test_burndown_draws_three_lines_with_actual_up_to_today() -> None:
         "\n"
         "凡例: 灰 = 理想 / 青 = 予定 / 赤 = 実績\n"
         "\n"
+        "実績線は週の点（各日の 00:00 時点）でだけ更新されます。今日（10/16）の残りは **3** 件です。\n"
+        "\n"
         f"{NOTE}\n"
     )
+
+
+def test_on_a_weekly_point_issue_closed_today_is_in_todays_remaining_but_not_the_actual_line() -> None:
+    q1, q2 = sprints()
+    fake = FakeGitLab(
+        make_group(),
+        [q1, q2, make_milestone("Icebox")],
+        [
+            make_issue(q1, closed_at="2026-10-01T09:00:00.000Z"),
+            # 10/8 10:00 JST
+            make_issue(q1, closed_at="2026-10-08T01:00:00.000Z"),
+            make_issue(q1),
+            make_issue(q2),
+        ],
+    )
+
+    result = gbr(fake, today=date(2026, 10, 8))
+
+    section = burndown_section(result.stdout)
+    assert '  line "実績" [4, 3]\n' in section
+    assert section.endswith(
+        "凡例: 灰 = 理想 / 青 = 予定 / 赤 = 実績\n"
+        "\n"
+        "実績線は週の点（各日の 00:00 時点）でだけ更新されます。今日（10/8）の残りは **2** 件です。\n"
+        "\n"
+        f"{NOTE}\n"
+    )
+    assert "| 残り（今日） | **2** |\n" in result.stdout
 
 
 def test_summary_shows_todays_planned_and_ideal_values() -> None:
@@ -449,6 +479,7 @@ def test_on_the_first_day_actual_line_has_one_point() -> None:
 
     assert '  line "実績" [4]\n' in result.stdout
     assert "実績線はありません" not in result.stdout
+    assert "今日（10/1）の残りは **3** 件です。\n" in result.stdout
 
 
 def test_after_the_period_actual_line_is_drawn_at_every_point() -> None:
@@ -457,6 +488,7 @@ def test_after_the_period_actual_line_is_drawn_at_every_point() -> None:
     assert result.stderr == ""
     assert '  line "実績" [4, 3, 3, 3, 3]\n' in result.stdout
     assert "| 予定線の今日の値 | 0 |\n| 理想線の今日の値 | 0 |\n" in result.stdout
+    assert "今日（11/30）の残りは **3** 件です。\n" in result.stdout
 
 
 def test_on_the_day_after_the_period_actual_line_reaches_the_last_point() -> None:

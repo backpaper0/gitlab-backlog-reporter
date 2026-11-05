@@ -42,7 +42,7 @@ def render(backlog: TargetBacklog, context: ReportContext) -> str:
         _header(backlog, context),
         *(_warnings(backlog.warnings) if context.show_warnings else []),
         _summary(backlog, burndown, context.today),
-        _burndown(backlog, burndown),
+        _burndown(backlog, burndown, context.today),
         _backlog_states(backlog),
         _sprint_summary(backlog, context.today),
         _breakdown(backlog),
@@ -225,7 +225,7 @@ def _labels(issue: Json) -> str:
     return " ".join(f"`{label}`" for label in issue["labels"] if not is_status_label(label)) or "—"
 
 
-def _burndown(backlog: TargetBacklog, burndown: Burndown) -> str:
+def _burndown(backlog: TargetBacklog, burndown: Burndown, today: date) -> str:
     if backlog.total == 0:
         return "## バーンダウン\n\n対象バックログがないため、バーンダウンは表示しません"
     labels = ", ".join(f'"{_month_day(p)}"' for p in burndown.points)
@@ -252,6 +252,10 @@ def _burndown(backlog: TargetBacklog, burndown: Burndown) -> str:
     legend = ["凡例: 灰 = 理想 / 青 = 予定 / 赤 = 実績"]
     if burndown.actual:
         lines.append(f'  line "実績" {_series(burndown.actual)}')
+        legend += [
+            "",
+            f"実績線は週の点（各日の 00:00 時点）でだけ更新されます。今日（{_month_day(today)}）の残りは **{backlog.remaining}** 件です。",
+        ]
     else:
         legend += ["", "集計期間が始まる前のため、実績線はありません"]
     lines += ["```", "", *legend, "", BURNDOWN_NOTE]
