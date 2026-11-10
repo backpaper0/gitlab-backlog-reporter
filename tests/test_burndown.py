@@ -1,6 +1,6 @@
 """バーンダウンの数式（時間軸、理想線、予定線、実績線、丸め）を純粋な関数として確かめる。"""
 
-from datetime import date
+from datetime import UTC, date, datetime
 from decimal import Decimal
 from fractions import Fraction
 
@@ -67,11 +67,16 @@ def test_planned_line_is_flat_in_a_gap_between_sprints() -> None:
 
 
 def test_actual_line_counts_issues_closed_before_the_point() -> None:
-    closed_on = [date(2026, 9, 20), date(2026, 10, 7), date(2026, 10, 8)]
+    closed_at = [
+        datetime(2026, 9, 20, 10, tzinfo=UTC),
+        datetime(2026, 10, 7, 23, 59, tzinfo=UTC),
+        datetime(2026, 10, 8, 9, tzinfo=UTC),
+    ]
 
-    assert actual_at(10, closed_on, date(2026, 10, 1)) == 9
-    assert actual_at(10, closed_on, date(2026, 10, 8)) == 8
-    assert actual_at(10, closed_on, date(2026, 10, 9)) == 7
+    assert actual_at(10, closed_at, datetime(2026, 10, 1, tzinfo=UTC)) == 9
+    assert actual_at(10, closed_at, datetime(2026, 10, 8, tzinfo=UTC)) == 8
+    assert actual_at(10, closed_at, datetime(2026, 10, 8, 9, tzinfo=UTC)) == 8
+    assert actual_at(10, closed_at, datetime(2026, 10, 8, 9, 1, tzinfo=UTC)) == 7
 
 
 def test_values_are_rounded_half_up_to_one_decimal_place() -> None:

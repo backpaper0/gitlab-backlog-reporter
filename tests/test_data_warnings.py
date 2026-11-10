@@ -1,14 +1,14 @@
 """どのセクションにも属さない警告: 何も除外しない除外 prefix、スプリントの隙間と重なり、割り当てのない issue。"""
 
-from datetime import date
+from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from gitlab_backlog_reporter.cli import RunResult, run
 from tests.gitlab_fake import FakeGitLab, Json, make_group, make_issue, make_milestone
 
-TODAY = date(2026, 10, 2)
 TZ = ZoneInfo("Asia/Tokyo")
+NOW = datetime(2026, 10, 2, 12, tzinfo=TZ)
 ENV = {"GITLAB_HOST": "http://gitlab.test", "GITLAB_PRIVATE_TOKEN": "secret"}
 
 
@@ -16,7 +16,7 @@ def gbr(milestones: list[Json], issues: list[Json] | None = None, *args: str) ->
     """対象バックログが 0件の警告を避けるため、最初のスプリントに issue を1件置く。"""
     target = make_issue(milestones[0], project="colors/target")
     fake = FakeGitLab(make_group(), [*milestones, make_milestone("Icebox")], [*(issues or []), target])
-    return run(["colors", *args], ENV, TODAY, TZ, fake.transport())
+    return run(["colors", *args], ENV, NOW, fake.transport())
 
 
 def warnings(result: RunResult) -> list[str]:

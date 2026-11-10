@@ -2,10 +2,11 @@ import argparse
 import contextlib
 import io
 import os
+import re
 import sys
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from datetime import date, datetime, tzinfo
+from datetime import datetime, time
 
 import httpx
 
@@ -14,6 +15,8 @@ from gitlab_backlog_reporter.errors import ReportError
 from gitlab_backlog_reporter.gitlab import GitLabClient, read_connection
 from gitlab_backlog_reporter.holidays import read_holidays
 from gitlab_backlog_reporter.report import ReportContext, render
+
+_HH_MM = re.compile(r"(\d{2}):(\d{2})")
 
 
 @dataclass(frozen=True)
@@ -62,16 +65,29 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="PATH",
         help="休業日（土日以外の休日）を1行に1日付 YYYY-MM-DD で書いたファイル。休日だけのスプリントの隙間は警告しない",
     )
+    parser.add_argument(
+        "--burndown-time",
+        metavar="HH:MM",
+        default="00:00",
+        help="バーンダウンの実績線で、週の点の残りを数える時刻（ローカルタイムゾーン、デフォルト: %(default)s）",
+    )
     return parser
+
+
+def parse_burndown_time(text: str) -> time:
+    match = _HH_MM.fullmatch(text)
+    if match and int(match[1]) < 24 and int(match[2]) < 60:
+        return time(int(match[1]), int(match[2]))
+    raise ReportError(f"--burndown-time を時刻として解釈できません（HH:MM で書いてください）: {text}")
 
 
 def run(
     argv: Sequence[str],
     env: Mapping[str, str],
-    today: date,
-    tz: tzinfo,
+    now: datetime,
     transport: httpx.BaseTransport,
 ) -> RunResult:
+    """now はタイムゾーン付きの実行時点。"""
     stdout = io.StringIO()
     stderr = io.StringIO()
     try:
@@ -81,6 +97,7 @@ def run(
         return RunResult(stdout.getvalue(), stderr.getvalue(), e.code if isinstance(e.code, int) else 2)
 
     try:
+        burndown_time = parse_burndown_time(args.burndown_time)
         connection = read_connection(env)
         holidays = frozenset() if args.holidays is None else read_holidays(args.holidays)
         with GitLabClient(connection, transport) as client:
@@ -102,8 +119,8 @@ def run(
     context = ReportContext(
         connection.host,
         scope,
-        today,
-        tz,
+        now,
+        burndown_time,
         show_warnings=not args.no_report_warnings,
         show_icebox_list=not args.no_icebox_list,
     )
@@ -117,10 +134,7 @@ def run(
 
 
 def main() -> None:
-    now = datetime.now().astimezone()
-    tz = now.tzinfo
-    assert tz is not None
-    result = run(sys.argv[1:], os.environ, now.date(), tz, httpx.HTTPTransport())
+    result = run(sys.argv[1:], os.environ, datetime.now().astimezone(), httpx.HTTPTransport())
     sys.stdout.write(result.stdout)
     sys.stderr.write(result.stderr)
     sys.exit(result.exit_code)
