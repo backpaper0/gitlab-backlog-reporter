@@ -5,7 +5,7 @@
 
 import json
 import os
-from datetime import date
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -16,9 +16,9 @@ from tests.gitlab_fake import FakeGitLab
 SNAPSHOT = Path(__file__).parent / "fixtures" / "colors"
 EXPECTED = Path(__file__).parent / "golden" / "colors.md"
 
-# 集計期間の途中（Iteration-5 の途中）にあたる日。サンプルデータは、この日を今日として作ってある。
-TODAY = date(2026, 10, 7)
 TZ = ZoneInfo("Asia/Tokyo")
+# 集計期間の途中（Iteration-5 の途中）にあたる日。サンプルデータは、この日を今日として作ってある。
+NOW = datetime(2026, 10, 7, 12, tzinfo=TZ)
 ENV = {"GITLAB_HOST": "http://localhost:9080", "GITLAB_PRIVATE_TOKEN": "dummy"}
 
 
@@ -29,7 +29,7 @@ def load(name: str) -> Any:
 def test_colors_report_matches_golden() -> None:
     fake = FakeGitLab(load("group"), load("milestones"), load("issues"))
 
-    result = run(["colors"], ENV, TODAY, TZ, fake.transport())
+    result = run(["colors"], ENV, NOW, fake.transport())
 
     assert (result.stderr, result.exit_code) == ("", 0)
     if os.environ.get("UPDATE_GOLDEN") == "1":

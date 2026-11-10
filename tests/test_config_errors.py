@@ -1,14 +1,15 @@
-from datetime import date
+from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import httpx
+import pytest
 
 from gitlab_backlog_reporter.cli import RunResult, run
 from tests.gitlab_fake import FakeGitLab, make_group, make_milestone
 
-TODAY = date(2026, 10, 2)
 TZ = ZoneInfo("Asia/Tokyo")
+NOW = datetime(2026, 10, 2, 12, tzinfo=TZ)
 ENV = {"GITLAB_HOST": "http://gitlab.test", "GITLAB_PRIVATE_TOKEN": "secret"}
 
 
@@ -17,7 +18,7 @@ def unreachable(request: httpx.Request) -> httpx.Response:
 
 
 def test_missing_env_vars_are_reported_together() -> None:
-    result = run(["colors"], {}, TODAY, TZ, httpx.MockTransport(unreachable))
+    result = run(["colors"], {}, NOW, httpx.MockTransport(unreachable))
 
     assert result.exit_code == 1
     assert result.stdout == ""
@@ -32,7 +33,7 @@ def test_missing_env_vars_are_reported_together() -> None:
 def test_empty_env_var_is_treated_as_missing() -> None:
     env = {"GITLAB_HOST": "", "GITLAB_PRIVATE_TOKEN": "secret"}
 
-    result = run(["colors"], env, TODAY, TZ, httpx.MockTransport(unreachable))
+    result = run(["colors"], env, NOW, httpx.MockTransport(unreachable))
 
     assert result.exit_code == 1
     assert "GITLAB_HOST" in result.stderr
@@ -40,11 +41,11 @@ def test_empty_env_var_is_treated_as_missing() -> None:
 
 
 def gbr(fake: FakeGitLab, *argv: str) -> RunResult:
-    return run(list(argv) or ["colors"], ENV, TODAY, TZ, fake.transport())
+    return run(list(argv) or ["colors"], ENV, NOW, fake.transport())
 
 
 def test_missing_path_argument_is_an_argument_error() -> None:
-    result = run([], ENV, TODAY, TZ, httpx.MockTransport(unreachable))
+    result = run([], ENV, NOW, httpx.MockTransport(unreachable))
 
     assert result.exit_code == 2
     assert result.stdout == ""
@@ -52,7 +53,7 @@ def test_missing_path_argument_is_an_argument_error() -> None:
 
 
 def test_help_is_printed_to_stdout() -> None:
-    result = run(["--help"], ENV, TODAY, TZ, httpx.MockTransport(unreachable))
+    result = run(["--help"], ENV, NOW, httpx.MockTransport(unreachable))
 
     assert result.exit_code == 0
     assert "--sprint-prefix" in result.stdout
@@ -189,7 +190,7 @@ def test_connection_failure_shows_url_without_token() -> None:
     def refuse(request: httpx.Request) -> httpx.Response:
         raise httpx.ConnectError("[Errno 111] Connection refused", request=request)
 
-    result = run(["colors"], ENV, TODAY, TZ, httpx.MockTransport(refuse))
+    result = run(["colors"], ENV, NOW, httpx.MockTransport(refuse))
 
     assert result == RunResult(
         "",
@@ -212,7 +213,7 @@ def test_unparsable_holidays_are_all_named_with_line_numbers(tmp_path: Path) -> 
     holidays = tmp_path / "holidays.txt"
     holidays.write_text("# 2026 年\n2026-01-01\n2026/01/12  # 成人の日\n2026-02-30\n20260223\n", encoding="utf-8")
 
-    result = run(["colors", "--holidays", str(holidays)], ENV, TODAY, TZ, httpx.MockTransport(unreachable))
+    result = run(["colors", "--holidays", str(holidays)], ENV, NOW, httpx.MockTransport(unreachable))
 
     assert result == RunResult(
         "",
@@ -226,7 +227,7 @@ def test_unparsable_holidays_are_all_named_with_line_numbers(tmp_path: Path) -> 
 def test_missing_holidays_file(tmp_path: Path) -> None:
     holidays = tmp_path / "missing.txt"
 
-    result = run(["colors", "--holidays", str(holidays)], ENV, TODAY, TZ, httpx.MockTransport(unreachable))
+    result = run(["colors", "--holidays", str(holidays)], ENV, NOW, httpx.MockTransport(unreachable))
 
     assert result.exit_code == 1
     assert result.stdout == ""
@@ -239,3 +240,12 @@ def test_holidays_file_with_bom_does_not_fail(tmp_path: Path) -> None:
     fake = FakeGitLab(make_group(), [make_milestone("Iteration-1", "2026-10-01", "2026-10-14")], [])
 
     assert gbr(fake, "colors", "--holidays", str(holidays)).exit_code == 0
+
+
+@pytest.mark.parametrize("value", ["9:00", "24:00", "09:60", "09:00:00", "noon"])
+def test_unparsable_burndown_time(value: str) -> None:
+    result = run(["colors", "--burndown-time", value], ENV, NOW, httpx.MockTransport(unreachable))
+
+    assert result == RunResult(
+        "", f"error: --burndown-time を時刻として解釈できません（HH:MM で書いてください）: {value}\n", 1
+    )

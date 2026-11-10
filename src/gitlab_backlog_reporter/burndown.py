@@ -1,11 +1,11 @@
 """対象バックログのバーンダウン（理想線、予定線、実績線）を計算する。
 
-日付 D の点は「D の 00:00 時点に残っている件数」を表す。
+日付 D の点は「D の基準時刻（ローカルタイムゾーン、デフォルトは 00:00）の時点に残っている件数」を表す。
 """
 
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta, tzinfo
+from datetime import date, datetime, time, timedelta
 from decimal import ROUND_HALF_UP, Decimal
 from fractions import Fraction
 
@@ -27,7 +27,7 @@ class Burndown:
     ideal: tuple[Decimal, ...]
     planned: tuple[Decimal, ...]
     actual: tuple[int, ...]
-    """今日までの点の実績。今日が集計期間の始まりより前なら空。"""
+    """実行時点までに来た点の実績。最初の点がまだ来ていなければ空。"""
     ideal_today: Decimal
     planned_today: Decimal
 
@@ -54,9 +54,9 @@ def planned_at(sprints: Iterable[SprintLoad], t: date) -> Fraction:
     return sum((s.count * _remaining_ratio(s.start, s.end + timedelta(days=1), t) for s in sprints), Fraction(0))
 
 
-def actual_at(total: int, closed_on: Iterable[date], d: date) -> int:
-    """d より前に close されたものを除いた残り。"""
-    return total - sum(1 for c in closed_on if c < d)
+def actual_at(total: int, closed_at: Iterable[datetime], t: datetime) -> int:
+    """t より前に close されたものを除いた残り。"""
+    return total - sum(1 for c in closed_at if c < t)
 
 
 def round1(x: Fraction) -> Decimal:
@@ -64,18 +64,21 @@ def round1(x: Fraction) -> Decimal:
     return (Decimal(x.numerator) / Decimal(x.denominator)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
 
 
-def build_burndown(backlog: TargetBacklog, today: date, tz: tzinfo) -> Burndown:
+def build_burndown(backlog: TargetBacklog, now: datetime, burndown_time: time) -> Burndown:
+    """now はタイムゾーン付きで、点の時刻はそのタイムゾーンで数える。"""
     target_sprints = backlog.target_sprints
     total = backlog.total
+    today = now.date()
     points = weekly_points(target_sprints.start, target_sprints.end)
     start, finish = points[0], points[-1]
     loads = _sprint_loads(backlog)
-    closed_on = [_local_date(i["closed_at"], tz) for i in backlog.targets if i["closed_at"]]
+    closed_at = [datetime.fromisoformat(i["closed_at"]) for i in backlog.targets if i["closed_at"]]
+    point_times = [datetime.combine(p, burndown_time, now.tzinfo) for p in points]
     return Burndown(
         points=tuple(points),
         ideal=tuple(round1(ideal_at(total, start, finish, p)) for p in points),
         planned=tuple(round1(planned_at(loads, p)) for p in points),
-        actual=tuple(actual_at(total, closed_on, p) for p in points if p <= today),
+        actual=tuple(actual_at(total, closed_at, t) for t in point_times if t <= now),
         ideal_today=round1(ideal_at(total, start, finish, today)),
         planned_today=round1(planned_at(loads, today)),
     )
@@ -83,10 +86,6 @@ def build_burndown(backlog: TargetBacklog, today: date, tz: tzinfo) -> Burndown:
 
 def _sprint_loads(backlog: TargetBacklog) -> Sequence[SprintLoad]:
     return [SprintLoad(backlog.assigned_to(s), s.start, s.end) for s in backlog.target_sprints.sprints]
-
-
-def _local_date(timestamp: str, tz: tzinfo) -> date:
-    return datetime.fromisoformat(timestamp).astimezone(tz).date()
 
 
 def _remaining_ratio(start: date, finish: date, t: date) -> Fraction:

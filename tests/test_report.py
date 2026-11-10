@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime, time
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -19,8 +19,8 @@ def sprints() -> list[Json]:
     ]
 
 
-def gbr(fake: FakeGitLab, *args: str, env: dict[str, str] = ENV, today: date = TODAY) -> RunResult:
-    return run(["colors", *args], env, today, TZ, fake.transport())
+def gbr(fake: FakeGitLab, *args: str, env: dict[str, str] = ENV, today: date = TODAY, at: time = time(12)) -> RunResult:
+    return run(["colors", *args], env, datetime.combine(today, at, TZ), fake.transport())
 
 
 def test_header_and_summary_count_issues_in_the_periods_sprints() -> None:
@@ -267,7 +267,7 @@ def test_token_is_sent_as_private_token_header() -> None:
 def test_numeric_group_is_an_id_and_header_shows_full_path() -> None:
     fake = FakeGitLab(make_group("colors/team", id=42), [*sprints(), make_milestone("Icebox")], [])
 
-    result = run(["42"], ENV, TODAY, TZ, fake.transport())
+    result = run(["42"], ENV, datetime.combine(TODAY, time(12), TZ), fake.transport())
 
     assert fake.requests[0].url.raw_path.split(b"?")[0] == b"/api/v4/groups/42"
     assert result.stdout.startswith("# バックログレポート: colors/team / Iteration-\n")
@@ -277,7 +277,7 @@ def test_numeric_group_is_an_id_and_header_shows_full_path() -> None:
 def test_subgroup_full_path_is_url_encoded() -> None:
     fake = FakeGitLab(make_group("colors/team", id=42), [*sprints(), make_milestone("Icebox")], [])
 
-    result = run(["colors/team"], ENV, TODAY, TZ, fake.transport())
+    result = run(["colors/team"], ENV, datetime.combine(TODAY, time(12), TZ), fake.transport())
 
     assert result.exit_code == 0
     assert fake.requests[0].url.raw_path.split(b"?")[0] == b"/api/v4/groups/colors%2Fteam"
@@ -459,6 +459,55 @@ def test_closed_at_is_dated_in_the_local_time_zone() -> None:
     result = gbr(fake, today=date(2026, 10, 15))
 
     assert '  line "実績" [3, 2, 1]\n' in result.stdout
+
+
+def test_burndown_time_moves_the_moment_each_weekly_point_counts_remaining() -> None:
+    q1, q2 = sprints()
+    fake = FakeGitLab(
+        make_group(),
+        [q1, q2, make_milestone("Icebox")],
+        [
+            # 10/8 08:59 JST
+            make_issue(q1, closed_at="2026-10-07T23:59:00.000Z"),
+            # 10/8 09:00 JST
+            make_issue(q1, closed_at="2026-10-08T00:00:00.000Z"),
+            make_issue(q2),
+        ],
+    )
+
+    result = gbr(fake, "--burndown-time", "09:00", today=date(2026, 10, 15))
+
+    section = burndown_section(result.stdout)
+    assert '  line "実績" [3, 2, 1]\n' in section
+    assert "実績線は週の点（各日の 09:00 時点）でだけ更新されます。今日（10/15）の残りは **1** 件です。\n" in section
+
+
+def test_a_weekly_point_before_its_burndown_time_is_not_drawn_yet() -> None:
+    q1, q2 = sprints()
+    fake = FakeGitLab(
+        make_group(),
+        [q1, q2, make_milestone("Icebox")],
+        [
+            # 10/8 10:00 JST
+            make_issue(q1, closed_at="2026-10-08T01:00:00.000Z"),
+            make_issue(q2),
+        ],
+    )
+
+    before = gbr(fake, "--burndown-time", "12:00", today=date(2026, 10, 8), at=time(11, 59))
+    at = gbr(fake, "--burndown-time", "12:00", today=date(2026, 10, 8), at=time(12))
+
+    assert '  line "実績" [2]\n' in burndown_section(before.stdout)
+    assert "今日（10/8）の残りは **1** 件です。" in burndown_section(before.stdout)
+    assert '  line "実績" [2, 1]\n' in burndown_section(at.stdout)
+
+
+def test_before_the_first_points_burndown_time_there_is_no_actual_line() -> None:
+    result = gbr(burndown_fake(), "--burndown-time", "09:00", today=date(2026, 10, 1), at=time(8))
+
+    section = burndown_section(result.stdout)
+    assert '実績" [' not in section
+    assert "最初の週の点（10/1 の 09:00 時点）より前のため、実績線はありません\n" in section
 
 
 def test_before_the_period_there_is_no_actual_line() -> None:

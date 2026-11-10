@@ -1,13 +1,13 @@
 """project を集計範囲にしたレポート（`--project`）。スプリントと Icebox は project milestone からだけ選ぶ。"""
 
-from datetime import date
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from gitlab_backlog_reporter.cli import RunResult, run
 from tests.gitlab_fake import FakeGitLab, Json, make_issue, make_milestone, make_project
 
-TODAY = date(2026, 10, 2)
 TZ = ZoneInfo("Asia/Tokyo")
+NOW = datetime(2026, 10, 2, 12, tzinfo=TZ)
 ENV = {"GITLAB_HOST": "http://gitlab.test", "GITLAB_PRIVATE_TOKEN": "secret"}
 
 
@@ -16,7 +16,7 @@ def project_milestone(title: str, start_date: str | None = None, due_date: str |
 
 
 def gbr(fake: FakeGitLab, *args: str) -> RunResult:
-    return run(["--project", *(args or ("colors/red",))], ENV, TODAY, TZ, fake.transport())
+    return run(["--project", *(args or ("colors/red",))], ENV, NOW, fake.transport())
 
 
 def test_project_milestones_are_sprints_and_icebox() -> None:

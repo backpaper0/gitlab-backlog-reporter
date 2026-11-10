@@ -2,7 +2,7 @@
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import date, tzinfo
+from datetime import date, datetime, time
 from decimal import Decimal
 
 from gitlab_backlog_reporter.backlog import (
@@ -28,21 +28,27 @@ BURNDOWN_NOTE = (
 class ReportContext:
     host: str
     scope: Scope
-    today: date
-    tz: tzinfo
+    now: datetime
+    """実行時点。タイムゾーン付きで、今日の日付と点の時刻はこのタイムゾーンで数える。"""
+    burndown_time: time = time(0)
+    """実績線の週の点の基準時刻。"""
     show_warnings: bool = True
     """レポートに warning のブロックを書くか。"""
     show_icebox_list: bool = True
     """バックログ一覧に Icebox のセクションを書くか。"""
 
+    @property
+    def today(self) -> date:
+        return self.now.date()
+
 
 def render(backlog: TargetBacklog, context: ReportContext) -> str:
-    burndown = build_burndown(backlog, context.today, context.tz)
+    burndown = build_burndown(backlog, context.now, context.burndown_time)
     sections = [
         _header(backlog, context),
         *(_warnings(backlog.warnings) if context.show_warnings else []),
         _summary(backlog, burndown, context.today),
-        _burndown(backlog, burndown, context.today),
+        _burndown(backlog, burndown, context.today, context.burndown_time),
         _backlog_states(backlog),
         _sprint_summary(backlog, context.today),
         _breakdown(backlog),
@@ -225,7 +231,7 @@ def _labels(issue: Json) -> str:
     return " ".join(f"`{label}`" for label in issue["labels"] if not is_status_label(label)) or "—"
 
 
-def _burndown(backlog: TargetBacklog, burndown: Burndown, today: date) -> str:
+def _burndown(backlog: TargetBacklog, burndown: Burndown, today: date, burndown_time: time) -> str:
     if backlog.total == 0:
         return "## バーンダウン\n\n対象バックログがないため、バーンダウンは表示しません"
     labels = ", ".join(f'"{_month_day(p)}"' for p in burndown.points)
@@ -254,10 +260,15 @@ def _burndown(backlog: TargetBacklog, burndown: Burndown, today: date) -> str:
         lines.append(f'  line "実績" {_series(burndown.actual)}')
         legend += [
             "",
-            f"実績線は週の点（各日の 00:00 時点）でだけ更新されます。今日（{_month_day(today)}）の残りは **{backlog.remaining}** 件です。",
+            f"実績線は週の点（各日の {burndown_time:%H:%M} 時点）でだけ更新されます。今日（{_month_day(today)}）の残りは **{backlog.remaining}** 件です。",
         ]
-    else:
+    elif today < backlog.target_sprints.start:
         legend += ["", "集計期間が始まる前のため、実績線はありません"]
+    else:
+        legend += [
+            "",
+            f"最初の週の点（{_month_day(today)} の {burndown_time:%H:%M} 時点）より前のため、実績線はありません",
+        ]
     lines += ["```", "", *legend, "", BURNDOWN_NOTE]
     return "\n".join(lines)
 
